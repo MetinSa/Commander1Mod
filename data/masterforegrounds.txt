@@ -1,0 +1,550 @@
+## Thermal dust component
+COMP_TYPE01                           = 'one-component_dust'
+FG_LABEL01                            = 'dust'
+FG_UNIT01                             = 'uK_ant'
+REFERENCE_FREQUENCY01                 =  545.
+REFERENCE_BAND01                      =  27
+COMPONENT_MASK01                      = fullsky
+INDEX_SAMPLING_MASK01                 = fullsky
+INITIALIZATION_MODE01                 = 'input_map'     #'input_map'
+INIT_INDEX_MAP01_01                   = 'data/init/dust_beta_init_tutorial.fits'
+INIT_INDEX_MAP01_02                   = 'data/init/dust_Td_init_tutorial.fits'
+ENFORCE_POSITIVE_AMPLITUDE01          = .true.
+INITIAL_AMPLITUDE_MAP01               = 'data/init/dust_init_tutorial.fits'
+REGION_DEFINITION01_01                = 'single_pix TQU 064' #fullsky #'fullsky' = constant dust_beta on whole sky
+REGION_DEFINITION01_02                = 'single_pix TQU 064' #fullsky #'fullsky' = constant dust_Td on whole sky
+FWHM_PAR01_01                         = 0.
+FWHM_PAR01_02                         = 0.
+DEFAULT_EMISSIVITY01                  = 1.6
+DEFAULT_DUST_TEMP01                   = 18.
+
+EMISSIVITY_PRIOR_UNIFORM_LOW01        = 0.5
+EMISSIVITY_PRIOR_UNIFORM_HIGH01       = 1.8
+EMISSIVITY_PRIOR_GAUSSIAN_MEAN01      = 1.6
+EMISSIVITY_PRIOR_GAUSSIAN_STDDEV01    = 0.0 #-0.05
+
+DUST_TEMP_PRIOR_UNIFORM_LOW01         = 10.
+DUST_TEMP_PRIOR_UNIFORM_HIGH01        = 35.
+DUST_TEMP_PRIOR_GAUSSIAN_MEAN01       = 18.
+DUST_TEMP_PRIOR_GAUSSIAN_STDDEV01     = 0.0 #0.0
+
+NU_FLATTENING01                       = 100
+FRAC_FLATTENING01                     = 6.
+
+IMPOSE_FG_ORTHOGONALITY01             = .false.
+APPLY_JEFFREYS_PRIOR01                = .true.
+SAMPLE_AMPLITUDES01 		      = .true.
+
+# ----------------------------------------------------------------------
+## Thermal dust component 1
+COMP_TYPE01                           = 'one-component_dust'
+FG_LABEL01                            = 'dust_hot'
+FG_UNIT01                             = 'uK_ant'
+REFERENCE_FREQUENCY01                 = 545.
+REFERENCE_BAND01                      = 31 # 545-1
+COMPONENT_MASK01                      = fullsky
+INDEX_SAMPLING_MASK01                 = fullsky
+INITIALIZATION_MODE01                 = 'input_map'     #'input_map'
+INIT_INDEX_MAP01_01                   = 'data/dust_beta_init_npipe6v20_v6.fits'
+INIT_INDEX_MAP01_02                   = 'data/dust_Td_init_npipe6v20_v6.fits'
+ENFORCE_POSITIVE_AMPLITUDE01          = .true.
+INITIAL_AMPLITUDE_MAP01               = 'data/dust_init_npipe6v20_v6.fits'
+REGION_DEFINITION01_01                = 'fullsky' #'single_pix TQU 064' #fullsky #'fullsky' = constant dust_beta on whole sky
+REGION_DEFINITION01_02                = 'single_pix TQU 064' #fullsky #'fullsky' = constant dust_Td on whole sky
+FWHM_PAR01_01                         = 0.
+FWHM_PAR01_02                         = 0.
+DEFAULT_EMISSIVITY01                  = 1.6
+DEFAULT_DUST_TEMP01                   = 21.
+
+EMISSIVITY_PRIOR_UNIFORM_LOW01        = 2.0
+EMISSIVITY_PRIOR_UNIFORM_HIGH01       = 3.0
+EMISSIVITY_PRIOR_GAUSSIAN_MEAN01      = 2.7
+EMISSIVITY_PRIOR_GAUSSIAN_STDDEV01    = 0.1 #0.0
+
+DUST_TEMP_PRIOR_UNIFORM_LOW01         = 10.
+DUST_TEMP_PRIOR_UNIFORM_HIGH01        = 25.
+DUST_TEMP_PRIOR_GAUSSIAN_MEAN01       = 15.7
+DUST_TEMP_PRIOR_GAUSSIAN_STDDEV01     = 1.0 #0.0
+
+NU_FLATTENING01                       = 100
+FRAC_FLATTENING01                     = 0.
+
+IMPOSE_FG_ORTHOGONALITY01             = .false.
+APPLY_JEFFREYS_PRIOR01                = .true.
+
+# ----------------------------------------------------------------------
+## Thermal dust component 2
+COMP_TYPE10                           = 'one-component_dust'
+FG_LABEL10                            = 'dust_cold'
+FG_UNIT10                             = 'uK_ant'
+REFERENCE_FREQUENCY10                 = 545.
+REFERENCE_BAND10                      = 31 # 545-1
+COMPONENT_MASK10                      = fullsky
+INDEX_SAMPLING_MASK10                 = fullsky
+INITIALIZATION_MODE10                 = 'input_map'     #'input_map'
+INIT_INDEX_MAP10_01                   = 'data/dust_cold_beta_init_2dust_v8.fits'
+INIT_INDEX_MAP10_02                   = 'data/dust_cold_Td_init_2dust_v8.fits'
+ENFORCE_POSITIVE_AMPLITUDE10          = .true.
+INITIAL_AMPLITUDE_MAP10               = 'data/dust_cold_init_2dust_v8.fits'
+REGION_DEFINITION10_01                = 'fullsky' #'single_pix TQU 064' #'fullsky' = constant dust_beta on whole sky
+REGION_DEFINITION10_02                = 'fullsky' #'single_pix TQU 064' #'fullsky' = constant dust_Td on whole sky
+FWHM_PAR10_01                         = 0.
+FWHM_PAR10_02                         = 0.
+DEFAULT_EMISSIVITY10                  = 1.6
+DEFAULT_DUST_TEMP10                   = 21.
+
+EMISSIVITY_PRIOR_UNIFORM_LOW10        = 1.0
+EMISSIVITY_PRIOR_UNIFORM_HIGH10       = 2.0
+EMISSIVITY_PRIOR_GAUSSIAN_MEAN10      = 1.6
+EMISSIVITY_PRIOR_GAUSSIAN_STDDEV10    = 0.1 #0.0
+
+DUST_TEMP_PRIOR_UNIFORM_LOW10         = 5.0
+DUST_TEMP_PRIOR_UNIFORM_HIGH10        = 15.0
+DUST_TEMP_PRIOR_GAUSSIAN_MEAN10       = 10.
+DUST_TEMP_PRIOR_GAUSSIAN_STDDEV10     = 1.0 #0.0
+
+NU_FLATTENING10                       = 100
+FRAC_FLATTENING10                     = 0.
+
+IMPOSE_FG_ORTHOGONALITY10             = .false.
+APPLY_JEFFREYS_PRIOR10                = .true.
+
+# ----------------------------------------------------------------------
+# Synchrotron component with power-law
+COMP_TYPE02                        = 'power_law_break'
+FG_LABEL02                         = 'synch'
+FG_UNIT02                          = 'uK_ant'
+REFERENCE_FREQUENCY02              = 40.
+REFERENCE_BAND02                   = 36
+COMPONENT_MASK02                   = fullsky
+INDEX_SAMPLING_MASK02              = fullsky
+INITIALIZATION_MODE02              = 'input_map'
+INIT_INDEX_MAP02_01                = 'data/init/synch_beta_init_tutorial.fits'
+INIT_INDEX_MAP02_02                = 'data/init/synch_dbeta_init_tutorial.fits'
+INITIAL_AMPLITUDE_MAP02            = 'data/init/synch_init_tutorial.fits'
+REGION_DEFINITION02_01             = 'fullsky' 'single_pix TQU 032'
+REGION_DEFINITION02_02             = 'fullsky' #'fullsky TQU 0'
+FWHM_PAR02_01                      = 00.
+FWHM_PAR02_02                      = 0.
+ENFORCE_POSITIVE_AMPLITUDE02       = .true.
+NU_BREAK02                         = 3.  #GHz
+DEFAULT_BETA02                     = -3.1
+DEFAULT_DBETA02                    = 0.0
+
+BETA_PRIOR_UNIFORM_LOW02           = -3.5
+BETA_PRIOR_UNIFORM_HIGH02          = -2.5
+BETA_PRIOR_GAUSSIAN_MEAN02         = -3.0
+BETA_PRIOR_GAUSSIAN_STDDEV02       = 0.0 #negative='no prior'
+
+DBETA_PRIOR_UNIFORM_LOW02          =  0.
+DBETA_PRIOR_UNIFORM_HIGH02         =  1.
+DBETA_PRIOR_GAUSSIAN_MEAN02        =  0.
+DBETA_PRIOR_GAUSSIAN_STDDEV02      =  0.
+
+IMPOSE_FG_ORTHOGONALITY02          = .false.
+APPLY_JEFFREYS_PRIOR02             = .true.
+SAMPLE_AMPLITUDES02 		      = .true.
+
+
+#----------------------------------------------------------------------
+# CO 100 ghz (1-0) component
+COMP_TYPE03                          = 'CO_multiline'
+FG_LABEL03                           = 'co-100'
+FG_UNIT03                            = 'K km/s'
+REFERENCE_FREQUENCY03                = 115.27
+REFERENCE_BAND03                     = 4 # 100-1a
+INDEX_SAMPLING_MASK03                = 'data/masks/mask_co_lineratio_v3_proc_n064.fits'
+COMPONENT_MASK03                     = fullsky
+INITIAL_AMPLITUDE_MAP03              = 'data/init/co-100_init_tutorial.fits'
+INITIALIZATION_MODE03                = 'input_map'
+INIT_INDEX_MAP03_01                  = 'data/init/co-100-1b_init_tutorial.fits'
+INIT_INDEX_MAP03_02                  = 'data/init/co-100-2a_init_tutorial.fits'
+INIT_INDEX_MAP03_03                  = 'data/init/co-100-2b_init_tutorial.fits'
+INIT_INDEX_MAP03_04                  = 'data/init/co-100-3a_init_tutorial.fits'
+INIT_INDEX_MAP03_05                  = 'data/init/co-100-3b_init_tutorial.fits'
+INIT_INDEX_MAP03_06                  = 'data/init/co-100-4a_init_tutorial.fits'
+INIT_INDEX_MAP03_07                  = 'data/init/co-100-4b_init_tutorial.fits'
+NUM_CO_HARMONICS03                   = 7
+
+LINE_LABEL03_01                       = '100-1b'
+REGION_DEFINITION03_01                = 'fullsky TQU 0'
+FWHM_PAR03_01                         =  0.
+BAND03_01                             =  5
+DEFAULT_CO_LINE_RATIO_03_01           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_01             =  0.
+CO_PRIOR_UNIFORM_HIGH03_01            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_01         =  0.0
+
+LINE_LABEL03_02                       = '100-2a'
+REGION_DEFINITION03_02                = 'fullsky TQU 0'
+FWHM_PAR03_02                         =  0.
+BAND03_02                             =  6
+DEFAULT_CO_LINE_RATIO_03_02           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_02             =  0.
+CO_PRIOR_UNIFORM_HIGH03_02            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_02         =  0.0
+
+LINE_LABEL03_03                       = '100-2b'
+REGION_DEFINITION03_03                = 'fullsky TQU 0'
+FWHM_PAR03_03                         =  0.
+BAND03_03                             =  7
+DEFAULT_CO_LINE_RATIO_03_03           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_03             =  0.
+CO_PRIOR_UNIFORM_HIGH03_03            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_03         =  0.0
+
+LINE_LABEL03_04                       = '100-3a'
+REGION_DEFINITION03_04                = 'fullsky TQU 0'
+FWHM_PAR03_04                         =  0.
+BAND03_04                             =  8
+DEFAULT_CO_LINE_RATIO_03_04           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_04             =  0.
+CO_PRIOR_UNIFORM_HIGH03_04            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_04           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_04         =  0.0
+
+LINE_LABEL03_05                       = '100-3b'
+REGION_DEFINITION03_05                = 'fullsky TQU 0'
+FWHM_PAR03_05                         =  0.
+BAND03_05                             =  9
+DEFAULT_CO_LINE_RATIO_03_05           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_05             =  0.
+CO_PRIOR_UNIFORM_HIGH03_05            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_05           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_05         =  0.0
+
+LINE_LABEL03_06                       = '100-4a'
+REGION_DEFINITION03_06                = 'fullsky TQU 0'
+FWHM_PAR03_06                         =  0.
+BAND03_06                             =  10
+DEFAULT_CO_LINE_RATIO_03_06           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_06             =  0.
+CO_PRIOR_UNIFORM_HIGH03_06            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_06           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_06         =  0.0
+
+LINE_LABEL03_07                       = '100-4b'
+REGION_DEFINITION03_07                = 'fullsky TQU 0'
+FWHM_PAR03_07                         =  0.
+BAND03_07                             =  11
+DEFAULT_CO_LINE_RATIO_03_07           =  1.0000
+CO_PRIOR_UNIFORM_LOW03_07             =  0.
+CO_PRIOR_UNIFORM_HIGH03_07            =  20.
+CO_PRIOR_GAUSSIAN_MEAN03_07           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_07         =  0.0
+
+APPLY_JEFFREYS_PRIOR03                = .true.
+IMPOSE_FG_ORTHOGONALITY03             = .false.
+ENFORCE_POSITIVE_AMPLITUDE03          = .true.
+OPTIMIZE_CO_RATIOS_BY_CROSSCORR       = .false
+SAMPLE_AMPLITUDES03 		      = .true.
+
+
+# CO 217 GHz (2-1) component --------------------------------
+COMP_TYPE04                          = 'CO_multiline'
+FG_LABEL04                           = 'co-217'
+FG_UNIT04                            = 'K km/s'
+REFERENCE_FREQUENCY04                = 230.54
+REFERENCE_BAND04                     = 13 # 217-2
+INDEX_SAMPLING_MASK04                = 'data/masks/mask_co_lineratio_v3_proc_n064.fits'
+COMPONENT_MASK04                     = fullsky
+INITIAL_AMPLITUDE_MAP04              = 'data/init/co-217_init_tutorial.fits'
+INITIALIZATION_MODE04                = 'input_map'
+INIT_INDEX_MAP04_01                  = 'data/init/co-217-3_init_tutorial.fits'
+INIT_INDEX_MAP04_02                  = 'data/init/co-217-5a_init_tutorial.fits'
+INIT_INDEX_MAP04_03                  = 'data/init/co-217-5b_init_tutorial.fits'
+INIT_INDEX_MAP04_04                  = 'data/init/co-217-6_init_tutorial.fits'
+INIT_INDEX_MAP04_05                  = 'data/init/co-217-7a_init_tutorial.fits'
+INIT_INDEX_MAP04_06                  = 'data/init/co-217-7b_init_tutorial.fits'
+INIT_INDEX_MAP04_07                  = 'data/init/co-217-8_init_tutorial.fits'
+NUM_CO_HARMONICS04                   = 7
+
+LINE_LABEL04_01                       = '217-3'
+REGION_DEFINITION04_01                = 'fullsky TQU 0'
+FWHM_PAR04_01                         =  0.
+BAND04_01                             =  14
+DEFAULT_CO_LINE_RATIO_04_01           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_01             =  0.
+CO_PRIOR_UNIFORM_HIGH04_01            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_01         =  0.0
+
+LINE_LABEL04_02                       = '217-5a'
+REGION_DEFINITION04_02                = 'fullsky TQU 0'
+FWHM_PAR04_02                         =  0.
+BAND04_02                             =  15
+DEFAULT_CO_LINE_RATIO_04_02           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_02             =  0.
+CO_PRIOR_UNIFORM_HIGH04_02            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_02         =  0.0
+
+LINE_LABEL04_03                       = '217-5b'
+REGION_DEFINITION04_03                = 'fullsky TQU 0'
+FWHM_PAR04_03                         =  0.
+BAND04_03                             =  16
+DEFAULT_CO_LINE_RATIO_04_03           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_03             =  0.
+CO_PRIOR_UNIFORM_HIGH04_03            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_03         =  0.0
+
+LINE_LABEL04_04                       = '217-6'
+REGION_DEFINITION04_04                = 'fullsky TQU 0'
+FWHM_PAR04_04                         =  0.
+BAND04_04                             =  17
+DEFAULT_CO_LINE_RATIO_04_04           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_04             =  0.
+CO_PRIOR_UNIFORM_HIGH04_04            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_04           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_04         =  0.0
+
+LINE_LABEL04_05                       = '217-7a'
+REGION_DEFINITION04_05                = 'fullsky TQU 0'
+FWHM_PAR04_05                         =  0.
+BAND04_05                             =  18
+DEFAULT_CO_LINE_RATIO_04_05           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_05             =  0.
+CO_PRIOR_UNIFORM_HIGH04_05            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_05           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_05         =  0.0
+
+LINE_LABEL04_06                       = '217-7b'
+REGION_DEFINITION04_06                = 'fullsky TQU 0'
+FWHM_PAR04_06                         =  0.
+BAND04_06                             =  19
+DEFAULT_CO_LINE_RATIO_04_06           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_06             =  0.
+CO_PRIOR_UNIFORM_HIGH04_06            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_06           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_06         =  0.0
+
+LINE_LABEL04_07                       = '217-8'
+REGION_DEFINITION04_07                = 'fullsky TQU 0'
+FWHM_PAR04_07                         =  0.
+BAND04_07                             =  20
+DEFAULT_CO_LINE_RATIO_04_07           =  1.0000 #0.52672  #0.5506
+CO_PRIOR_UNIFORM_LOW04_07             =  0.
+CO_PRIOR_UNIFORM_HIGH04_07            =  20.
+CO_PRIOR_GAUSSIAN_MEAN04_07           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV04_07         =  0.0
+
+
+APPLY_JEFFREYS_PRIOR04                = .true.
+IMPOSE_FG_ORTHOGONALITY04             = .false.
+ENFORCE_POSITIVE_AMPLITUDE04          = .true.
+OPTIMIZE_CO_RATIOS_BY_CROSSCORR       = .false.
+SAMPLE_AMPLITUDES04 		      = .true.
+
+
+# CO 353 GHz (3-2) component ------------------------
+COMP_TYPE05                           = 'CO_multiline'
+FG_LABEL05                            = 'co-353'
+FG_UNIT05                             = 'K km/s'
+REFERENCE_FREQUENCY05                 =  345.81
+REFERENCE_BAND05                      =  23 # 353-3
+INDEX_SAMPLING_MASK05                 = 'data/masks/mask_co_lineratio_v3_proc_n064.fits'
+COMPONENT_MASK05                      = fullsky
+INITIAL_AMPLITUDE_MAP05               = 'data/init/co-353_init_tutorial.fits'
+INITIALIZATION_MODE05                 = 'input_map'
+INIT_INDEX_MAP05_01                   = 'data/init/co-353-1_init_tutorial.fits'
+INIT_INDEX_MAP05_02                   = 'data/init/co-353-2_init_tutorial.fits'
+INIT_INDEX_MAP05_03                   = 'data/init/co-353-4_init_tutorial.fits'
+INIT_INDEX_MAP05_04                   = 'data/init/co-353-5_init_tutorial.fits'
+INIT_INDEX_MAP05_05                   = 'data/init/co-353-6_init_tutorial.fits'
+NUM_CO_HARMONICS05                    = 5
+
+LINE_LABEL05_01                       = '353-1'
+REGION_DEFINITION05_01                = 'fullsky TQU 0'
+FWHM_PAR05_01                         =  0.
+BAND05_01                             =  21
+DEFAULT_CO_LINE_RATIO_05_01           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW05_01             =  0.
+CO_PRIOR_UNIFORM_HIGH05_01            =  20.
+CO_PRIOR_GAUSSIAN_MEAN05_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV05_01         =  0.0
+
+LINE_LABEL05_02                       = '353-2'
+REGION_DEFINITION05_02                = 'fullsky TQU 0'
+FWHM_PAR05_02                         =  0.
+BAND05_02                             =  22
+DEFAULT_CO_LINE_RATIO_05_02           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW05_02             =  0.
+CO_PRIOR_UNIFORM_HIGH05_02            =  20.
+CO_PRIOR_GAUSSIAN_MEAN05_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV05_02         =  0.0
+
+LINE_LABEL05_03                       = '353-4'
+REGION_DEFINITION05_03                = 'fullsky TQU 0'
+FWHM_PAR05_03                         =  0.
+BAND05_03                             =  24
+DEFAULT_CO_LINE_RATIO_05_03           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW05_03             =  0.
+CO_PRIOR_UNIFORM_HIGH05_03            =  20.
+CO_PRIOR_GAUSSIAN_MEAN05_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV05_03         =  0.0
+
+LINE_LABEL05_04                       = '353-5'
+REGION_DEFINITION05_04                = 'fullsky TQU 0'
+FWHM_PAR05_04                         =  0.
+BAND05_04                             =  25
+DEFAULT_CO_LINE_RATIO_05_04           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW05_04             =  0.
+CO_PRIOR_UNIFORM_HIGH05_04            =  20.
+CO_PRIOR_GAUSSIAN_MEAN05_04           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV05_04         =  0.0
+
+
+LINE_LABEL05_05                       = '353-6'
+REGION_DEFINITION05_05                = 'fullsky TQU 0'
+FWHM_PAR05_05                         =  0.
+BAND05_05                             =  26
+DEFAULT_CO_LINE_RATIO_05_05           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW05_05             =  0.
+CO_PRIOR_UNIFORM_HIGH05_05            =  20.
+CO_PRIOR_GAUSSIAN_MEAN05_05           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV05_05         =  0.0
+
+
+APPLY_JEFFREYS_PRIOR05                = .true.
+IMPOSE_FG_ORTHOGONALITY05             = .false.
+ENFORCE_POSITIVE_AMPLITUDE05          = .true.
+OPTIMIZE_CO_RATIOS_BY_CROSSCORR       = .false.
+SAMPLE_AMPLITUDES05 		      = .true.
+
+
+# ----------------------------------------------------------------------
+# CMB
+COMP_TYPE06                           = 'cmb'
+FG_LABEL06                            = 'cmb'
+FG_UNIT06                             = 'uK_cmb'
+REFERENCE_FREQUENCY06                 =  100.d0  #only used internally
+REFERENCE_BAND06                      =  4   #not used
+COMPONENT_MASK06                      = fullsky
+INDEX_SAMPLING_MASK06                 = fullsky
+IMPOSE_FG_ORTHOGONALITY06             = .false.
+ENFORCE_POSITIVE_AMPLITUDE06          = .false.
+INITIAL_AMPLITUDE_MAP06               = 'data/init/cmb_init_tutorial.fits'
+OUTPUT_CMB_FREQUENCY_MAPS             = .false.
+SAMPLE_AMPLITUDES06 		      = .true.
+
+
+# ----------------------------------------------------------------------
+# Free-free component
+COMP_TYPE07                           = 'freefree'
+FG_LABEL07                            = 'ff'
+FG_UNIT07                             = 'uK_ant'
+REFERENCE_FREQUENCY07                 =  40. #used in model
+REFERENCE_BAND07                      =  36   #Haslam
+COMPONENT_MASK07                      = fullsky
+INDEX_SAMPLING_MASK07                 = fullsky
+INITIAL_AMPLITUDE_MAP07               = 'data/init/ff_init_tutorial.fits'
+INITIALIZATION_MODE07                 = 'input_map'
+INIT_INDEX_MAP07_01                   = 'data/init/ff_T_e_init_tutorial.fits'
+ENFORCE_POSITIVE_AMPLITUDE07          = .true.
+REGION_DEFINITION07_01                = 'single_pix TQU 064'
+FWHM_PAR07_01                         =  0.
+DEFAULT_T_E07                         =  7000.
+
+T_E_PRIOR_UNIFORM_LOW07               =  1200.
+T_E_PRIOR_UNIFORM_HIGH07              =  12000.
+T_E_PRIOR_GAUSSIAN_MEAN07             =  7000.
+T_E_PRIOR_GAUSSIAN_STDDEV07           =  0.
+
+IMPOSE_FG_ORTHOGONALITY07             = .false.
+APPLY_JEFFREYS_PRIOR07                = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS07     = .false.
+SAMPLE_AMPLITUDES07 		      = .true.
+
+
+#----------------------------------------------------------------------
+# AME component
+COMP_TYPE08                           = 'AME_freq_shift_2par'
+FG_LABEL08                            = 'ame1'
+FG_UNIT08                             = 'uK_ant'
+REFERENCE_FREQUENCY08                 =  22
+REFERENCE_BAND08                      =  34
+COMPONENT_MASK08                      = fullsky
+INDEX_SAMPLING_MASK08                 = 'data/masks/mask_AME_v2.fits' fullsky
+INITIAL_AMPLITUDE_MAP08               = 'data/init/ame1_init_tutorial.fits'
+INITIALIZATION_MODE08                 = 'input_map'
+INIT_INDEX_MAP08_01                   = 'data/init/ame1_nup_init_tutorial.fits'
+INIT_INDEX_MAP08_02                   = 'data/init/ame1_alpha_init_tutorial.fits'
+REGION_DEFINITION08_01                = 'fullsky'
+REGION_DEFINITION08_02                = fullsky 'single_pix TQU 064'   'fullsky'
+FWHM_PAR08_01                         = 0.
+FWHM_PAR08_02                         = 0.
+DEFAULT_FREQUENCY08                   = 22.2
+DEFAULT_TILT08                        = 0.0
+
+FREQUENCY_PRIOR_UNIFORM_LOW08         = 10.
+FREQUENCY_PRIOR_UNIFORM_HIGH08        = 70.
+FREQUENCY_PRIOR_GAUSSIAN_MEAN08       = 21.
+FREQUENCY_PRIOR_GAUSSIAN_STDDEV08     = 0.0
+
+TILT_PRIOR_UNIFORM_LOW08              = -1.
+TILT_PRIOR_UNIFORM_HIGH08             =  1.
+TILT_PRIOR_GAUSSIAN_MEAN08            =  0.0
+TILT_PRIOR_GAUSSIAN_STDDEV08          =  0.0
+
+SPECTRUM_FILENAME08                   = 'data/spdust2_cnm.dat'
+
+IMPOSE_FG_ORTHOGONALITY08             = .false.
+APPLY_JEFFREYS_PRIOR08                = .true.
+ENFORCE_POSITIVE_AMPLITUDE08          = .true.
+SAMPLE_AMPLITUDES08 		      = .true.
+
+
+# WMAP HCN component ------------------------
+COMP_TYPE09                          = 'CO_multiline'
+FG_LABEL09                           = 'hcn'
+FG_UNIT09                            = 'K km/s'
+REFERENCE_FREQUENCY09                =  88.6
+REFERENCE_BAND09                     =  40 #W1
+INDEX_SAMPLING_MASK09                = fullsky 'data/masks/mask_co_lineratio_v3_proc_n064.fits'
+COMPONENT_MASK09                     = fullsky
+INITIAL_AMPLITUDE_MAP09              = 'data/init/hcn_init_tutorial.fits'
+INITIALIZATION_MODE09                = 'input_map'
+INIT_INDEX_MAP09_01                  = 'data/init/hcn-W2_init_tutorial.fits'
+INIT_INDEX_MAP09_02                  = 'data/init/hcn-W3_init_tutorial.fits'
+INIT_INDEX_MAP09_03                  = 'data/init/hcn-W4_init_tutorial.fits'
+NUM_CO_HARMONICS09                   = 3
+
+
+LINE_LABEL09_01                       = 'W2'
+REGION_DEFINITION09_01                = 'fullsky TQU 0'
+FWHM_PAR09_01                         =  0.
+BAND09_01                             =  41
+DEFAULT_CO_LINE_RATIO_09_01           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW09_01             =  0.
+CO_PRIOR_UNIFORM_HIGH09_01            =  20.
+CO_PRIOR_GAUSSIAN_MEAN09_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV09_01         =  0.0
+
+LINE_LABEL09_02                       = 'W3'
+REGION_DEFINITION09_02                = 'fullsky TQU 0'
+FWHM_PAR09_02                         =  0.
+BAND09_02                             =  42
+DEFAULT_CO_LINE_RATIO_09_02           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW09_02             =  0.
+CO_PRIOR_UNIFORM_HIGH09_02            =  20.
+CO_PRIOR_GAUSSIAN_MEAN09_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV09_02         =  0.0
+
+LINE_LABEL09_03                       = 'W4'
+REGION_DEFINITION09_03                = 'fullsky TQU 0'
+FWHM_PAR09_03                         =  0.
+BAND09_03                             =  43
+DEFAULT_CO_LINE_RATIO_09_03           =  1.0000 #0.16997 #0.3236
+CO_PRIOR_UNIFORM_LOW09_03             =  0.
+CO_PRIOR_UNIFORM_HIGH09_03            =  20.
+CO_PRIOR_GAUSSIAN_MEAN09_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV09_03         =  0.0 # 0.0 to freeze
+
+APPLY_JEFFREYS_PRIOR09                = .true.
+IMPOSE_FG_ORTHOGONALITY09             = .false.
+ENFORCE_POSITIVE_AMPLITUDE09          = .true.
+SAMPLE_AMPLITUDES09 		      = .true.

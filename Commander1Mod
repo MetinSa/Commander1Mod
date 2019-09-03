@@ -1,0 +1,139 @@
+#!/usr/bin/env python
+import curses
+import os
+import sys
+import time
+from resources.Interface import Interface
+from resources.Menu import Menu
+
+def Commander1Module(stdscr):
+    UI = Interface(stdscr)
+    bandlist = list(UI.config.band_labels)
+    fglist = list(UI.config.fg_labels)
+    main_menu = Menu('Main Menu',
+                    ['Configure Parameterfile', 'Help', '*Save and Exit'],
+                    ['Select option:', 'ENTER: select highlighted option'])
+    config_menu = Menu('Configure Parameterfile',
+                      ['General Settings','Frequency Bands', 'Foregrounds',],
+                      ['Select option:', 'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                       main_menu)
+    general_settings_menu = Menu('General Settings',
+                                ['NSIDE','Chain Directory', 'Toggle Output Frequencies', 'Toggle Template Fits'],
+                                ['Select option:', 'ENTER: select highlighted option',
+                                'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                       config_menu)
+    nside_menu = Menu('NSIDE',
+                     [str(2**i) for i in range(6,13)],
+                     ['Select NSIDE value:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      general_settings_menu)
+    toggle_menu = Menu('Toggle Template Fits',
+                     bandlist,
+                     ['Select band to toggle:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      general_settings_menu)
+    toggle_menu.numbered = False
+    output_menu = Menu('Toggle Output Frequencies',
+                     ['.true.', '.false.'],
+                     ['select new value:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      general_settings_menu)
+    frequencyband_menu = Menu('Frequency Bands',
+                     ['Add Band', 'Remove Band'],
+                     ['Select option:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      config_menu)
+    addband_menu = Menu('Add Band',
+                     list(UI.config.masterbands),
+                     ['Select a band to add from list of masterbands:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      frequencyband_menu)
+    addband_menu.numbered = False
+    removeband_menu = Menu('Remove Band',
+                     bandlist,
+                     ['Select band to remove:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      frequencyband_menu)
+    removeband_menu.numbered = False
+    foreground_menu = Menu('Foregrounds',
+                     ['Add Foreground', 'Remove Foreground'],
+                     ['Select option:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      config_menu)
+    addfg_menu = Menu('Add Foreground',
+                     list(UI.config.masterforegrounds),
+                     ['Select a foreground to add:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      foreground_menu)
+    addfg_menu.numbered = False
+    removefg_menu = Menu('Remove Foreground',
+                     fglist,
+                     ['Select foreground to remove:', 'ENTER: select highlighted option',
+                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                      foreground_menu)
+    removefg_menu.numbered = False
+
+    next_menu = UI.display_menu(main_menu)
+    if next_menu =='*Save and Exit':
+        curses.endwin()
+        sys.exit()
+    while 1:
+        previous_menu = next_menu
+        next_menu = UI.display_menu(next_menu)
+        if not isinstance(next_menu, Menu):
+            selected_option_menu_name = previous_menu.name
+            selected_option = next_menu
+            if selected_option == '*Save and Exit':
+                os.chdir(UI.run_path)
+                UI.config.write_to_file(UI.savefile)
+                curses.endwin()
+                sys.exit()
+            elif selected_option_menu_name == 'NSIDE':
+                nside = int(selected_option)
+                UI.config.update_nside(nside)
+            elif selected_option == 'Chain Directory':
+                chain_dir = UI.get_user_input(previous_menu, 'Input new Chain Directory name:',
+                                 ['ENTER: confirm/cancel(empty field)'])
+                UI.config.update_chains_dir(chain_dir)
+                if chain_dir and not os.path.isdir(chain_dir):
+                    os.mkdir(chain_dir)
+                next_menu = previous_menu
+                continue
+
+            elif selected_option_menu_name == 'Toggle Output Frequencies':
+                UI.config.toggle_outputs(selected_option)
+
+            elif selected_option_menu_name == 'Toggle Template Fits':
+                UI.config.toggle_template_fit(selected_option)
+
+            elif selected_option_menu_name == 'Add Band':
+                UI.config.add_band(selected_option)
+                removeband_menu.items = list(UI.config.band_labels)
+                toggle_menu.items = list(UI.config.band_labels)
+
+            elif selected_option_menu_name == 'Remove Band':
+                try:
+                    UI.config.delete_band(selected_option)
+                except ValueError:
+                    error_msg = 'Cannot remove a reference band.'
+                    UI.menu_win.addstr(0, UI.center_str(error_msg), error_msg)
+                    UI.menu_win.refresh()
+                    next_menu = previous_menu
+                    time.sleep(1.5)
+                    continue
+                removeband_menu.items = list(UI.config.band_labels)
+                toggle_menu.items = list(UI.config.band_labels)
+
+            elif selected_option_menu_name == 'Add Foreground':
+                UI.config.add_foreground(selected_option)
+                removefg_menu.items = list(UI.config.fg_labels)
+
+            elif selected_option_menu_name == 'Remove Foreground':
+                UI.config.delete_foreground(selected_option)
+                removefg_menu.items = list(UI.config.fg_labels)
+            next_menu = previous_menu.parent
+        UI.save(UI.tempfile)
+
+if __name__ == '__main__':
+    curses.wrapper(Commander1Module)
