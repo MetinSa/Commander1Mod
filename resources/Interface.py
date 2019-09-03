@@ -159,7 +159,7 @@ class Interface(object):
             increment_box_edge = 0
         else:
             increment_box_edge = 0
-        rectangle(self.menu_win, 0, x_init-1, box_len + len(menu.instructions)+2,
+        rectangle(self.menu_win, 0, x_init-1, box_len + len(menu.instructions)+1,
                   self.xmax - x_init +1)
         rectangle(self.menu_win,1, x_init, box_len + 1, self.xmax - x_init
                   - increment_box_edge)
