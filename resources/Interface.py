@@ -68,6 +68,7 @@ class Interface(object):
             if not parameterfiles:
                 raise NameError('No parameter files found in current work directory')
             parameterfiles.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
+            parameterfiles.reverse()
             menu_title = 'Load Parameterfile'
             menu_instructions_first = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list']
             menu_instructions = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
