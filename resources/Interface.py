@@ -82,7 +82,9 @@ class Interface(object):
         return self.x_center - len(string)//2
 
     def save(self, filename):
+        os.chdir(self.run_path)
         self.config.write_to_file(filename)
+        os.chdir(self.dir_path)
 
     def user_manual(self):
         self.menu_win.clear()

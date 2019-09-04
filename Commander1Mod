@@ -33,7 +33,7 @@ def Commander1Module(stdscr):
                        'BACKSPACE: return to previous menu'],
                        help_menu)
     general_settings_menu = Menu('General Settings',
-                                ['NSIDE','Chain Directory', 'Toggle Output Frequencies', 'Toggle Template Fits'],
+                                ['Rename Parameterfile','Chain Directory', 'NSIDE', 'Toggle Output Frequencies', 'Toggle Template Fits'],
                                 ['Select option:', 'ENTER: select highlighted option',
                                 'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                        config_menu)
@@ -101,8 +101,11 @@ def Commander1Module(stdscr):
             if selected_option == '*Save and Exit':
                 os.chdir(UI.run_path)
                 UI.config.write_to_file(UI.savefile)
+                if os.path.exists(UI.tempfile):
+                    os.remove(UI.tempfile)
                 curses.endwin()
                 sys.exit()
+
             elif selected_option_menu_name == 'NSIDE':
                 nside = int(selected_option)
                 UI.config.update_nside(nside)
@@ -110,8 +113,17 @@ def Commander1Module(stdscr):
                 chain_dir = UI.get_user_input(previous_menu, 'Input new Chain Directory name:',
                                  ['ENTER: confirm/cancel(empty field)'])
                 UI.config.update_chains_dir(chain_dir)
+                os.chdir(UI.run_path)
                 if chain_dir and not os.path.isdir(chain_dir):
                     os.mkdir(chain_dir)
+                os.chdir(UI.dir_path)
+                next_menu = previous_menu
+                continue
+
+            elif selected_option == 'Rename Parameterfile':
+                new_paramfile_name = UI.get_user_input(previous_menu, 'Input new parameterfile name:',
+                                 ['ENTER: confirm/cancel(empty field)'])
+                UI.config.update_parameterfile_name(new_paramfile_name)
                 next_menu = previous_menu
                 continue
 
