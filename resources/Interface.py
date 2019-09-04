@@ -103,6 +103,11 @@ class Interface(object):
     def center_str(self, string):
         return self.x_center - len(string)//2
 
+    def update_parameterfile_name(self, new_name):
+        if not new_name:
+            return
+        self.savefile = new_name
+
     def save(self, filename):
         os.chdir(self.run_path)
         self.config.write_to_file(filename)

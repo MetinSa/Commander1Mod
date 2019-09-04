@@ -41,11 +41,6 @@ class ConfigureParameterFile(object):
                 if label == reference_band_label:
                     self.json_data['Foregrounds'].get(fg).update({'REFERENCE_BAND':self.band_labels.get(band)})
 
-    def update_parameterfile_name(self, new_name):
-        if not new_name:
-            return
-        self.filename = new_name
-
     def update_chains_dir(self, new_dir):
         if not new_dir:
             return
@@ -347,7 +342,10 @@ class ConfigureParameterFile(object):
                             param_comps = param.rsplit('_', 1)
                             param = f'{param_comps[0]}{i+1:02}_{param_comps[1]}'
                         else:
-                            param = f'{param}{i+1:02}'
+                            if 'OUTPUT_CMB_FREQUENCY' in param:
+                                param = f'{param}PS'
+                            else:
+                                param = f'{param}{i+1:02}'
                         f.write(f'{param:{format_width}}= {value}\n')
 
         def write_remaining_params():

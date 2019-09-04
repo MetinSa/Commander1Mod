@@ -128,7 +128,7 @@ def Commander1Module(stdscr):
             elif selected_option == 'Rename Parameterfile':
                 new_paramfile_name = UI.get_user_input(previous_menu, 'Input new parameterfile name:',
                                  ['ENTER: confirm/cancel(empty field)'])
-                UI.config.update_parameterfile_name(new_paramfile_name)
+                UI.update_parameterfile_name(new_paramfile_name)
                 next_menu = previous_menu
                 continue
 
