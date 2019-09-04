@@ -5,19 +5,33 @@ import sys
 import time
 from resources.Interface import Interface
 from resources.Menu import Menu
+from resources.ConfigureParameterFile import ConfigureParameterFile
+from resources.LoadParameterFile import LoadParameterFile
+
 
 def Commander1Module(stdscr):
     UI = Interface(stdscr)
+    modules = (Commander1Module, Interface, ConfigureParameterFile, LoadParameterFile, Menu)
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
                     ['Configure Parameterfile', 'Help', '*Save and Exit'],
                     ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
-                      ['General Settings','Frequency Bands', 'Foregrounds',],
+                      ['General Settings','Frequency Bands', 'Foregrounds'],
                       ['Select option:', 'ENTER: select highlighted option',
                        'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                        main_menu)
+    help_menu = Menu('Help',
+                      ['User Manual', 'Code Documentation'],
+                      ['Select option:', 'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu'],
+                       main_menu)
+    code_menu = Menu('Code Documentation',
+                      [module.__name__ for module in modules],
+                      ['Select module', 'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu'],
+                       help_menu)
     general_settings_menu = Menu('General Settings',
                                 ['NSIDE','Chain Directory', 'Toggle Output Frequencies', 'Toggle Template Fits'],
                                 ['Select option:', 'ENTER: select highlighted option',
@@ -78,7 +92,7 @@ def Commander1Module(stdscr):
     if next_menu =='*Save and Exit':
         curses.endwin()
         sys.exit()
-    while 1:
+    while True:
         previous_menu = next_menu
         next_menu = UI.display_menu(next_menu)
         if not isinstance(next_menu, Menu):
@@ -117,6 +131,7 @@ def Commander1Module(stdscr):
                     UI.config.delete_band(selected_option)
                 except ValueError:
                     error_msg = 'Cannot remove a reference band.'
+                    curses.beep()
                     UI.menu_win.addstr(0, UI.center_str(error_msg), error_msg)
                     UI.menu_win.refresh()
                     next_menu = previous_menu
@@ -124,6 +139,8 @@ def Commander1Module(stdscr):
                     continue
                 removeband_menu.items = list(UI.config.band_labels)
                 toggle_menu.items = list(UI.config.band_labels)
+                next_menu = previous_menu
+                continue
 
             elif selected_option_menu_name == 'Add Foreground':
                 UI.config.add_foreground(selected_option)
@@ -132,6 +149,22 @@ def Commander1Module(stdscr):
             elif selected_option_menu_name == 'Remove Foreground':
                 UI.config.delete_foreground(selected_option)
                 removefg_menu.items = list(UI.config.fg_labels)
+                next_menu = previous_menu
+                continue
+
+            elif selected_option_menu_name == 'Code Documentation':
+                for i, mod in enumerate(modules):
+                    if selected_option == mod.__name__:
+                        curses.endwin()
+                        help(mod)
+                        curses.doupdate()
+                next_menu = previous_menu
+                continue
+
+            elif selected_option == 'User Manual':
+                UI.user_manual()
+                next_menu = previous_menu
+                continue
             next_menu = previous_menu.parent
         UI.save(UI.tempfile)
 

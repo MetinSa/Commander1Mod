@@ -362,8 +362,8 @@ class ConfigureParameterFile(object):
 
 if __name__ == '__main__':
     ConfigParams = ConfigureParameterFile('param.txt')
-    ConfigParams.delete_band('044')
-    ConfigParams.add_band('044')
+    # ConfigParams.delete_band('044')
+    # ConfigParams.add_band('044')
     #ConfigParams.update_nside(64)
     #ConfigParams.add_foreground('dust')
     #ConfigParams.toggle_template_fit('044')

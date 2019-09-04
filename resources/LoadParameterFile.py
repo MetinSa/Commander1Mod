@@ -146,7 +146,7 @@ class LoadParameterFile(object):
                 if "=" in line:
                     param = line.split()[0]
                     value = line.split()[2]
-                    if len(line.split()) > 2:
+                    if value.startswith("'") and len(line.split()) > 2:
                         match = pattern_values_with_space.search(line)
                         if match:
                             value = match.group(0)
