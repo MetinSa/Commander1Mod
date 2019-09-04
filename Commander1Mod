@@ -10,7 +10,12 @@ from resources.LoadParameterFile import LoadParameterFile
 
 
 def Commander1Module(stdscr):
-    UI = Interface(stdscr)
+    try:
+        UI = Interface(stdscr)
+    except NameError:
+        print('Could not find any parameter files in current work directory.')
+        sys.exit()
+
     modules = (Commander1Module, Interface, ConfigureParameterFile, LoadParameterFile, Menu)
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)

@@ -67,13 +67,35 @@ class Interface(object):
                     parameterfiles.append(file)
             if not parameterfiles:
                 raise NameError('No parameter files found in current work directory')
-
+            parameterfiles.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
             menu_title = 'Load Parameterfile'
-            menu_instructions = ['Select parameterfile:', 'ENTER: select highlighted option']
-            menu = Menu(menu_title, parameterfiles, menu_instructions)
-            paramfile = self.display_menu(menu)
+            menu_instructions_first = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list']
+            menu_instructions = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
+            menu_instructions_last = ['Select parameterfile:', 'ENTER: select highlighted option', 'b: previous list']
 
-            return f'{self.run_path}/{paramfile}'
+            max_params_per_menu = 36
+            menu_items = [parameterfiles[i*max_params_per_menu:(i+1)*max_params_per_menu]
+                          for i in range((len(parameterfiles) + max_params_per_menu-1)
+                          //max_params_per_menu)]
+            menues = []
+            for items in menu_items:
+                menu = Menu(menu_title, items, menu_instructions)
+                menu.numbered = False
+                menues.append(menu)
+            if len(menues) == 1:
+                menues[0].instructions = ['Select parameterfile:', 'ENTER: select highlighted option']
+            else:
+                menues[0].instructions = menu_instructions_first
+                menues[-1].instructions = menu_instructions_last
+            i = 0
+            while True:
+                parameterfile = self.display_menu(menues[i])
+                if parameterfile == 'n':
+                    i += 1
+                elif parameterfile == 'b':
+                    i -= 1
+                else:
+                    return f'{self.run_path}/{parameterfile}'
 
         paramfile = load_parameterfile()
         self.config = ConfigureParameterFile(paramfile)
@@ -174,7 +196,7 @@ class Interface(object):
                                 menu.format_menu_name)
         self.loc_win.refresh()
 
-        x_space = len(longest_item) + 1
+        x_space = len(longest_item) + 3
         if n_cols == 1:
             x_init = self.x_center - 18
         else:
@@ -281,6 +303,10 @@ class Interface(object):
                 subprocess.run(['emacs', '-nw', self.tempfile])
                 curses.doupdate()
 
+            elif key == ord('b') and 'b: previous list' in menu.instructions:
+                return 'b'
+            elif key == ord('n') and 'n: next list' in menu.instructions:
+                return 'n'
 
 if __name__ == "__main__":
     def run(stdscr):
