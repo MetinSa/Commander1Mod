@@ -292,15 +292,19 @@ class Interface(object):
                     return menu.parent
 
             elif key == ord('\t') and 'TAB/SPACE: view/edit parameterfile' in menu.instructions:
-                self.config.write_to_file(self.tempfile)
+                self.save(self.tempfile)
+                os.chdir(self.run_path)
                 curses.endwin()
                 subprocess.run(['less', '-S', self.tempfile])
+                os.chdir(self.dir_path)
                 curses.doupdate()
 
             elif key == ord(' ') and 'TAB/SPACE: view/edit parameterfile' in menu.instructions:
-                self.config.write_to_file(self.tempfile)
+                self.save(self.tempfile)
+                os.chdir(self.run_path)
                 curses.endwin()
                 subprocess.run(['emacs', '-nw', self.tempfile])
+                os.chdir(self.dir_path)
                 curses.doupdate()
 
             elif key == ord('b') and 'b: previous list' in menu.instructions:
