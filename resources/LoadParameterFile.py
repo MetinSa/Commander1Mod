@@ -107,12 +107,26 @@ class LoadParameterFile(object):
 
     def load_data(self):
         """Loading data from the parameterfile."""
+        def get_line_content(line):
+            line_items = line.split()
+            param = line_items[0]
+            if len(line_items) > 2:
+                value_and_comment = ' '.join(line_items[2:])
+                if '#' in value_and_comment:
+                    value = value_and_comment.split('#', 1)[0]
+                    comment = value_and_comment.split('#', 1)[1]
+                    value = f'{value:{15}}#{comment}'
+                else:
+                    value = value_and_comment
+            else:
+                value = line_items[2]
+            return param, value
+
         def load_parameters(section, dictionary):
             """Reading and loading parameters."""
             for line in section:
                 if "=" in line:
-                    param = line.split()[0]
-                    value = line.split()[2]
+                    param, value = get_line_content(line)
                     dictionary.update({param:value})
 
         def load_frequency_bands(section):
@@ -121,8 +135,7 @@ class LoadParameterFile(object):
             i = 0
             for line in frequency_bands:
                 if "=" in line:
-                    param = line.split()[0]
-                    value = line.split()[2]
+                    param, value = get_line_content(line)
                     if "FREQ_LABEL" in param:
                         if i > 0:
                             self.frequency_bands.update({newband:newband_params})
@@ -144,12 +157,7 @@ class LoadParameterFile(object):
             i = 0
             for line in foregrounds:
                 if "=" in line:
-                    param = line.split()[0]
-                    value = line.split()[2]
-                    if value.startswith("'") and len(line.split()) > 2:
-                        match = pattern_values_with_space.search(line)
-                        if match:
-                            value = match.group(0)
+                    param, value = get_line_content(line)
                     match = pattern.search(param)
                     if "COMP_TYPE" in param:
                         if i > 0:

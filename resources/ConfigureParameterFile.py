@@ -23,7 +23,7 @@ class ConfigureParameterFile(object):
     def get_initial_reference_bands(self):
         reference_band_labels = []
         for fg in self.json_data['Foregrounds']:
-            reference_band_labels.append(self.json_data['Foregrounds'].get(fg).get('REFERENCE_BAND'))
+            reference_band_labels.append(self.json_data['Foregrounds'][fg].get('REFERENCE_BAND').split()[0])
         for band, label in self.band_labels.items():
             if label in reference_band_labels:
                 self.reference_bands.update({band:label})
@@ -36,10 +36,10 @@ class ConfigureParameterFile(object):
 
     def update_reference_band_labels(self):
         for fg in self.json_data['Foregrounds']:
-            reference_band_label = self.json_data['Foregrounds'].get(fg).get('REFERENCE_BAND')
+            reference_band_label = self.json_data['Foregrounds'][fg].get('REFERENCE_BAND'.split()[0])
             for band, label in self.reference_bands.items():
                 if label == reference_band_label:
-                    self.json_data['Foregrounds'].get(fg).update({'REFERENCE_BAND':self.band_labels.get(band)})
+                    self.json_data['Foregrounds'][fg].update({'REFERENCE_BAND':self.band_labels.get(band)})
 
     def update_chains_dir(self, new_dir):
         if not new_dir:
@@ -94,6 +94,8 @@ class ConfigureParameterFile(object):
                     value = '.true.'
                 self.json_data['Foreground Templates'].update({param:value})
 
+    # def continue_script(self, )
+
     def rename_fg_templates_to_match_bands(self):
         self.json_data['Foreground Templates'].clear()
         pattern = re.compile(r'\D+[_]\D+\d{2}')
@@ -124,10 +126,14 @@ class ConfigureParameterFile(object):
         self.get_labels()
         self.update_reference_band_labels()
 
-        number_of_bands = int((self.json_data['General Settings']['NUMBAND']))
-        self.json_data['General Settings'].update({'NUMBAND':number_of_bands - 1})
+        numbands_value = (self.json_data['General Settings']['NUMBAND']).split()
+        numbands = int(numbands_value[0]) - 1
+        if len(numbands_value) > 2:
+            comment = ' '.join(numbands_value[1:])
+            numbands = f'{str(numbands):{15}}{comment}'
+        self.json_data['General Settings'].update({'NUMBAND':numbands})
 
-        output_freq_to_delete = [key for key, value in self.json_data['General Settings'].items()
+        output_freq_to_delete = [key for key in self.json_data['General Settings'].keys()
                               if 'OUTPUT_FREQUENCY_COMPONENT_MAPS' in key][-1]
         self.json_data['General Settings'].pop(output_freq_to_delete)
 
@@ -139,7 +145,7 @@ class ConfigureParameterFile(object):
             for fg in self.json_data['Foregrounds']:
                 if 'CO_multiline' in self.json_data['Foregrounds'][fg].get('COMP_TYPE'):
                     for param, value in self.json_data['Foregrounds'][fg].items():
-                        if 'LINE_LABEL' in param and value.strip("'") == band:
+                        if 'LINE_LABEL' in param and value.split()[0].strip("'") == band:
                             fg_label_to_delete = param[-2:]
                             fg_to_update = fg
                             break
@@ -188,8 +194,12 @@ class ConfigureParameterFile(object):
             final_band = bandnames
 
         self.json_data['Frequency Bands'].update({band:band_data})
-        number_of_bands = int((self.json_data['General Settings']['NUMBAND'])) + 1
-        self.json_data['General Settings'].update({'NUMBAND':number_of_bands})
+        numbands_value = (self.json_data['General Settings']['NUMBAND']).split()
+        number_of_bands = int(numbands_value[0]) + 1
+        if len(numbands_value) > 2:
+            comment = ' '.join(numbands_value[1:])
+            numbands = f'{str(number_of_bands):{15}}{comment}'
+        self.json_data['General Settings'].update({'NUMBAND':numbands})
         self.band_labels.update({band:str(number_of_bands)})
 
         output_freqs = [key for key, value in self.json_data['General Settings'].items()
@@ -226,7 +236,7 @@ class ConfigureParameterFile(object):
             for fg in data:
                 if 'CO_multiline' in data[fg].get('COMP_TYPE'):
                     for param, value in data[fg].items():
-                        if 'LINE_LABEL' in param and value.strip("'") == band_name:
+                        if 'LINE_LABEL' in param and value.split()[0].strip("'") == band_name:
                             fg_to_update = fg
                             break
             try:
@@ -240,7 +250,7 @@ class ConfigureParameterFile(object):
 
             for param, value in data[fg_to_update].items():
                 if 'NUM_CO_HARMONICS' in param:
-                    num_co_harmonics = int(fg_dict['NUM_CO_HARMONICS']) + 1
+                    num_co_harmonics = int(fg_dict['NUM_CO_HARMONICS'].split()[0]) + 1
                     fg_dict.update({'NUM_CO_HARMONICS':num_co_harmonics})
                 elif 'LINE_LABEL' in param:
                     i += 1
@@ -250,7 +260,7 @@ class ConfigureParameterFile(object):
             fg_dict_final = {}
             for param, value in fg_dict.items():
                 if 'NUM_CO_HARMONICS' in param:
-                    fg_dict_final.update({f'INIT_INDEX_MAP_{num_co_harmonics:02}':f'"----INSERT_INIT_INDEX_MAP_FOR_BAND_{band}_HERE----'})
+                    fg_dict_final.update({f'INIT_INDEX_MAP_{num_co_harmonics:02}':f"'----INSERT_INIT_INDEX_MAP_FOR_BAND_{band}_HERE----'"})
                 elif param == f'CO_PRIOR_GAUSSIAN_STDDEV_{(num_co_harmonics-1):02}':
                     for param, value in line_format.items():
                         if 'LINE_LABEL' in param:

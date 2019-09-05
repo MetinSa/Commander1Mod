@@ -10,12 +10,7 @@ from resources.LoadParameterFile import LoadParameterFile
 
 
 def Commander1Module(stdscr):
-    try:
-        UI = Interface(stdscr)
-    except NameError:
-        print('Could not find any parameter files in current work directory.')
-        sys.exit()
-
+    UI = Interface(stdscr)
     modules = (Commander1Module, Interface, ConfigureParameterFile, LoadParameterFile, Menu)
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
@@ -38,22 +33,22 @@ def Commander1Module(stdscr):
                        'BACKSPACE: return to previous menu'],
                        help_menu)
     general_settings_menu = Menu('General Settings',
-                                ['Rename Parameterfile','Chain Directory', 'NSIDE', 'Toggle Output Frequencies', 'Toggle Template Fits'],
+                                ['Savefile Name','Chain Directory', '*NSIDE', '*Toggle Output Frequencies', '*Toggle Template Fits'],
                                 ['Select option:', 'ENTER: select highlighted option',
                                 'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                        config_menu)
-    nside_menu = Menu('NSIDE',
+    nside_menu = Menu('*NSIDE',
                      [str(2**i) for i in range(6,13)],
                      ['Select NSIDE value:', 'ENTER: select highlighted option',
                       'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                       general_settings_menu)
-    toggle_menu = Menu('Toggle Template Fits',
+    toggle_menu = Menu('*Toggle Template Fits',
                      bandlist,
                      ['Select band to toggle:', 'ENTER: select highlighted option',
                       'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                       general_settings_menu)
     toggle_menu.numbered = False
-    output_menu = Menu('Toggle Output Frequencies',
+    output_menu = Menu('*Toggle Output Frequencies',
                      ['.true.', '.false.'],
                      ['select new value:', 'ENTER: select highlighted option',
                       'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
@@ -111,7 +106,7 @@ def Commander1Module(stdscr):
                 curses.endwin()
                 sys.exit()
 
-            elif selected_option_menu_name == 'NSIDE':
+            elif selected_option_menu_name == '*NSIDE':
                 nside = int(selected_option)
                 UI.config.update_nside(nside)
             elif selected_option == 'Chain Directory':
@@ -125,17 +120,17 @@ def Commander1Module(stdscr):
                 next_menu = previous_menu
                 continue
 
-            elif selected_option == 'Rename Parameterfile':
+            elif selected_option == 'Savefile Name':
                 new_paramfile_name = UI.get_user_input(previous_menu, 'Input new parameterfile name:',
                                  ['ENTER: confirm/cancel(empty field)'])
                 UI.update_parameterfile_name(new_paramfile_name)
                 next_menu = previous_menu
                 continue
 
-            elif selected_option_menu_name == 'Toggle Output Frequencies':
+            elif selected_option_menu_name == '*Toggle Output Frequencies':
                 UI.config.toggle_outputs(selected_option)
 
-            elif selected_option_menu_name == 'Toggle Template Fits':
+            elif selected_option_menu_name == '*Toggle Template Fits':
                 UI.config.toggle_template_fit(selected_option)
 
             elif selected_option_menu_name == 'Add Band':
@@ -144,16 +139,16 @@ def Commander1Module(stdscr):
                 toggle_menu.items = list(UI.config.band_labels)
 
             elif selected_option_menu_name == 'Remove Band':
-                try:
-                    UI.config.delete_band(selected_option)
-                except ValueError:
-                    error_msg = 'Cannot remove a reference band.'
-                    curses.beep()
-                    UI.menu_win.addstr(0, UI.center_str(error_msg), error_msg)
-                    UI.menu_win.refresh()
-                    next_menu = previous_menu
-                    time.sleep(1.5)
-                    continue
+                #try:
+                UI.config.delete_band(selected_option)
+                # except ValueError:
+                #     error_msg = 'Cannot remove a reference band.'
+                #     curses.beep()
+                #     UI.menu_win.addstr(0, UI.center_str(error_msg), error_msg)
+                #     UI.menu_win.refresh()
+                #     next_menu = previous_menu
+                #     time.sleep(1.5)
+                #     continue
                 removeband_menu.items = list(UI.config.band_labels)
                 toggle_menu.items = list(UI.config.band_labels)
                 next_menu = previous_menu
@@ -187,3 +182,4 @@ def Commander1Module(stdscr):
 
 if __name__ == '__main__':
     curses.wrapper(Commander1Module)
+

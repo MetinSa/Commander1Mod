@@ -107,6 +107,8 @@ class Interface(object):
     def update_parameterfile_name(self, new_name):
         if not new_name:
             return
+        if not new_name.endswith('.txt'):
+            new_name = f'{new_name}.txt'
         self.savefile = new_name
 
     def save(self, filename):
@@ -285,10 +287,7 @@ class Interface(object):
 
             elif key == curses.KEY_ENTER or key in [10, 13]:
                 self.menu_win.clear()
-                if "Return" in items[current_i]:
-                    return menu.parent
-
-                elif isinstance(menu.menues.get(items[current_i]), Menu):
+                if isinstance(menu.menues.get(items[current_i]), Menu):
                     return menu.menues.get(items[current_i])
                 else:
                     return items[current_i]

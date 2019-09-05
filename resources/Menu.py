@@ -45,10 +45,11 @@ class Menu:
 		"""Returns formated version of menu name"""
 		max_x_len = 37
 		num_ = (max_x_len - len(self.name) - 2)//2
+		name = self.name.strip('*')
 		if len(self.name) % 2 == 0:
-			return num_*'_' + f' {self.name} ' + num_*'_'+'_'
+			return num_*'_' + f' {name} ' + num_*'_'+'_'
 		else:
-			return num_*'_' + f' {self.name} ' + num_*'_'
+			return num_*'_' + f' {name} ' + num_*'_'
 
 	def __str__(self):
 		"""Renames menu object"""
