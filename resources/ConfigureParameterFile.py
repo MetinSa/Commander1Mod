@@ -117,18 +117,18 @@ class ConfigureParameterFile(object):
                 new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
                 self.json_data['General Settings'].update({'TEMPLATE_AMP_INPUT':f'data/{new_name}'})
 
-            if file.startswith('gain_no') and file.endswith('.dat'):
+            elif file.startswith('gain_no') and file.endswith('.dat'):
                 new_name = f'gain_init_{tag}.dat'
                 new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
                 self.json_data['General Settings'].update({'GAIN_INIT':f'data/{new_name}'})
 
-            if file.startswith('bp_no') and file.endswith('.dat'):
+            elif file.startswith('bp_no') and file.endswith('.dat'):
                 new_name = f'bp_init_{tag}.dat'
                 new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
                 self.json_data['General Settings'].update({'BANDPASS_INIT':f'data/{new_name}'})
 
         map1_samples = ('beta', 'nup', 'EM')
-        map2_samples = ('Td', 'alpha', 'T_e')
+        map2_samples = ('Td','dbeta', 'alpha', 'T_e')
         for fg in self.json_data['Foregrounds']:
             if 'CO_multiline' not in self.json_data['Foregrounds'][fg].get('COMP_TYPE'):
                 for file in os.listdir(chain_dir):
@@ -151,7 +151,12 @@ class ConfigureParameterFile(object):
             else:
                 regex_str = f'{fg}_' + r'([^_]+)'
                 pattern = re.compile(regex_str)
-                bands = list(self.band_labels.keys())
+                bands = []
+                for band in self.band_labels:
+                    if 'WMAP' in band:
+                        band = band.split('_')[-1]
+                    bands.append(band)
+
                 for file in os.listdir(chain_dir):
                     if file.startswith(fg) and file.endswith(f'{sample}.fits'):
                         match = pattern.search(file)
