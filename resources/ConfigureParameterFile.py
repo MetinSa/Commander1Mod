@@ -81,20 +81,43 @@ class ConfigureParameterFile(object):
         update_nested_dicts(self.json_data['Foregrounds'])
 
     def toggle_outputs(self, boolean):
-        for param in self.json_data['General Settings'].keys():
+        for param, value in self.json_data['General Settings'].items():
             if 'OUTPUT_FREQUENCY_COMPONENT_MAPS' in param:
-                self.json_data['General Settings'].update({param:boolean})
+                value_items = value.split()
+                if len(value_items) > 1:
+                    comments = ' '.join(value_items[1:])
+                    new_bool_value = f'{boolean:{15}}{comments}'
+                else:
+                    new_bool_value = boolean
+                self.json_data['General Settings'].update({param:new_bool_value})
+
 
     def toggle_template_fit(self, band):
         for param, value in self.json_data['Foreground Templates'].items():
             if 'FIX' in param and band in param:
-                if 'true' in value:
-                    value = '.false.'
-                elif 'false' in value:
-                    value = '.true.'
-                self.json_data['Foreground Templates'].update({param:value})
+                value_items = value.split()
+                bool_value = value_items[0]
+                if 'true' in bool_value:
+                    new_bool_value = '.false.'
+                elif 'false' in bool_value:
+                    new_bool_value = '.true.'
+                if len(value_items) > 2:
+                    comments = ' '.join(value_items[1:])
+                    new_bool_value = f'{new_bool_value:{15}}{comments}'
 
-    # def continue_script(self, )
+                self.json_data['Foreground Templates'].update({param:new_bool_value})
+
+    def continue_script(self, dir, tag, sample):
+        sample = f'k{sample:05}'
+        for file in os.listdir(dir):
+            if file.startswith('temp_amp', 'gain_no', 'bp_no') and file.endswith(f'{sample}.fits'):
+                raise Exception(file)
+
+        # for fg in self.json_data['Foregrounds']:
+        #     sample = f'{sample:03}'
+        #     regex_string = re.escape(fg) + r'.*' +
+        #     pattern = re.compile(r'{}')
+        #     for file in os.listdir(dir):
 
     def rename_fg_templates_to_match_bands(self):
         self.json_data['Foreground Templates'].clear()

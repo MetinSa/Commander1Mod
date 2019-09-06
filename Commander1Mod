@@ -15,7 +15,7 @@ def Commander1Module(stdscr):
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
-                    ['Configure Parameterfile', 'Help', '*Save and Exit'],
+                    ['Configure Parameterfile', 'Continue From Previous Run', 'Help', '*Save and Exit'],
                     ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
                       ['General Settings','Frequency Bands', 'Foregrounds'],
@@ -92,6 +92,9 @@ def Commander1Module(stdscr):
     if next_menu =='*Save and Exit':
         curses.endwin()
         sys.exit()
+    elif next_menu == 'Continue From Previous Run':
+        chain_dir, tag, sample = UI.get_init_files()
+        UI.config.continue_script(chain_dir, tag, sample)
     while True:
         previous_menu = next_menu
         next_menu = UI.display_menu(next_menu)
@@ -139,16 +142,7 @@ def Commander1Module(stdscr):
                 toggle_menu.items = list(UI.config.band_labels)
 
             elif selected_option_menu_name == 'Remove Band':
-                #try:
                 UI.config.delete_band(selected_option)
-                # except ValueError:
-                #     error_msg = 'Cannot remove a reference band.'
-                #     curses.beep()
-                #     UI.menu_win.addstr(0, UI.center_str(error_msg), error_msg)
-                #     UI.menu_win.refresh()
-                #     next_menu = previous_menu
-                #     time.sleep(1.5)
-                #     continue
                 removeband_menu.items = list(UI.config.band_labels)
                 toggle_menu.items = list(UI.config.band_labels)
                 next_menu = previous_menu
@@ -177,6 +171,10 @@ def Commander1Module(stdscr):
                 UI.user_manual()
                 next_menu = previous_menu
                 continue
+
+            elif selected_option == 'Continue From Previous Run':
+                UI.get_init_files()
+
             next_menu = previous_menu.parent
         UI.save(UI.tempfile)
 
