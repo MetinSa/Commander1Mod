@@ -101,48 +101,58 @@ class Interface(object):
         paramfile = load_parameterfile()
         self.config = ConfigureParameterFile(paramfile)
 
-    def get_init_files(self):
-            dirs = []
+    def get_init_dirs(self):
+        def get_data_dir():
+            data_dir = 'data'
             for directory in os.listdir(self.run_path):
-                if os.path.isdir(os.path.join(self.run_path, directory)) and 'chain' in directory:
-                    dirs.append(directory)
-            if not dirs:
-                raise NameError('No chain catalogue found in current work directory')
-            dirs.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
-            dirs.reverse()
-            menu_title = 'Continue From Previous Run'
-            menu_instructions_first = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list']
-            menu_instructions = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
-            menu_instructions_last = ['Select Chain Directory:', 'ENTER: select highlighted option', 'b: previous list']
-
-            max_dirs_per_menu = 36
-            menu_items = [dirs[i*max_dirs_per_menu:(i+1)*max_dirs_per_menu]
-                          for i in range((len(dirs) + max_dirs_per_menu-1)
-                          //max_dirs_per_menu)]
-            menues = []
-            for items in menu_items:
-                menu = Menu(menu_title, items, menu_instructions)
-                menu.numbered = False
-                menues.append(menu)
-            if len(menues) == 1:
-                menues[0].instructions = ['Select Chain Directory:', 'ENTER: select highlighted option']
+                if os.path.isdir(os.path.join(self.run_path, data_dir)):
+                    return f'{self.run_path}/{data_dir}'
             else:
-                menues[0].instructions = menu_instructions_first
-                menues[-1].instructions = menu_instructions_last
-            i = 0
-            while True:
-                chain_dir = self.display_menu(menues[i])
-                if chain_dir == 'n':
-                    i += 1
-                elif chain_dir == 'b':
-                    i -= 1
-                else:
-                    chain_dir = f'{self.run_path}/{chain_dir}'
-                    break
-            instructions = ['ENTER: confirm/cancel(empty field)']
-            tag = self.get_user_input(menues[0], 'Input Tag', instructions)
-            sample = self.get_user_input(menues[0], 'Input Sample Number', instructions)
-            return chain_dir, tag, sample
+                raise NameError(f'Could not find data directory in {self.run_path}.')
+        data_dir = get_data_dir()
+
+        dirs = []
+        for directory in os.listdir(self.run_path):
+            if os.path.isdir(os.path.join(self.run_path, directory)) and 'chain' in directory:
+                dirs.append(directory)
+        if not dirs:
+            raise NameError('No chain catalogue found in current work directory')
+        dirs.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
+        dirs.reverse()
+        menu_title = 'Continue From Previous Run'
+        menu_instructions_first = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list']
+        menu_instructions = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
+        menu_instructions_last = ['Select Chain Directory:', 'ENTER: select highlighted option', 'b: previous list']
+        max_dirs_per_menu = 36
+        menu_items = [dirs[i*max_dirs_per_menu:(i+1)*max_dirs_per_menu]
+                      for i in range((len(dirs) + max_dirs_per_menu-1)
+                      //max_dirs_per_menu)]
+        menues = []
+        for items in menu_items:
+            menu = Menu(menu_title, items, menu_instructions)
+            menu.numbered = False
+            menues.append(menu)
+        if len(menues) == 1:
+            menues[0].instructions = ['Select Chain Directory:', 'ENTER: select highlighted option']
+        else:
+            menues[0].instructions = menu_instructions_first
+            menues[-1].instructions = menu_instructions_last
+        i = 0
+        while True:
+            chain_dir = self.display_menu(menues[i])
+            if chain_dir == 'n':
+                i += 1
+            elif chain_dir == 'b':
+                i -= 1
+            elif chain_dir is menues[i].parent:
+                return
+            else:
+                chain_dir = f'{self.run_path}/{chain_dir}'
+                break
+        instructions = ['ENTER: confirm/cancel(empty field)']
+        tag = self.get_user_input(menues[0], 'Input Tag', instructions)
+        sample = self.get_user_input(menues[0], 'Input Sample Number', instructions)
+        return chain_dir, data_dir, tag, sample
 
     def center_str(self, string):
         return self.x_center - len(string)//2

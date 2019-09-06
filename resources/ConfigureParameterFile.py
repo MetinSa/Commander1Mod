@@ -1,5 +1,7 @@
 import re
 import copy
+import os
+import shutil
 from resources.LoadParameterFile import LoadParameterFile
 
 class ConfigureParameterFile(object):
@@ -107,17 +109,64 @@ class ConfigureParameterFile(object):
 
                 self.json_data['Foreground Templates'].update({param:new_bool_value})
 
-    def continue_script(self, dir, tag, sample):
-        sample = f'k{sample:05}'
-        for file in os.listdir(dir):
-            if file.startswith('temp_amp', 'gain_no', 'bp_no') and file.endswith(f'{sample}.fits'):
-                raise Exception(file)
+    def update_init_files(self, chain_dir, data_dir, tag, sample):
+        sample = f'k{int(sample):05}'
+        for file in os.listdir(chain_dir):
+            if file.startswith('temp_amp') and file.endswith(f'{sample}.dat'):
+                new_name = f'temp_amp_init_{tag}.dat'
+                new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                self.json_data['General Settings'].update({'TEMPLATE_AMP_INPUT':f'data/{new_name}'})
 
-        # for fg in self.json_data['Foregrounds']:
-        #     sample = f'{sample:03}'
-        #     regex_string = re.escape(fg) + r'.*' +
-        #     pattern = re.compile(r'{}')
-        #     for file in os.listdir(dir):
+            if file.startswith('gain_no') and file.endswith('.dat'):
+                new_name = f'gain_init_{tag}.dat'
+                new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                self.json_data['General Settings'].update({'GAIN_INIT':f'data/{new_name}'})
+
+            if file.startswith('bp_no') and file.endswith('.dat'):
+                new_name = f'bp_init_{tag}.dat'
+                new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                self.json_data['General Settings'].update({'BANDPASS_INIT':f'data/{new_name}'})
+
+        map1_samples = ('beta', 'nup', 'EM')
+        map2_samples = ('Td', 'alpha', 'T_e')
+        for fg in self.json_data['Foregrounds']:
+            if 'CO_multiline' not in self.json_data['Foregrounds'][fg].get('COMP_TYPE'):
+                for file in os.listdir(chain_dir):
+                    if file.startswith(fg) and file.endswith(f'{sample}.fits'):
+                        match1 = next((sample for sample in map1_samples if sample in file), False)
+                        match2 = next((sample for sample in map2_samples if sample in file), False)
+                        if match1:
+                            new_name = f'{fg}_{match1}_init_{tag}.fits'
+                            new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                            self.json_data['Foregrounds'][fg].update({'INIT_INDEX_MAP_01':f'data/{new_name}'})
+                        elif match2:
+                            new_name = f'{fg}_{match2}_init_{tag}.fits'
+                            new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                            self.json_data['Foregrounds'][fg].update({'INIT_INDEX_MAP_02':f'data/{new_name}'})
+                        else:
+                            new_name = f'{fg}_init_{tag}.fits'
+                            new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                            self.json_data['Foregrounds'][fg].update({'INITIAL_AMPLITUDE_MAP':f'data/{new_name}'})
+
+            else:
+                regex_str = f'{fg}_' + r'([^_]+)'
+                pattern = re.compile(regex_str)
+                bands = list(self.band_labels.keys())
+                for file in os.listdir(chain_dir):
+                    if file.startswith(fg) and file.endswith(f'{sample}.fits'):
+                        match = pattern.search(file)
+                        if match and match.group(1) in bands:
+                            band = match.group(1)
+                            new_name = f'{fg}_{band}_init_{tag}.fits'
+                            new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                            for param, value in self.json_data['Foregrounds'][fg].items():
+                                if 'LINE_LABEL' in param and band == value.strip("'"):
+                                    line_label = param[-2:]
+                                    self.json_data['Foregrounds'][fg].update({f'INIT_INDEX_MAP_{line_label}':f'data/{new_name}'})
+                        else:
+                            new_name = f'{fg}_init_{tag}.fits'
+                            new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
+                            self.json_data['Foregrounds'][fg].update({'INITIAL_AMPLITUDE_MAP':f'data/{new_name}'})
 
     def rename_fg_templates_to_match_bands(self):
         self.json_data['Foreground Templates'].clear()

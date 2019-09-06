@@ -93,8 +93,13 @@ def Commander1Module(stdscr):
         curses.endwin()
         sys.exit()
     elif next_menu == 'Continue From Previous Run':
-        chain_dir, tag, sample = UI.get_init_files()
-        UI.config.continue_script(chain_dir, tag, sample)
+        try:
+            chain_dir, data_dir, tag, sample = UI.get_init_dirs()
+            UI.config.update_init_files(chain_dir, data_dir, tag, sample)
+        except TypeError:
+            pass
+        next_menu = main_menu
+
     while True:
         previous_menu = next_menu
         next_menu = UI.display_menu(next_menu)
@@ -173,7 +178,13 @@ def Commander1Module(stdscr):
                 continue
 
             elif selected_option == 'Continue From Previous Run':
-                UI.get_init_files()
+                try:
+                    chain_dir, data_dir, tag, sample = UI.get_init_dirs()
+                    UI.config.update_init_files(chain_dir, data_dir, tag, sample)
+                except TypeError:
+                    pass
+                next_menu = main_menu
+                continue
 
             next_menu = previous_menu.parent
         UI.save(UI.tempfile)
