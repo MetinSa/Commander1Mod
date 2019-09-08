@@ -1,5 +1,5 @@
 # Commander1Mod
-Commander1 Module that automates some of more time consuming tasks related to Commander1 runs.
+Commander1 Module that automates some of the time consuming tasks related to Commander1 runs.
 
 ## Usage
 * Clone the repository and `cd` to it
