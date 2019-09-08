@@ -112,6 +112,12 @@ class ConfigureParameterFile(object):
     def update_init_files(self, chain_dir, data_dir, tag, sample):
         sample = f'k{int(sample):05}'
         for file in os.listdir(chain_dir):
+            if file.endswith(f'{sample}.dat'):
+                break
+        else:
+            raise NameError('Sample does not exist in chain directory.')
+
+        for file in os.listdir(chain_dir):
             if file.startswith('temp_amp') and file.endswith(f'{sample}.dat'):
                 new_name = f'temp_amp_init_{tag}.dat'
                 new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
@@ -126,6 +132,7 @@ class ConfigureParameterFile(object):
                 new_name = f'bp_init_{tag}.dat'
                 new_path = shutil.copy(f'{chain_dir}/{file}', f'{data_dir}/{new_name}')
                 self.json_data['General Settings'].update({'BANDPASS_INIT':f'data/{new_name}'})
+
 
         map1_samples = ('beta', 'nup', 'EM')
         map2_samples = ('Td','dbeta', 'alpha', 'T_e')

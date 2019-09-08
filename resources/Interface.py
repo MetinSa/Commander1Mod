@@ -55,8 +55,11 @@ class Interface(object):
         initialize_windows()
 
         def header():
-            title = '--------- COMMANDER1 MODULE ---------'
-            self.header_win.addstr(0, self.center_str(title), title)
+            title = 'COMMANDER1 MODULE'
+            below_title = 37*'='
+
+            self.header_win.addstr(0, self.center_str(below_title), below_title)
+            self.header_win.addstr(0, self.center_str(f' {title} '), f' {title} ')
             self.header_win.refresh()
         header()
 
@@ -151,7 +154,15 @@ class Interface(object):
                 break
         instructions = ['ENTER: confirm/cancel(empty field)']
         tag = self.get_user_input(menues[0], 'Input Tag', instructions)
+        if not tag:
+            return
         sample = self.get_user_input(menues[0], 'Input Sample Number', instructions)
+        if not sample:
+            return
+        try:
+            int(sample)
+        except ValueError as e:
+            raise e
         return chain_dir, data_dir, tag, sample
 
     def center_str(self, string):
@@ -206,14 +217,21 @@ class Interface(object):
 
 
     def get_user_input(self, menu, title, instructions):
+        loc_str = 37*'_'
         try:
-            self.loc_win.addstr(1,self.center_str(menu.parent.format_menu_name),
-                                menu.parent.format_menu_name)
-            self.loc_win.addstr(2,self.center_str(menu.format_menu_name),
-                                menu.format_menu_name)
+            self.loc_win.addstr(1,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(1,self.center_str(f' {menu.parent.name} '),
+                                f' {menu.parent.name} ')
+            self.loc_win.addstr(2,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(2,self.center_str(f' {menu.name} '),
+                                f' {menu.name} ')
         except AttributeError:
-            self.loc_win.addstr(1,self.center_str(menu.format_menu_name),
-                                menu.format_menu_name)
+            self.loc_win.addstr(1,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(1,self.center_str(f' {menu.name} '),
+                                f' {menu.name} ')
         max_str_len = 35
         box_start = self.x_center - max_str_len//2
         self.loc_win.refresh()
@@ -231,7 +249,8 @@ class Interface(object):
 
     def display_module_info(self):
         scriptpath = os.path.realpath(__file__)
-        last_modified = f'Last modified: {time.ctime(os.path.getmtime(scriptpath))}'
+        day, month, date, clock, year = time.ctime(os.path.getmtime(scriptpath)).split()
+        last_modified = f'Last Modified: {date} {month} {year}'
         author_name = 'Written by Metin San'
         self.info_win.addstr(0,self.center_str(author_name), author_name)
         self.info_win.addstr(1,self.center_str(last_modified), last_modified)
@@ -247,14 +266,21 @@ class Interface(object):
         longest_item = max(items, key=len)
         n_cols = math.ceil(menu_len/items_per_col)
 
+        loc_str = 37*'_'
         try:
-            self.loc_win.addstr(1,self.center_str(menu.parent.format_menu_name),
-                                menu.parent.format_menu_name)
-            self.loc_win.addstr(2,self.center_str(menu.format_menu_name),
-                                menu.format_menu_name)
+            self.loc_win.addstr(1,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(1,self.center_str(f' {menu.parent.name} '),
+                                f' {menu.parent.name} ')
+            self.loc_win.addstr(2,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(2,self.center_str(f' {menu.name} '),
+                                f' {menu.name} ')
         except AttributeError:
-            self.loc_win.addstr(1,self.center_str(menu.format_menu_name),
-                                menu.format_menu_name)
+            self.loc_win.addstr(1,self.center_str(loc_str),
+                                loc_str)
+            self.loc_win.addstr(1,self.center_str(f' {menu.name} '),
+                                f' {menu.name} ')
         self.loc_win.refresh()
 
         x_space = len(longest_item) + 3

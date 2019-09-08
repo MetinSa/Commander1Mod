@@ -40,17 +40,6 @@ class Menu:
 		if self.name not in self.menues:
 			self.menues.update({self.name:self})
 
-	@property
-	def format_menu_name(self):
-		"""Returns formated version of menu name"""
-		max_x_len = 37
-		num_ = (max_x_len - len(self.name) - 2)//2
-		name = self.name.strip('*')
-		if len(self.name) % 2 == 0:
-			return num_*'_' + f' {name} ' + num_*'_'+'_'
-		else:
-			return num_*'_' + f' {name} ' + num_*'_'
-
 	def __str__(self):
 		"""Renames menu object"""
 		return f'Menu: {self.name}'

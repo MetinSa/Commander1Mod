@@ -15,7 +15,7 @@ def Commander1Module(stdscr):
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
-                    ['Configure Parameterfile', 'Continue From Previous Run', 'Help', '*Save and Exit'],
+                    ['Continue From Run', 'Configure Parameterfile', 'Help', '*Save and Exit'],
                     ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
                       ['General Settings','Frequency Bands', 'Foregrounds'],
@@ -92,12 +92,14 @@ def Commander1Module(stdscr):
     if next_menu =='*Save and Exit':
         curses.endwin()
         sys.exit()
-    elif next_menu == 'Continue From Previous Run':
+    elif next_menu == 'Continue From Run':
         try:
             chain_dir, data_dir, tag, sample = UI.get_init_dirs()
             UI.config.update_init_files(chain_dir, data_dir, tag, sample)
         except TypeError:
             pass
+        except NameError as e:
+            raise e
         next_menu = main_menu
 
     while True:
@@ -177,7 +179,7 @@ def Commander1Module(stdscr):
                 next_menu = previous_menu
                 continue
 
-            elif selected_option == 'Continue From Previous Run':
+            elif selected_option == 'Continue From Run':
                 try:
                     chain_dir, data_dir, tag, sample = UI.get_init_dirs()
                     UI.config.update_init_files(chain_dir, data_dir, tag, sample)
