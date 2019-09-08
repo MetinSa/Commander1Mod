@@ -32,8 +32,8 @@ class Interface(object):
         get_dir()
 
         def get_window_size():
-            xmin = 99
-            ymin = 37
+            xmin = 100
+            ymin = 32
             ymax, xmax = self.stdscr.getmaxyx()
             if ymax < ymin:
                 raise curses.error('Window size to small to display UI. '
@@ -163,6 +163,7 @@ class Interface(object):
             int(sample)
         except ValueError as e:
             raise e
+            
         return chain_dir, data_dir, tag, sample
 
     def center_str(self, string):
@@ -183,35 +184,13 @@ class Interface(object):
     def user_manual(self):
         self.menu_win.clear()
         title = 'Welcome to Commander1 Module'
-        test = """
-        Commander1 Module was developed in order to automate some of the more time consuming
-        tasks related to editing of the Commander1 parameterfile.
-
-        The Configure Parameters method works by reading in and parsing an existing parameterfile
-        into json format. Data on this format is easily processed and accessable, allowing for
-        automation of recursive processes such as relabeling of parameters after band removals.
-        After configuration the data is written to file on the same format as typical
-        parameterfiles.
-
-        Scripts currently supported by the module:
-            - NSIDE: change the nside, including all occursenses of the nside value in parameters.
-            - Chain Directory: Changes the chain directory and creates one if it doesnt exist.
-            - Toggle Output Frequencies: Toggles on/off all OUTPUT_FREQUENCY_COMPONENT_MAPS.
-            - Toggle Template Fits: Toggles on/off wheter or not sample the template for a band.
-            - Add Band: Pick band from list of available bands and append to parameterfile.
-            - Remove Band: Remove a band from included bands and relabel parameters. Also makes
-                sure that reference bands are properly updates and co-lines are deleted.
-            - Add Foreground: Adds a foreground from included foregrounds to parameterfile.
-            - Remove Foreground: Removes a foreground from the parameterfile and relabels
-                all parameters.
-
-        Please report bugs to:  metins@astro.uio.no
-
-
-                                Press any key to return to previous menu
-        """
         self.menu_win.addstr(1, self.center_str(title), title)
-        self.menu_win.addstr(2, self.x_center, test)
+        with open('user-manual.txt', 'r') as f:
+            for i, line in enumerate(f):
+                if i == 0:
+                    x_start = self.x_center - len(line)//2
+                self.menu_win.addstr(3+i, x_start, line)
+
         self.menu_win.refresh()
         key = self.stdscr.getch()
 

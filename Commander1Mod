@@ -15,14 +15,14 @@ def Commander1Module(stdscr):
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
-                    ['Continue From Run', 'Configure Parameterfile', 'Help', '*Save and Exit'],
+                    ['Continue From Run', 'Configure Parameterfile', 'Get Help', '*Save and Exit'],
                     ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
                       ['General Settings','Frequency Bands', 'Foregrounds'],
                       ['Select option:', 'ENTER: select highlighted option',
                        'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
                        main_menu)
-    help_menu = Menu('Help',
+    help_menu = Menu('Get Help',
                       ['User Manual', 'Code Documentation'],
                       ['Select option:', 'ENTER: select highlighted option',
                        'BACKSPACE: return to previous menu'],
