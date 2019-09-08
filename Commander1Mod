@@ -203,7 +203,7 @@ if __name__ == '__main__':
                     'addfg':['parameterfile', 'fg to add'], 'continue':['parameterfile', 'chain dir',
                      'tag', 'sample'], 'masterbands':['parameterfile'], 'masterfgs':['parameterfile']}
         if sys.argv[1] in ['-h', 'help']:
-            dashes_len = 50
+            dashes_len = 56
             title = 'Commander1 Module Help'
             print(dashes_len*'-')
             print(((dashes_len//2)-len(title)//2)*' '+title)
@@ -211,10 +211,10 @@ if __name__ == '__main__':
             print('Available Commands:')
             for command in commands:
                 print(f'   - {command}', ' '.join([f'[{arg}]' for arg in commands[command]]))
-
-
-
             print('\nFor more help on each command, type:\n    c1 -h [command]\n    c1 -help [command]')
+            print('\nFor the best possible user experience, please use the',
+                  '\nmodule through the user interface by simply typing:\n    c1')
+
             print(dashes_len*'-')
         else:
             if sys.argv[1] == 'nside':
@@ -362,5 +362,5 @@ if __name__ == '__main__':
                 print('Arguments not recognized.')
                 sys.exit()
 
-        if sys.argv[1] not in ['masterbands', 'masterfgs']:
+        if sys.argv[1] not in ['masterbands', 'masterfgs', 'help', '-h']:
             print(f"Parameterfile updated. See 'param.txt'.")

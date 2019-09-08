@@ -161,8 +161,8 @@ class Interface(object):
             return
         try:
             int(sample)
-        except ValueError as e:
-            raise e
+        except Exception:
+            raise ValueError('Sample must be of type <int>.')
             
         return chain_dir, data_dir, tag, sample
 
@@ -185,15 +185,18 @@ class Interface(object):
         self.menu_win.clear()
         title = 'Welcome to Commander1 Module'
         self.menu_win.addstr(1, self.center_str(title), title)
+        n_lines = 3
         with open('user-manual.txt', 'r') as f:
             for i, line in enumerate(f):
                 if i == 0:
                     x_start = self.x_center - len(line)//2
+                n_lines += 1
                 self.menu_win.addstr(3+i, x_start, line)
-
+        rectangle(self.menu_win, 0, x_start-2, 2, self.xmax - x_start+2)
+        rectangle(self.menu_win, 0, x_start-2, n_lines, self.xmax - x_start+2)
         self.menu_win.refresh()
+        self.display_module_info()
         key = self.stdscr.getch()
-
 
     def get_user_input(self, menu, title, instructions):
         loc_str = 37*'_'

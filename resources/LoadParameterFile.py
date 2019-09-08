@@ -96,12 +96,15 @@ class LoadParameterFile(object):
 
         with open(self.filename, 'r') as f:
             parameter_file = f.readlines()
-            general_settings_section = parameter_file[0:section_ranges[0]]
-            frequency_bands_section = parameter_file[section_ranges[0]:section_ranges[1]]
-            fg_temp_section = parameter_file[section_ranges[1]:section_ranges[2]]
-            pix_fg_section = parameter_file[section_ranges[2]:section_ranges[3]]
-            foreground_section = parameter_file[section_ranges[3]:section_ranges[4]]
-            remaining_content =  parameter_file[section_ranges[4]:]
+            try:
+                general_settings_section = parameter_file[0:section_ranges[0]]
+                frequency_bands_section = parameter_file[section_ranges[0]:section_ranges[1]]
+                fg_temp_section = parameter_file[section_ranges[1]:section_ranges[2]]
+                pix_fg_section = parameter_file[section_ranges[2]:section_ranges[3]]
+                foreground_section = parameter_file[section_ranges[3]:section_ranges[4]]
+                remaining_content =  parameter_file[section_ranges[4]:]
+            except IndexError:
+                raise IndexError('Parameterfile does not match format of typical Commander1 parameterfiles.')
             return(general_settings_section, frequency_bands_section, fg_temp_section,
                    pix_fg_section, foreground_section, remaining_content)
 
