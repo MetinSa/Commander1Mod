@@ -9,6 +9,7 @@ alias = f'alias c1="{dir_path}/Commander1Mod"'
 pattern = re.compile(alias)
 
 def append_to_bashrc():
+    """Appends Commander1Mod executable-path to user's bashrc."""
     with open(bashrc, 'r') as f:
         lines = f.readlines()
         for line in lines:

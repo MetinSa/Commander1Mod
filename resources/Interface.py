@@ -10,6 +10,11 @@ from resources.ConfigureParameterFile import ConfigureParameterFile
 from resources.Menu import Menu
 
 class Interface(object):
+    """Text-based user interface.
+
+    Curses based class which defines windows, menues and everything
+    that is to be displayed for the user.
+    """
     def __init__(self, stdscr):
         self.stdscr = stdscr
         curses.curs_set(0)
@@ -18,20 +23,15 @@ class Interface(object):
         self.savefile = 'param.txt'
         self.tempfile = 'param_temp.txt'
 
-        def check_operative_system():
-            if sys.platform.startswith('freebsd'):
-                raise SystemError('Commander1 Module only works on linux or OS operative systems.')
-            elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
-                pass
-        check_operative_system()
-
-        def get_dir():
+        def get_paths():
+            """Gets the path to module location and file execution."""
             self.run_path = os.getcwd()
             self.dir_path = os.path.dirname(os.path.realpath(__file__))
             os.chdir(self.dir_path)
-        get_dir()
+        get_paths()
 
         def get_window_size():
+            """Gets terminal window size."""
             xmin = 100
             ymin = 32
             ymax, xmax = self.stdscr.getmaxyx()
@@ -48,6 +48,7 @@ class Interface(object):
         get_window_size()
 
         def initialize_windows():
+            """Initializes the different interface-windows."""
             self.header_win = self.stdscr.subwin(1, 0)
             self.loc_win = self.stdscr.subwin(3, 0)
             self.menu_win = self.stdscr.subwin(7, 0)
@@ -55,27 +56,39 @@ class Interface(object):
         initialize_windows()
 
         def header():
+            """Interface header."""
             title = 'COMMANDER1 MODULE'
             below_title = 37*'='
-
-            self.header_win.addstr(0, self.center_str(below_title), below_title)
-            self.header_win.addstr(0, self.center_str(f' {title} '), f' {title} ')
+            self.header_win.addstr(0, self.center_str(below_title),
+                                   below_title)
+            self.header_win.addstr(0, self.center_str(f' {title} '),
+                                   f' {title} ')
             self.header_win.refresh()
         header()
 
         def load_parameterfile():
+            """Selects a parameterfile from the run directory and loads it."""
             parameterfiles = []
             for file in os.listdir(self.run_path):
-                if file.endswith('.txt') and 'param' in file and not file.startswith('#'):
+                if (file.endswith('.txt') and 'param' in file and
+                    not file.startswith('#')):
                     parameterfiles.append(file)
             if not parameterfiles:
-                raise NameError('No parameter files found in current work directory')
-            parameterfiles.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
+                raise NameError('No parameter files found in '
+                                'current work directory')
+            parameterfiles.sort(key=lambda x: os.stat(os.path.join(self.run_path,
+                                                                   x)).st_mtime)
             parameterfiles.reverse()
             menu_title = 'Load Parameterfile'
-            menu_instructions_first = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list']
-            menu_instructions = ['Select parameterfile:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
-            menu_instructions_last = ['Select parameterfile:', 'ENTER: select highlighted option', 'b: previous list']
+            menu_instructions_first = ['Select parameterfile:',
+                                       'ENTER: select highlighted option',
+                                       'n: next list']
+            menu_instructions = ['Select parameterfile:',
+                                 'ENTER: select highlighted option',
+                                 'n: next list', 'b: previous list']
+            menu_instructions_last = ['Select parameterfile:',
+                                      'ENTER: select highlighted option',
+                                      'b: previous list']
 
             max_params_per_menu = 36
             menu_items = [parameterfiles[i*max_params_per_menu:(i+1)*max_params_per_menu]
@@ -87,7 +100,8 @@ class Interface(object):
                 menu.numbered = False
                 menues.append(menu)
             if len(menues) == 1:
-                menues[0].instructions = ['Select parameterfile:', 'ENTER: select highlighted option']
+                menues[0].instructions = ['Select parameterfile:',
+                                          'ENTER: select highlighted option']
             else:
                 menues[0].instructions = menu_instructions_first
                 menues[-1].instructions = menu_instructions_last
@@ -105,27 +119,39 @@ class Interface(object):
         self.config = ConfigureParameterFile(paramfile)
 
     def get_init_dirs(self):
+        """Finds the init directories for the run script."""
+
         def get_data_dir():
+            """Checks if data folder exists."""
             data_dir = 'data'
             for directory in os.listdir(self.run_path):
                 if os.path.isdir(os.path.join(self.run_path, data_dir)):
                     return f'{self.run_path}/{data_dir}'
             else:
-                raise NameError(f'Could not find data directory in {self.run_path}.')
+                raise NameError('Could not find data directory in '
+                                f'{self.run_path}.')
         data_dir = get_data_dir()
 
         dirs = []
         for directory in os.listdir(self.run_path):
-            if os.path.isdir(os.path.join(self.run_path, directory)) and 'chain' in directory:
+            if (os.path.isdir(os.path.join(self.run_path, directory)) and
+                'chain' in directory):
                 dirs.append(directory)
         if not dirs:
             raise NameError('No chain catalogue found in current work directory')
+
         dirs.sort(key=lambda x: os.stat(os.path.join(self.run_path, x)).st_mtime)
         dirs.reverse()
         menu_title = 'Continue From Previous Run'
-        menu_instructions_first = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list']
-        menu_instructions = ['Select Chain Directory:', 'ENTER: select highlighted option', 'n: next list', 'b: previous list']
-        menu_instructions_last = ['Select Chain Directory:', 'ENTER: select highlighted option', 'b: previous list']
+        menu_instructions_first = ['Select Chain Directory:',
+                                   'ENTER: select highlighted option',
+                                   'n: next list']
+        menu_instructions = ['Select Chain Directory:',
+                             'ENTER: select highlighted option',
+                             'n: next list', 'b: previous list']
+        menu_instructions_last = ['Select Chain Directory:',
+                                  'ENTER: select highlighted option',
+                                  'b: previous list']
         max_dirs_per_menu = 36
         menu_items = [dirs[i*max_dirs_per_menu:(i+1)*max_dirs_per_menu]
                       for i in range((len(dirs) + max_dirs_per_menu-1)
@@ -136,7 +162,8 @@ class Interface(object):
             menu.numbered = False
             menues.append(menu)
         if len(menues) == 1:
-            menues[0].instructions = ['Select Chain Directory:', 'ENTER: select highlighted option']
+            menues[0].instructions = ['Select Chain Directory:',
+                                      'ENTER: select highlighted option']
         else:
             menues[0].instructions = menu_instructions_first
             menues[-1].instructions = menu_instructions_last
@@ -152,24 +179,28 @@ class Interface(object):
             else:
                 chain_dir = f'{self.run_path}/{chain_dir}'
                 break
+
         instructions = ['ENTER: confirm/cancel(empty field)']
         tag = self.get_user_input(menues[0], 'Input Tag', instructions)
         if not tag:
             return
-        sample = self.get_user_input(menues[0], 'Input Sample Number', instructions)
+        sample = self.get_user_input(menues[0], 'Input Sample Number',
+                                     instructions)
         if not sample:
             return
         try:
             int(sample)
         except Exception:
             raise ValueError('Sample must be of type <int>.')
-            
+
         return chain_dir, data_dir, tag, sample
 
     def center_str(self, string):
+        """Centers a string to terminal windows."""
         return self.x_center - len(string)//2
 
     def update_parameterfile_name(self, new_name):
+        """Renames the savefile."""
         if not new_name:
             return
         if not new_name.endswith('.txt'):
@@ -177,11 +208,13 @@ class Interface(object):
         self.savefile = new_name
 
     def save(self, filename):
+        """Save the parameterfile after some configuration."""
         os.chdir(self.run_path)
         self.config.write_to_file(filename)
         os.chdir(self.dir_path)
 
     def user_manual(self):
+        """Displayes a short user_manual."""
         self.menu_win.clear()
         title = 'Welcome to Commander1 Module'
         self.menu_win.addstr(1, self.center_str(title), title)
@@ -192,13 +225,14 @@ class Interface(object):
                     x_start = self.x_center - len(line)//2
                 n_lines += 1
                 self.menu_win.addstr(3+i, x_start, line)
-        rectangle(self.menu_win, 0, x_start-2, 2, self.xmax - x_start+2)
-        rectangle(self.menu_win, 0, x_start-2, n_lines, self.xmax - x_start+2)
+        rectangle(self.menu_win, 0, x_start-2, 2, self.xmax-x_start+2)
+        rectangle(self.menu_win, 0, x_start-2, n_lines, self.xmax-x_start+2)
         self.menu_win.refresh()
         self.display_module_info()
         key = self.stdscr.getch()
 
     def get_user_input(self, menu, title, instructions):
+        """Gets user input."""
         loc_str = 37*'_'
         try:
             self.loc_win.addstr(1,self.center_str(loc_str),
@@ -214,22 +248,28 @@ class Interface(object):
                                 loc_str)
             self.loc_win.addstr(1,self.center_str(f' {menu.name} '),
                                 f' {menu.name} ')
+
         max_str_len = 35
         box_start = self.x_center - max_str_len//2
         self.loc_win.refresh()
         self.menu_win.clear()
         self.display_module_info()
-        rectangle(self.menu_win, 0, box_start - 2, 4+len(instructions), box_start + max_str_len + 2)
+        rectangle(self.menu_win, 0, box_start - 2, 4+len(instructions),
+                  box_start + max_str_len + 2)
         self.menu_win.addstr(0, self.center_str(title), title)
+
         for i, instruction in enumerate(instructions):
             self.menu_win.addstr(i+4, box_start, instruction)
         self.menu_win.refresh()
-        rectangle(self.menu_win, 1, box_start - 1, 3, box_start + max_str_len + 1)
+        rectangle(self.menu_win, 1, box_start - 1, 3,
+                  box_start + max_str_len + 1)
         curses.echo()
-        user_input = self.menu_win.getstr(2, box_start, max_str_len).decode(encoding="utf-8")
+        user_input = self.menu_win.getstr(2, box_start,
+                                          max_str_len).decode(encoding="utf-8")
         return user_input
 
     def run_commander(self):
+        """Executes commander with given settings."""
         chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').strip("'")
         if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
             os.mkdir(f'{self.run_path}/{chain_dir}')
@@ -239,6 +279,7 @@ class Interface(object):
 
 
     def display_module_info(self):
+        """Displays author name and patch date."""
         scriptpath = os.path.realpath(__file__)
         day, month, date, clock, year = time.ctime(os.path.getmtime(scriptpath)).split()
         last_modified = f'Last Modified: {date} {month} {year}'
@@ -248,6 +289,7 @@ class Interface(object):
         self.info_win.refresh()
 
     def display_menu(self, menu):
+        """Displays a menu and returns the selected option."""
         self.menu_win.clear()
         self.loc_win.clear()
 
@@ -296,10 +338,10 @@ class Interface(object):
             increment_box_edge = 0
         else:
             increment_box_edge = 0
-        rectangle(self.menu_win, 0, x_init-1, box_len + len(menu.instructions)+1,
+        rectangle(self.menu_win, 0, x_init-1, box_len+len(menu.instructions)+1,
                   self.xmax - x_init +1)
-        rectangle(self.menu_win,1, x_init, box_len + 1, self.xmax - x_init
-                  - increment_box_edge)
+        rectangle(self.menu_win,1, x_init, box_len + 1,
+                  self.xmax-x_init-increment_box_edge)
 
         if menu.instructions:
             for i, instructions in enumerate(menu.instructions):
@@ -349,7 +391,7 @@ class Interface(object):
                 elif current_i != menu_len - 1:
                     current_i += 1
 
-            elif key == curses.KEY_RIGHT and current_i < menu_len - items_per_col:
+            elif key == curses.KEY_RIGHT and current_i < menu_len-items_per_col:
                 current_i += items_per_col
 
             elif key == curses.KEY_LEFT and current_i > items_per_col:
@@ -366,7 +408,8 @@ class Interface(object):
                 if menu.name not in ['Main Menu','Load Parameterfile']:
                     return menu.parent
 
-            elif key == ord('\t') and 'TAB/SPACE: view/edit parameterfile' in menu.instructions:
+            elif (key == ord('\t') and
+                  'TAB/SPACE: view/edit parameterfile' in menu.instructions):
                 self.save(self.tempfile)
                 os.chdir(self.run_path)
                 curses.endwin()
@@ -374,7 +417,8 @@ class Interface(object):
                 os.chdir(self.dir_path)
                 curses.doupdate()
 
-            elif key == ord(' ') and 'TAB/SPACE: view/edit parameterfile' in menu.instructions:
+            elif (key == ord(' ') and
+                  'TAB/SPACE: view/edit parameterfile' in menu.instructions):
                 self.save(self.tempfile)
                 os.chdir(self.run_path)
                 curses.endwin()

@@ -5,6 +5,10 @@ import shutil
 from resources.LoadParameterFile import LoadParameterFile
 
 class ConfigureParameterFile(object):
+    """Main parameterfile configuration class.
+
+    Handles all functionality considering direct changes to the parameterfile.
+    """
     def __init__(self, filename):
         self.filename = filename
 
@@ -23,6 +27,7 @@ class ConfigureParameterFile(object):
         self.rename_fg_templates_to_match_bands()
 
     def get_initial_reference_bands(self):
+        """Finds all bands used as reference."""
         reference_band_labels = []
         for fg in self.json_data['Foregrounds']:
             reference_band_labels.append(self.json_data['Foregrounds'][fg].get('REFERENCE_BAND').split()[0])
@@ -31,12 +36,14 @@ class ConfigureParameterFile(object):
                 self.reference_bands.update({band:label})
 
     def get_labels(self):
+        """Gets the label for each band."""
         for i, band in enumerate(self.json_data['Frequency Bands']):
             self.band_labels.update({band:f'{i+1}'})
         for i, fg in enumerate(self.json_data['Foregrounds']):
             self.fg_labels.update({fg:f'{i+1}'})
 
     def update_reference_band_labels(self):
+        """Updates parameterfile reference bands."""
         for fg in self.json_data['Foregrounds']:
             reference_band_label = self.json_data['Foregrounds'][fg].get('REFERENCE_BAND'.split()[0])
             for band, label in self.reference_bands.items():
@@ -44,11 +51,13 @@ class ConfigureParameterFile(object):
                     self.json_data['Foregrounds'][fg].update({'REFERENCE_BAND':self.band_labels.get(band)})
 
     def update_chains_dir(self, new_dir):
+        """Updates chain directory."""
         if not new_dir:
             return
         self.json_data['General Settings'].update({'CHAIN_DIRECTORY':f"'{new_dir}'"})
 
     def update_nside(self, new_nside):
+        """Updates NSIDE in all values in parameterfile."""
         allowed_nside = [64, 128, 256, 512, 1024, 2048, 4096]
         if new_nside not in allowed_nside:
             raise ValueError(f'Invalid NSIDE value.')
@@ -57,6 +66,7 @@ class ConfigureParameterFile(object):
         pattern2 = re.compile(r'064|128|256|512|1024|2048|4096')
 
         def update_dicts(dictionary):
+            """Updates single dictionaries in json data."""
             for param, value in dictionary.items():
                 match1 = pattern1.search(str(value))
                 match2 = pattern2.search(str(value))
@@ -66,6 +76,7 @@ class ConfigureParameterFile(object):
                     dictionary.update({param:re.sub(pattern2, f'{new_nside:03}', str(value))})
 
         def update_nested_dicts(dictionary):
+            """Updates nested dictionaries in json data."""
             for band in dictionary:
                 for param, value in dictionary[band].items():
                     match1 = pattern1.search(str(value))
@@ -83,6 +94,7 @@ class ConfigureParameterFile(object):
         update_nested_dicts(self.json_data['Foregrounds'])
 
     def toggle_outputs(self, boolean):
+        """Sets all output maps to true/false."""
         for param, value in self.json_data['General Settings'].items():
             if 'OUTPUT_FREQUENCY_COMPONENT_MAPS' in param:
                 value_items = value.split()
@@ -95,6 +107,7 @@ class ConfigureParameterFile(object):
 
 
     def toggle_template_fit(self, band):
+        """Sets the value of FIX_TEMP of a band to true/false."""
         for param, value in self.json_data['Foreground Templates'].items():
             if 'FIX' in param and band in param:
                 value_items = value.split()
@@ -110,6 +123,7 @@ class ConfigureParameterFile(object):
                 self.json_data['Foreground Templates'].update({param:new_bool_value})
 
     def update_init_files(self, chain_dir, data_dir, tag, sample):
+        """Changes all init files in parameterfile."""
         sample = f'k{int(sample):05}'
         for file in os.listdir(chain_dir):
             if file.endswith(f'{sample}.dat'):
@@ -181,6 +195,7 @@ class ConfigureParameterFile(object):
                             self.json_data['Foregrounds'][fg].update({'INITIAL_AMPLITUDE_MAP':f'data/{new_name}'})
 
     def rename_fg_templates_to_match_bands(self):
+        """Renames the fg_temp params to match bands."""
         self.json_data['Foreground Templates'].clear()
         pattern = re.compile(r'\D+[_]\D+\d{2}')
         for param, value in self.original_data['Foreground Templates'].items():
@@ -198,6 +213,7 @@ class ConfigureParameterFile(object):
                 self.json_data['Foreground Templates'].update({param:value})
 
     def delete_band(self, band):
+        """Deletes a band, eventual co-lines and updates labeling."""
         band_label = self.band_labels.get(band)
         if band_label is None:
             raise ValueError('Band not recognized.')
@@ -226,6 +242,7 @@ class ConfigureParameterFile(object):
                 self.json_data['Foreground Templates'].pop(template)
 
         def delete_co_lines():
+            """Removes eventual co-lines connected to the band."""
             for fg in self.json_data['Foregrounds']:
                 if 'CO_multiline' in self.json_data['Foregrounds'][fg].get('COMP_TYPE'):
                     for param, value in self.json_data['Foregrounds'][fg].items():
@@ -267,6 +284,7 @@ class ConfigureParameterFile(object):
         delete_co_lines()
 
     def add_band(self, band):
+        """Adds a band from masterbandlist."""
         band_data = self.masterbands.get(band)
         if band_data is None:
             raise ValueError('Band not recognized.')
@@ -311,6 +329,7 @@ class ConfigureParameterFile(object):
         self.json_data['Foreground Templates'] = updated_fg_templates
 
         def add_co_lines():
+            """Adds co-line templates."""
             if 'template' in band:
                 band_name = re.sub(r'_template', '', band)
             else:
@@ -356,6 +375,7 @@ class ConfigureParameterFile(object):
         add_co_lines()
 
     def delete_foreground(self, foreground):
+        """Removes a foreground from the parameterfile."""
         foreground_data = self.json_data['Foregrounds'].get(foreground)
         if foreground_data is None:
             raise ValueError('Foreground not recognized.')
@@ -364,6 +384,7 @@ class ConfigureParameterFile(object):
         self.fg_labels.pop(foreground)
 
     def add_foreground(self, foreground):
+        """Adds a foreground from the masterforegrounds."""
         foreground_data = self.masterforegrounds.get(foreground)
         if foreground_data is None:
             raise ValueError('Foreground not recognized.')
@@ -374,9 +395,11 @@ class ConfigureParameterFile(object):
         self.fg_labels.update({foreground:str(len(self.json_data['Foregrounds']))})
 
     def write_to_file(self, filename):
+        """Outputs the settings to file in a typical Commander1 format."""
         format_width = 40
 
         def write_general_settings():
+            """Writes general settings to file."""
             with open(filename, 'w') as f:
                 f.write('# Parameter file for Commander1 - Generated by Commander1 Module\n')
                 for param, value in self.json_data['General Settings'].items():
@@ -385,6 +408,7 @@ class ConfigureParameterFile(object):
                     f.write(f'{param:{format_width}}= {value}\n')
 
         def write_frequency_bands():
+            """Writes frequency bands to file."""
             with open(filename, 'a') as f:
                 for i, band in enumerate(self.json_data['Frequency Bands']):
                     f.write(f'\n# ------------ {band}\n')
@@ -397,6 +421,7 @@ class ConfigureParameterFile(object):
                         f.write(f'{param:{format_width}}= {value}\n')
 
         def write_fg_templates():
+            """Writes fg_templates to file."""
             with open(filename, 'a') as f:
                 f.write('\n# Foreground templates\n')
                 for param, value in self.json_data['Foreground Templates'].items():
@@ -414,6 +439,7 @@ class ConfigureParameterFile(object):
                     f.write(f'{param:{format_width}}= {value}\n')
 
         def write_pixel_fg_parameters():
+            """Writes pixel_fg parameters to file."""
             with open(filename, 'a') as f:
                 f.write('\n# Pixel foreground parameters\n')
                 for param, value in self.json_data['Pixel Foreground Parameters'].items():
@@ -422,6 +448,7 @@ class ConfigureParameterFile(object):
                     f.write(f'{param:{format_width}}= {value}\n')
 
         def write_foregrounds():
+            """Writes foregrounds to file."""
             special_format_params = ['INIT_INDEX_MAP', 'REGION_DEFINITION', 'FWHM_PAR',
                                      'LINE_LABEL', 'BAND', 'DEFAULT_CO_LINE_RATIO',
                                      'CO_PRIOR']
@@ -443,6 +470,7 @@ class ConfigureParameterFile(object):
                         f.write(f'{param:{format_width}}= {value}\n')
 
         def write_remaining_params():
+            """Writes all remaining parameters to file."""
             with open(filename, 'a') as f:
                 f.write('\n\n# Object list for individual output\n')
                 for param, value in self.json_data['Final Parameters'].items():
@@ -461,7 +489,7 @@ if __name__ == '__main__':
     ConfigParams = ConfigureParameterFile('param.txt')
     # ConfigParams.delete_band('044')
     # ConfigParams.add_band('044')
-    #ConfigParams.update_nside(64)
-    #ConfigParams.add_foreground('dust')
-    #ConfigParams.toggle_template_fit('044')
-    ConfigParams.write_to_file('test.txt')
+    # ConfigParams.update_nside(64)
+    # ConfigParams.add_foreground('dust')
+    # ConfigParams.toggle_template_fit('044')
+    # ConfigParams.write_to_file('test.txt')

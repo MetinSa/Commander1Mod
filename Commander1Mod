@@ -8,19 +8,27 @@ from resources.Menu import Menu
 from resources.ConfigureParameterFile import ConfigureParameterFile
 from resources.LoadParameterFile import LoadParameterFile
 
-
 def Commander1Module(stdscr):
+    """Main function used to activate the interface.
+
+    All menues are defined here. In addition, functionality not considering
+    direct configuration to the parameterfile is defined here.
+    """
     UI = Interface(stdscr)
-    modules = (Commander1Module, Interface, ConfigureParameterFile, LoadParameterFile, Menu)
+    modules = (Commander1Module, Interface, ConfigureParameterFile,
+               LoadParameterFile, Menu)
+
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
-                    ['Continue From Run', 'Configure Parameterfile', 'Get Help', '*Save and Exit'],
-                    ['Select option:', 'ENTER: select highlighted option'])
+                     ['Continue From Run', 'Configure Parameterfile',
+                      'Get Help', '*Save and Exit'],
+                     ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
-                      ['General Settings','Frequency Bands', 'Foregrounds'],
-                      ['Select option:', 'ENTER: select highlighted option',
-                       'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                       ['General Settings','Frequency Bands', 'Foregrounds'],
+                       ['Select option:', 'ENTER: select highlighted option',
+                        'BACKSPACE: return to previous menu',
+                        'TAB/SPACE: view/edit parameterfile'],
                        main_menu)
     help_menu = Menu('Get Help',
                       ['User Manual', 'Code Documentation'],
@@ -31,61 +39,75 @@ def Commander1Module(stdscr):
                       [module.__name__ for module in modules],
                       ['Select module', 'ENTER: select highlighted option',
                        'BACKSPACE: return to previous menu'],
-                       help_menu)
+                      help_menu)
     general_settings_menu = Menu('General Settings',
-                                ['Savefile Name','Chain Directory', '*NSIDE', '*Toggle Output Frequencies', '*Toggle Template Fits'],
-                                ['Select option:', 'ENTER: select highlighted option',
-                                'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                       config_menu)
-    nside_menu = Menu('*NSIDE',
-                     [str(2**i) for i in range(6,13)],
-                     ['Select NSIDE value:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                                 ['Savefile Name','Chain Directory', '*NSIDE',
+                                  '*Toggle Output Frequencies',
+                                  '*Toggle Template Fits'],
+                                 ['Select option:',
+                                  'ENTER: select highlighted option',
+                                  'BACKSPACE: return to previous menu',
+                                  'TAB/SPACE: view/edit parameterfile'],
+                                 config_menu)
+    nside_menu = Menu('*NSIDE', [str(2**i) for i in range(6,13)],
+                      ['Select NSIDE value:',
+                       'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu',
+                       'TAB/SPACE: view/edit parameterfile'],
                       general_settings_menu)
-    toggle_menu = Menu('*Toggle Template Fits',
-                     bandlist,
-                     ['Select band to toggle:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      general_settings_menu)
+    toggle_menu = Menu('*Toggle Template Fits', bandlist,
+                       ['Select band to toggle:',
+                        'ENTER: select highlighted option',
+                        'BACKSPACE: return to previous menu',
+                        'TAB/SPACE: view/edit parameterfile'],
+                       general_settings_menu)
     toggle_menu.numbered = False
-    output_menu = Menu('*Toggle Output Frequencies',
-                     ['.true.', '.false.'],
-                     ['select new value:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+    output_menu = Menu('*Toggle Output Frequencies', ['.true.', '.false.'],
+                       ['select new value:', 'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu',
+                       'TAB/SPACE: view/edit parameterfile'],
                       general_settings_menu)
     frequencyband_menu = Menu('Frequency Bands',
-                     ['Add Band', 'Remove Band'],
-                     ['Select option:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      config_menu)
-    addband_menu = Menu('Add Band',
-                     list(UI.config.masterbands),
-                     ['Select a band to add from list of masterbands:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      frequencyband_menu)
+                              ['Add Band', 'Remove Band'],
+                              ['Select option:',
+                               'ENTER: select highlighted option',
+                               'BACKSPACE: return to previous menu',
+                               'TAB/SPACE: view/edit parameterfile'],
+                              config_menu)
+    addband_menu = Menu('Add Band', list(UI.config.masterbands),
+                        ['Select a band to add from list of masterbands:',
+                         'ENTER: select highlighted option',
+                         'BACKSPACE: return to previous menu',
+                         'TAB/SPACE: view/edit parameterfile'],
+                        frequencyband_menu)
     addband_menu.numbered = False
-    removeband_menu = Menu('Remove Band',
-                     bandlist,
-                     ['Select band to remove:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      frequencyband_menu)
+    removeband_menu = Menu('Remove Band', bandlist,
+                           ['Select band to remove:',
+                            'ENTER: select highlighted option',
+                            'BACKSPACE: return to previous menu',
+                            'TAB/SPACE: view/edit parameterfile'],
+                           frequencyband_menu)
     removeband_menu.numbered = False
     foreground_menu = Menu('Foregrounds',
-                     ['Add Foreground', 'Remove Foreground'],
-                     ['Select option:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      config_menu)
-    addfg_menu = Menu('Add Foreground',
-                     list(UI.config.masterforegrounds),
-                     ['Select a foreground to add:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
+                           ['Add Foreground', 'Remove Foreground'],
+                           ['Select option:',
+                            'ENTER: select highlighted option',
+                            'BACKSPACE: return to previous menu',
+                            'TAB/SPACE: view/edit parameterfile'],
+                           config_menu)
+    addfg_menu = Menu('Add Foreground', list(UI.config.masterforegrounds),
+                      ['Select a foreground to add:',
+                       'ENTER: select highlighted option',
+                       'BACKSPACE: return to previous menu',
+                       'TAB/SPACE: view/edit parameterfile'],
                       foreground_menu)
     addfg_menu.numbered = False
-    removefg_menu = Menu('Remove Foreground',
-                     fglist,
-                     ['Select foreground to remove:', 'ENTER: select highlighted option',
-                      'BACKSPACE: return to previous menu', 'TAB/SPACE: view/edit parameterfile'],
-                      foreground_menu)
+    removefg_menu = Menu('Remove Foreground', fglist,
+                         ['Select foreground to remove:',
+                          'ENTER: select highlighted option',
+                          'BACKSPACE: return to previous menu',
+                          'TAB/SPACE: view/edit parameterfile'],
+                         foreground_menu)
     removefg_menu.numbered = False
 
     next_menu = UI.display_menu(main_menu)
@@ -122,9 +144,11 @@ def Commander1Module(stdscr):
             elif selected_option_menu_name == '*NSIDE':
                 nside = int(selected_option)
                 UI.config.update_nside(nside)
+
             elif selected_option == 'Chain Directory':
-                chain_dir = UI.get_user_input(previous_menu, 'Input new Chain Directory name:',
-                                 ['ENTER: confirm/cancel(empty field)'])
+                chain_dir = UI.get_user_input(previous_menu,
+                            'Input new Chain Directory name:',
+                            ['ENTER: confirm/cancel(empty field)'])
                 UI.config.update_chains_dir(chain_dir)
                 os.chdir(UI.run_path)
                 if chain_dir and not os.path.isdir(chain_dir):
@@ -134,8 +158,9 @@ def Commander1Module(stdscr):
                 continue
 
             elif selected_option == 'Savefile Name':
-                new_paramfile_name = UI.get_user_input(previous_menu, 'Input new parameterfile name:',
-                                 ['ENTER: confirm/cancel(empty field)'])
+                new_paramfile_name = UI.get_user_input(previous_menu,
+                                     'Input new parameterfile name:',
+                                     ['ENTER: confirm/cancel(empty field)'])
                 UI.update_parameterfile_name(new_paramfile_name)
                 next_menu = previous_menu
                 continue
@@ -200,29 +225,44 @@ def Commander1Module(stdscr):
         UI.save(UI.tempfile)
 
 if __name__ == '__main__':
+    """Interface loop."""
+
     arguments = sys.argv
     if len(sys.argv) == 1:
         curses.wrapper(Commander1Module)
     else:
         run_path = os.getcwd()
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        commands = {'nside':['parameterfile', 'new nside'], 'removeband':['parameterfile', 'band to remove'],
-                    'addband':['parameterfile', 'band to add'], 'removefg':['parameterfile', 'fg to remove'], 
-                    'addfg':['parameterfile', 'fg to add'], 'continue':['parameterfile', 'chain dir',
-                     'tag', 'sample'], 'masterbands':['parameterfile'], 'masterfgs':['parameterfile']}
+        commands = {
+                    'nside': ['parameterfile', 'new nside'],
+                    'removeband': ['parameterfile', 'band to remove'],
+                    'addband':['parameterfile', 'band to add'],
+                    'removefg':['parameterfile', 'fg to remove'],
+                    'addfg':['parameterfile', 'fg to add'],
+                    'continue':['parameterfile', 'chain dir','tag', 'sample'],
+                    'masterbands':['parameterfile'],
+                    'masterfgs':['parameterfile']
+                    }
         if sys.argv[1] in ['-h', 'help']:
             dashes_len = 56
             title = 'Commander1 Module Help'
             print(dashes_len*'-')
             print(((dashes_len//2)-len(title)//2)*' '+title)
             print(dashes_len*'-')
+            print('Usage:')
+            print('    Enter interface by running c1. Start by selecting')
+            print('    the parameterfile you wish to work with. Proceed')
+            print('    by navigating through the menues to select different')
+            print('    methods.\n')
+
+            print('Usage without interface:')
+            print('    The different methods can be performed without entering')
+            print('    the interface.')
             print('Available Commands:')
             for command in commands:
                 print(f'   - {command}', ' '.join([f'[{arg}]' for arg in commands[command]]))
-            print('\nFor more help on each command, type:\n    c1 -h [command]\n    c1 -help [command]')
-            print('\nFor the best possible user experience, please use the',
-                  '\nmodule through the user interface by simply typing:\n    c1')
-
+            print('\nFor more help on each command, '
+                  'type:\n    c1 -h [command]\n    c1 -help [command]')
             print(dashes_len*'-')
         else:
             if sys.argv[1] == 'nside':
@@ -356,7 +396,6 @@ if __name__ == '__main__':
                     print(f'{paramfile} is not a file in current work directory.')
                     sys.exit()
 
-
                 os.chdir(f'{dir_path}/resources/')
                 ConfigParams = ConfigureParameterFile(f'{run_path}/{paramfile}')
                 if sys.argv[1] == 'masterbands':
@@ -365,7 +404,6 @@ if __name__ == '__main__':
                 elif sys.argv[1] == 'masterfgs':
                     for fg in ConfigParams.masterforegrounds:
                         print(fg)
-
             else:
                 print('Arguments not recognized.')
                 sys.exit()

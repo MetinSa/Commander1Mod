@@ -3,46 +3,7 @@ import re
 import os
 
 class LoadParameterFile(object):
-    """Class which parses a Commander1 parameterfile into a json datafile.
-
-    Example:
-        Class should be called as following:
-
-            LoadedParams  = LoadParameterFile('paramfilename.txt')
-            json_data = LoadedParams.get_json_data()
-
-    Attributes:
-        filename: Name of the Commander1 parameterfile to load.
-        jsonfilename: Name of exported jsonfile.
-        masterband_filename: Name of file containing all known bands.
-        masterband_jsonfilename: Name of exported masterband jsonfile
-        general_settings: All parsed parameters contained in the
-            general_settings section.
-        frequency_bands: All loaded frequency bands and their corresponding
-            parameters.
-        fg_templates: All foreground templates.
-        fg_pix: Foreground pixel parameters.
-        foregrounds: All loaded foregrounds and their corresponding parameters.
-        remaining_content: Any remaining parameters which occur after the
-            foregrounds.
-
-    Methods:
-        find_sections(): Returns the different section contents of the
-            parameterfile.
-        load_data(): Extracts and stores parameters in each section in a
-            json-friendly format. This is done through several individual
-            subfunctions which each takes care of:
-                load_parameters(section, dictionary):
-                    section is which section to load from, and dictionary is
-                    for that sections empty content dictionary.
-                load_frequency_bands(section=frequency_band_section)
-                load_foregrounds(section=foreground_section)
-        build_json_objects(): Creates a json object out of the parsed information
-            and writes the data to a jsonfile.
-        get_json_data(): Returns the json-string containing all information
-            contained in the paramterfile.
-
-    """
+    """Class which parses a Commander1 parameterfile into a json datafile."""
     def __init__(self, filename):
 
         self.filename = filename
@@ -66,6 +27,7 @@ class LoadParameterFile(object):
         self.build_json_objects()
 
     def load_paramfile_format(self, formatfile):
+        """Loads the format of typical parameterfiles."""
         format_items = []
         with open(formatfile, 'r') as f:
             for line in f:
@@ -105,7 +67,7 @@ class LoadParameterFile(object):
                 remaining_content =  parameter_file[section_ranges[4]:]
             except IndexError:
                 raise IndexError('Parameterfile does not match format of typical Commander1 parameterfiles.')
-                
+
             return(general_settings_section, frequency_bands_section, fg_temp_section,
                    pix_fg_section, foreground_section, remaining_content)
 
@@ -268,6 +230,6 @@ class LoadParameterFile(object):
 
 if __name__ == "__main__":
     LoadedParams = LoadParameterFile("param_tutorial.txt")
-    json_data = LoadedParams.get_json_data(LoadedParams.jsonfilename)
-    masterfgs = LoadedParams.get_json_data(LoadedParams.masterforegrounds_jsonfilename)
-    print(masterfgs)
+    # json_data = LoadedParams.get_json_data(LoadedParams.jsonfilename)
+    # masterfgs = LoadedParams.get_json_data(LoadedParams.masterforegrounds_jsonfilename)
+    # print(masterfgs)
