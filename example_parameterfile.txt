@@ -1,0 +1,1418 @@
+# Parameter file for Commander - Ingunn Kathrine Wehus - 2015
+
+OPERATION                     = optimize   #optimize #sample
+VERBOSITY                     = 3         # 0 = silent, 1 = chatty, 2 = lots, 3 = debug
+
+POLARIZATION                  = .false.
+SAMPLE_TT_MODES               = .true.
+SAMPLE_TE_MODES               = .false.
+SAMPLE_TB_MODES               = .false.
+SAMPLE_EE_MODES               = .false.
+SAMPLE_EB_MODES               = .false.
+SAMPLE_BB_MODES               = .false.
+
+NUM_REALIZATIONS              = 1   # do not change
+NUM_CHAIN_PER_REALIZATION     = 1   # put equal to NUM_GROUPs
+NUM_GROUPS                    = 1  # increase if you have more processors
+NUMBAND                       = 32            # Number of map sets to include
+NUM_PROC_PER_BAND             = 1          # Number of processors per band
+
+NSIDE                         = 64      # Healpix resolution parameter
+LMAX                          = 2      # Maximum multipole to include
+LMAX_LOWRES                   = 2    # Maximum multipole to include for indices
+FWHM_LOWRES                   =  60.      # FWHM in arcmin of lowres maps
+
+NUM_GIBBS_ITER                = 20      # Length of one Markov chain
+NUM_STEP_WITH_ML_SEARCH       = 20
+NUM_FAST_SUBSTEPS             = 1
+THINNING_FACTOR               = 1    
+OUTPUT_THINNING_FACTOR        = 1    # Only output every Nth sample
+SPECIND_SAMPLER_BLOCKSIZE     = 10000000
+RMS_SPEC_INDEX_RANDOM_WALK    = 0.          # only use for optimize
+
+NUM_JOINT_ALMS_CL_STEPS       = 0 # always 0 due to possible bug
+JOINT_ALMS_CL_CHISQ_THRESHOLD = 20  
+
+BASE_SEED                     = 243789  # Seed for random number generator
+
+PRECOMPUTE_PLMS               = 0         # Either 0 or 1 
+
+SAMPLING_METHOD               = 'joint_sampler'
+SOLUTION_METHOD               = 'CG'   # 'CG' or 'brute_force'
+LMAX_PRECOND                  =  50
+PRECOND_MATRIX_METHOD         = 'diagonal' #'3j_symbols'   # or 'matrix_multiplication'
+CONDITION_ON_CL               = .false.   # Fix Cls at input (true for pix, false for cl)
+ENFORCE_ZERO_CL               = .true.   # Fix Cls at zero  (true for pix, false for cl)
+
+OUTPUT_ALMS                   = .false.  # Output all CMB alms in separate files
+OUTPUT_MAPS                   = .false. #.true.  # Output all signal 
+OUTPUT_SPECTRA                = .false. #.true.  # Output all Cls 
+OUTPUT_FOREGROUNDS            = .true.  # Output all template amplitudes 
+OUTPUT_CHISQ                  = .true.  # Output maps of chi^2
+OUTPUT_MIXING_MATRIX          = .false. #.true.
+OUTPUT_BAND_CHISQ             = .true. 
+OUTPUT_GAIN_RESIDUALS         = .true.
+OUTPUT_ML_MAP_AND_COVMAT      = .false.
+CHAIN_DIRECTORY               = 'chains_v1'
+
+OUTPUT_FREQUENCY_COMPONENT_MAPS01     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS02     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS03     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS04     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS05     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS06     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS07     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS08     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS09     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS10     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS11     = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS12     = .false.
+
+OVERVIEW_MASK_HIGHFG          = wmap_temperature_kq85_analysis_mask_r8_9yr_v5_n0064.fits
+OVERVIEW_MASK_LOWFG           = wmap_temperature_kq75_analysis_mask_r8_9yr_v5_n0064.fits
+OVERVIEW_FREQ_MIN             =    5.d0
+OVERVIEW_FREQ_MAX             = 1300.d0
+
+CGD_MAXITER                   = 10000   # Conjugate gradients time out limit
+CGD_TOLERANCE                 = 1.d-5   # Fractional CG convergence criterion
+
+REGULARIZATION_NOISE          = -1.d0     #(rms in uK) 0 for pix
+
+CL_BINNING                    = .false.  # Bin Cls
+BINFILE                       = 'bins.txt' # Bin definition file
+
+# Masks
+MASKFILE                      = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+MASKFILE_CORR                 = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+PROCESSING_MASK               = mask_proc_n256_n0064.fits
+GAIN_APODIZATION_MASK         = wmap_temperature_kq85_analysis_mask_r8_9yr_v5_n0064.fits
+FWHM_APOD_GAINMASK            = 120.
+
+CORR_CHISQ_THRESHOLD          = 30.
+LMAX_CORR                     = 500
+NSIDE_CORR                    = 16
+OUTPUT_CROSS_CORRELATION_STATS = .false.
+
+TEMPLATE_AMP_INPUT            = md_init_rc2_n256_v03.dat
+GAIN_INIT                     = gain_init_rc2_n256_v03.dat
+BANDPASS_INIT                 = bp_init_rc2_n256_v03.dat
+GAIN_INIT_RMS                 = 0.0
+BP_INIT_RMS                   = 0.0
+
+IN_POWSPECFILE                = camb_ctp3_init_cls.dat
+
+DISPERSION_FACTOR             = 1  # Multiplier for C_l initialization
+
+#NOISE_FORMAT                 = 'full_matrix'  # 'full_matrix' # Noise format
+NOISE_FORMAT                  = 'rms'
+#FULL_NOISE_MATRIX_FILE_FORMAT = 'F90'
+#FULL_NOISE_MATRIX_ORDERING   = 2
+#FULL_SQRT_NOISE_MATRIX_TYPE  = 'sqrt_eigenvalue'
+
+BEAM_CONVOLUTION_METHOD       = 'transfer_function' # Gaussian given the fwhm
+
+PIXEL_WINDOW                  = 'pixel_window_n0064.fits'
+
+# Map sets
+MJYSR_CONVENTION              = 'IRAS'
+
+APPLY_BP_CORRECTIONS          = .true.
+APPLY_GAIN_CORRECTIONS        = .true.
+NUM_BP_MCMC_SUBSTEPS          =  0      ! 0 = disable, > 0 = MCMC, < 0 = non-lin search
+
+# ------------ 857-2
+FREQ_LABEL01             = '857-2'
+FREQ_UNIT01              = 'MJy/sr'
+MAP01_0001               = map_dx11d_r2_zc_857-2_0256_60arcmin_full_n0064.fits
+NOISE_RMS01              = rms_dx11d_r2_resc_857-2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB01         = mask_fullsky_n256_n0064.fits 
+BEAM01                   = beam_60arcmin.fits
+BANDPASS_TYPE01          = 'HFI_submm'
+BANDPASS01               = bp_dx11d_v307_857-2.dat
+BP_RMS01                 = 0.0
+A2T01                    = 0.
+F2T01                    = 0.
+CO2T01                   = 156848.
+A2SZ01                   = 0.
+FREQ_C01                 = 857.
+FIX_MONOPOLE01           = .true.
+FIX_DIPOLE01             = .true.
+REG_NOISE_SCALE01        = 0.01
+NOISEAMP_PRIOR_MEAN01    = 1.0d0
+NOISEAMP_PRIOR_RMS01     = 0.d0
+GAIN_PRIOR_MEAN01        = 1.0d0
+GAIN_PRIOR_RMS01         = 0.00d0
+GAIN_CALIB_COMPONENT01   = 1
+GAIN_LMIN01              = -1
+GAIN_LMAX01              = -1
+
+# ------------ 545-2
+FREQ_LABEL02             = '545-2'
+FREQ_UNIT02              = 'MJy/sr'
+MAP02_0001               = map_dx11d_r2_zc_545-2_0256_60arcmin_full_n0064.fits
+NOISE_RMS02              = rms_dx11d_r2_resc_545-2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB02         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM02                   = beam_60arcmin.fits
+BANDPASS_TYPE02          = 'HFI_submm'
+BANDPASS02               = bp_dx11d_v307_545-2.dat
+BP_RMS02                 = 0.0000
+A2T02                    = 0.
+F2T02                    = 0.
+CO2T02                   = 2325.6
+A2SZ02                   = 0.
+FREQ_C02                 = 545.
+FIX_MONOPOLE02           = .true.
+FIX_DIPOLE02             = .true.
+REG_NOISE_SCALE02        = 0.01
+NOISEAMP_PRIOR_MEAN02    = 1.0d0
+NOISEAMP_PRIOR_RMS02     = 0.d0
+GAIN_PRIOR_MEAN02        = 1.0d0
+GAIN_PRIOR_RMS02         = 0.00d0
+GAIN_CALIB_COMPONENT02   = 1
+GAIN_LMIN02              = -1
+GAIN_LMAX02              = -1
+
+# ------------ 545-4
+FREQ_LABEL03             = '545-4'
+FREQ_UNIT03              = 'MJy/sr'
+MAP03_0001               = map_dx11d_r2_zc_545-4_0256_60arcmin_full_n0064.fits
+NOISE_RMS03              = rms_dx11d_r2_resc_545-4_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB03         = mask_fullsky_n256_n0064.fits 
+BEAM03                   = beam_60arcmin.fits
+BANDPASS_TYPE03          = 'HFI_submm'
+BANDPASS03               = bp_dx11d_v307_545-4.dat
+BP_RMS03                 = 0.0000
+A2T03                    = 0.
+F2T03                    = 0.
+CO2T03                   = 2325.6
+A2SZ03                   = 0.
+FREQ_C03                 = 545.
+FIX_MONOPOLE03           = .true.
+FIX_DIPOLE03             = .true.
+REG_NOISE_SCALE03        = 0.01
+NOISEAMP_PRIOR_MEAN03    = 1.0d0
+NOISEAMP_PRIOR_RMS03     = 0.d0
+GAIN_PRIOR_MEAN03        = 1.0d0
+GAIN_PRIOR_RMS03         = 0.00d0
+GAIN_CALIB_COMPONENT03   = 1
+GAIN_LMIN03              = -1
+GAIN_LMAX03              = -1
+
+# ------------ 353-ds2
+FREQ_LABEL04             = '353-ds2'
+FREQ_UNIT04              = 'uK_cmb'
+MAP04_0001               = map_dx11d_r2_zbpcg_353-ds2_0256_60arcmin_full_n0064.fits
+NOISE_RMS04              = rms_dx11d_r2_resc_353-ds2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB04         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM04                   = beam_60arcmin.fits
+BANDPASS_TYPE04          = 'HFI_cmb'
+BANDPASS04 		 = bp_dx11d_v307_353-ds2.dat
+BP_RMS04                 = 0.d0
+A2T04                    = 0. 
+F2T04           	 = 0.
+CO2T04           	 = 12.26
+A2SZ04                   = 0.
+FREQ_C04                 = 353
+FIX_MONOPOLE04           = .true.
+FIX_DIPOLE04             = .true.
+REG_NOISE_SCALE04        = 0.0d0
+NOISEAMP_PRIOR_MEAN04    = 1.d0
+NOISEAMP_PRIOR_RMS04     = 0.0
+GAIN_PRIOR_MEAN04        = 1.0d0
+GAIN_PRIOR_RMS04         = 0.00d0
+GAIN_CALIB_COMPONENT04   = 6
+GAIN_LMIN04              = 25
+GAIN_LMAX04              = 100
+
+# ------------ 353-1
+FREQ_LABEL05             = '353-1'
+FREQ_UNIT05              = 'uK_cmb'
+MAP05_0001               = map_dx11d_r2_zc_353-1_0256_60arcmin_full_n0064.fits
+NOISE_RMS05              = rms_dx11d_r2_resc_353-1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB05         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM05                   = beam_60arcmin.fits
+BANDPASS_TYPE05          = 'HFI_cmb'
+BANDPASS05 		 = bp_dx11d_v307_353-1.dat
+BP_RMS05                 = 0.d0
+A2T05                    = 0. 
+F2T05           	 = 0.
+CO2T05           	 = 12.07
+A2SZ05                   = 0.
+FREQ_C05                 = 353
+FIX_MONOPOLE05           = .true.
+FIX_DIPOLE05             = .true.
+REG_NOISE_SCALE05        = 0.0d0
+NOISEAMP_PRIOR_MEAN05    = 1.d0
+NOISEAMP_PRIOR_RMS05     = 0.0
+GAIN_PRIOR_MEAN05        = 1.0d0
+GAIN_PRIOR_RMS05         = 0.00d0
+GAIN_CALIB_COMPONENT05   = 6
+GAIN_LMIN05              = 25
+GAIN_LMAX05              = 100
+
+# ------------ 217-1
+FREQ_LABEL06             = '217-1'
+FREQ_UNIT06              = 'uK_cmb'
+MAP06_0001               = map_dx11d_r2_zc_217-1_0256_60arcmin_full_n0064.fits
+NOISE_RMS06              = rms_dx11d_r2_resc_217-1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB06         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM06                   = beam_60arcmin.fits
+BANDPASS_TYPE06          = 'HFI_cmb'
+BANDPASS06            	 = bp_dx11d_v307_217-1.dat
+BP_RMS06                 = 0.d0
+A2T06                    = 0. 
+F2T06           	 = 0.
+CO2T06            	 = 15.58
+A2SZ06                   = 0.
+FREQ_C06                 = 217
+FIX_MONOPOLE06           = .true.
+FIX_DIPOLE06             = .true.
+REG_NOISE_SCALE06        = 0.0d0
+NOISEAMP_PRIOR_MEAN06    = 1.d0
+NOISEAMP_PRIOR_RMS06     = 0.0
+GAIN_PRIOR_MEAN06        = 1.0d0
+GAIN_PRIOR_RMS06         = 0.00d0
+GAIN_CALIB_COMPONENT06   = 6
+GAIN_LMIN06              = 25
+GAIN_LMAX06              = 100
+
+# ------------ 217-2
+FREQ_LABEL07             = '217-2'
+FREQ_UNIT07              = 'uK_cmb'
+MAP07_0001               = map_dx11d_r2_zc_217-2_0256_60arcmin_full_n0064.fits
+NOISE_RMS07              = rms_dx11d_r2_resc_217-2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB07         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM07                   = beam_60arcmin.fits
+BANDPASS_TYPE07          = 'HFI_cmb'
+BANDPASS07            	 = bp_dx11d_v307_217-2.dat
+BP_RMS07                 = 0.d0
+A2T07                    = 0. 
+F2T07           	 = 0.
+CO2T07            	 = 13.15
+A2SZ07                   = 0.
+FREQ_C07                 = 217
+FIX_MONOPOLE07           = .true.
+FIX_DIPOLE07             = .true.
+REG_NOISE_SCALE07        = 0.0d0
+NOISEAMP_PRIOR_MEAN07    = 1.d0
+NOISEAMP_PRIOR_RMS07     = 0.0
+GAIN_PRIOR_MEAN07        = 1.0d0
+GAIN_PRIOR_RMS07         = 0.00d0
+GAIN_CALIB_COMPONENT07   = 6
+GAIN_LMIN07              = 25
+GAIN_LMAX07              = 100
+
+# ------------ 217-3
+FREQ_LABEL08             = '217-3'
+FREQ_UNIT08              = 'uK_cmb'
+MAP08_0001               = map_dx11d_r2_zc_217-3_0256_60arcmin_full_n0064.fits
+NOISE_RMS08              = rms_dx11d_r2_resc_217-3_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB08         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM08                   = beam_60arcmin.fits
+BANDPASS_TYPE08          = 'HFI_cmb'
+BANDPASS08            	 = bp_dx11d_v307_217-3.dat
+BP_RMS08                 = 0.d0
+A2T08                    = 0. 
+F2T08           	 = 0.
+CO2T08            	 = 15.67
+A2SZ08                   = 0.
+FREQ_C08                 = 217
+FIX_MONOPOLE08           = .true.
+FIX_DIPOLE08             = .true.
+REG_NOISE_SCALE08        = 0.0d0
+NOISEAMP_PRIOR_MEAN08    = 1.d0
+NOISEAMP_PRIOR_RMS08     = 0.0
+GAIN_PRIOR_MEAN08        = 1.0d0
+GAIN_PRIOR_RMS08         = 0.00d0
+GAIN_CALIB_COMPONENT08   = 6
+GAIN_LMIN08              = 25
+GAIN_LMAX08              = 100
+
+# ------------ 217-4
+FREQ_LABEL09             = '217-4'
+FREQ_UNIT09              = 'uK_cmb'
+MAP09_0001               = map_dx11d_r2_zc_217-4_0256_60arcmin_full_n0064.fits
+NOISE_RMS09              = rms_dx11d_r2_resc_217-4_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB09         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM09                   = beam_60arcmin.fits
+BANDPASS_TYPE09          = 'HFI_cmb'
+BANDPASS09            	 = bp_dx11d_v307_217-4.dat
+BP_RMS09                 = 0.d0
+A2T09                    = 0. 
+F2T09           	 = 0.
+CO2T09            	 = 14.841
+A2SZ09                   = 0.
+FREQ_C09                 = 217
+FIX_MONOPOLE09           = .true.
+FIX_DIPOLE09             = .true.
+REG_NOISE_SCALE09        = 0.0d0
+NOISEAMP_PRIOR_MEAN09    = 1.d0
+NOISEAMP_PRIOR_RMS09     = 0.0
+GAIN_PRIOR_MEAN09        = 1.0d0
+GAIN_PRIOR_RMS09         = 0.00d0
+GAIN_CALIB_COMPONENT09   = 6
+GAIN_LMIN09              = 25
+GAIN_LMAX09              = 100
+
+# ------------ 143-ds1
+FREQ_LABEL10             = '143-ds1'
+FREQ_UNIT10              = 'uK_cmb'
+MAP10_0001               = map_dx11d_r2_zbpcg_143-ds1_0256_60arcmin_full_n0064.fits
+NOISE_RMS10              = rms_dx11d_r2_resc_143-ds1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB10         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM10                   = beam_60arcmin.fits
+BANDPASS_TYPE10          = 'HFI_cmb'
+BANDPASS10            	 = bp_dx11d_v307_143-ds1.dat
+BP_RMS10                 = 0.d0
+A2T10                    = 0. 
+F2T10           	 = 0.
+CO2T10           	 = 0.0471
+A2SZ10                   = 0.
+FREQ_C10                 = 143
+FIX_MONOPOLE10           = .true.
+FIX_DIPOLE10             = .true.
+REG_NOISE_SCALE10        = 0.0d0
+NOISEAMP_PRIOR_MEAN10    = 1.d0
+NOISEAMP_PRIOR_RMS10     = 0.0
+GAIN_PRIOR_MEAN10        = 1.0d0
+GAIN_PRIOR_RMS10         = 0.00d0
+GAIN_CALIB_COMPONENT10   = 6
+GAIN_LMIN10              = 25
+GAIN_LMAX10              = 100
+
+# ------------ 143-ds2
+FREQ_LABEL11             = '143-ds2'
+FREQ_UNIT11              = 'uK_cmb'
+MAP11_0001               = map_dx11d_r2_zbpcg_143-ds2_0256_60arcmin_full_n0064.fits
+NOISE_RMS11              = rms_dx11d_r2_resc_143-ds2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB11         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM11                   = beam_60arcmin.fits
+BANDPASS_TYPE11          = 'HFI_cmb'
+BANDPASS11            	 = bp_dx11d_v307_143-ds2.dat
+BP_RMS11                 = 0.d0
+A2T11                    = 0. 
+F2T11           	 = 0.
+CO2T11           	 = 0.0471
+A2SZ11                   = 0.
+FREQ_C11                 = 143
+FIX_MONOPOLE11           = .true.
+FIX_DIPOLE11             = .true.
+REG_NOISE_SCALE11        = 0.0d0
+NOISEAMP_PRIOR_MEAN11    = 1.d0
+NOISEAMP_PRIOR_RMS11     = 0.0
+GAIN_PRIOR_MEAN11        = 1.0d0
+GAIN_PRIOR_RMS11         = 0.00d0
+GAIN_CALIB_COMPONENT11   = 6
+GAIN_LMIN11              = 25
+GAIN_LMAX11              = 100
+
+# ------------ 143-5
+FREQ_LABEL12             = '143-5'
+FREQ_UNIT12              = 'uK_cmb'
+MAP12_0001               = map_dx11d_r2_zc_143-5_0256_60arcmin_full_n0064.fits
+NOISE_RMS12              = rms_dx11d_r2_resc_143-5_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB12         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM12                   = beam_60arcmin.fits
+BANDPASS_TYPE12          = 'HFI_cmb'
+BANDPASS12            	 = bp_dx11d_v307_143-5.dat
+BP_RMS12                 = 0.d0
+A2T12                    = 0. 
+F2T12           	 = 0.
+CO2T12           	 = 0.0471
+A2SZ12                   = 0.
+FREQ_C12                 = 143
+FIX_MONOPOLE12           = .true.
+FIX_DIPOLE12             = .true.
+REG_NOISE_SCALE12        = 0.0d0
+NOISEAMP_PRIOR_MEAN12    = 1.d0
+NOISEAMP_PRIOR_RMS12     = 0.0
+GAIN_PRIOR_MEAN12        = 1.0d0
+GAIN_PRIOR_RMS12         = 0.00d0
+GAIN_CALIB_COMPONENT12   = 6
+GAIN_LMIN12              = 25
+GAIN_LMAX12              = 100
+
+# ------------ 143-6
+FREQ_LABEL13             = '143-6'
+FREQ_UNIT13              = 'uK_cmb'
+MAP13_0001               = map_dx11d_r2_zc_143-6_0256_60arcmin_full_n0064.fits
+NOISE_RMS13              = rms_dx11d_r2_resc_143-6_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB13         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM13                   = beam_60arcmin.fits
+BANDPASS_TYPE13          = 'HFI_cmb'
+BANDPASS13            	 = bp_dx11d_v307_143-6.dat
+BP_RMS13                 = 0.d0
+A2T13                    = 0. 
+F2T13           	 = 0.
+CO2T13           	 = 0.0471
+A2SZ13                   = 0.
+FREQ_C13                 = 143
+FIX_MONOPOLE13           = .true.
+FIX_DIPOLE13             = .true.
+REG_NOISE_SCALE13        = 0.0d0
+NOISEAMP_PRIOR_MEAN13    = 1.d0
+NOISEAMP_PRIOR_RMS13     = 0.0
+GAIN_PRIOR_MEAN13        = 1.0d0
+GAIN_PRIOR_RMS13         = 0.00d0
+GAIN_CALIB_COMPONENT13   = 6
+GAIN_LMIN13              = 25
+GAIN_LMAX13              = 100
+
+# ------------ 143-7
+FREQ_LABEL14             = '143-7'
+FREQ_UNIT14              = 'uK_cmb'
+MAP14_0001               = map_dx11d_r2_zc_143-7_0256_60arcmin_full_n0064.fits
+NOISE_RMS14              = rms_dx11d_r2_resc_143-7_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB14         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM14                   = beam_60arcmin.fits
+BANDPASS_TYPE14          = 'HFI_cmb'
+BANDPASS14            	 = bp_dx11d_v307_143-7.dat
+BP_RMS14                 = 0.d0
+A2T14                    = 0. 
+F2T14           	 = 0.
+CO2T14           	 = 0.0471
+A2SZ14                   = 0.
+FREQ_C14                 = 143
+FIX_MONOPOLE14           = .true.
+FIX_DIPOLE14             = .true.
+REG_NOISE_SCALE14        = 0.0d0
+NOISEAMP_PRIOR_MEAN14    = 1.d0
+NOISEAMP_PRIOR_RMS14     = 0.0
+GAIN_PRIOR_MEAN14        = 1.0d0
+GAIN_PRIOR_RMS14         = 0.00d0
+GAIN_CALIB_COMPONENT14   = 6
+GAIN_LMIN14              = 25
+GAIN_LMAX14              = 100
+
+# ------------ 100-ds1
+FREQ_LABEL15             = '100-ds1'
+FREQ_UNIT15              = 'uK_cmb'
+MAP15_0001               = map_dx11d_r2_zbpcg_100-ds1_0256_60arcmin_full_n0064.fits
+NOISE_RMS15              = rms_dx11d_r2_resc_100-ds1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB15         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM15                   = beam_60arcmin.fits
+BANDPASS_TYPE15          = 'HFI_cmb'
+BANDPASS15               = bp_dx11d_v307_100-ds1.dat
+BP_RMS15                 = 0.d0
+A2T15                    = 0.
+F2T15                    = 0.
+CO2T15                   = 12.10
+A2SZ15                   = 0.
+FREQ_C15                 = 100
+FIX_MONOPOLE15           = .true.
+FIX_DIPOLE15             = .true.
+REG_NOISE_SCALE15        = 0.0d0
+NOISEAMP_PRIOR_MEAN15    = 1.d0
+NOISEAMP_PRIOR_RMS15     = 0.0
+GAIN_PRIOR_MEAN15        = 1.0d0
+GAIN_PRIOR_RMS15         = 0.00d0
+GAIN_CALIB_COMPONENT15   = 6
+GAIN_LMIN15              = 25
+GAIN_LMAX15              = 100
+
+# ------------ 100-ds2
+FREQ_LABEL16             = '100-ds2'
+FREQ_UNIT16              = 'uK_cmb'
+MAP16_0001               = map_dx11d_r2_zbpcg_100-ds2_0256_60arcmin_full_n0064.fits
+NOISE_RMS16              = rms_dx11d_r2_resc_100-ds2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB16         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM16                   = beam_60arcmin.fits
+BANDPASS_TYPE16          = 'HFI_cmb'
+BANDPASS16               = bp_dx11d_v307_100-ds2.dat
+BP_RMS16                 = 0.d0
+A2T16                    = 0.
+F2T16                    = 0.
+CO2T16                   = 10.87
+A2SZ16                   = 0.
+FREQ_C16                 = 100
+FIX_MONOPOLE16           = .true.
+FIX_DIPOLE16             = .true.
+REG_NOISE_SCALE16        = 0.0d0
+NOISEAMP_PRIOR_MEAN16    = 1.d0
+NOISEAMP_PRIOR_RMS16     = 0.0
+GAIN_PRIOR_MEAN16        = 1.0d0
+GAIN_PRIOR_RMS16         = 0.00d0
+GAIN_CALIB_COMPONENT16   = 6
+GAIN_LMIN16              = 25
+GAIN_LMAX16              = 100
+
+# ------------ 030
+FREQ_LABEL17             = '030'
+FREQ_UNIT17              = 'uK_cmb'
+MAP17_0001               = map_dx11d_r2_nobpc_030_0256_60arcmin_full_n0064.fits
+NOISE_RMS17              = rms_dx11d_r2_resc_030_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB17         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM17                   = beam_60arcmin.fits
+BANDPASS_TYPE17          = 'LFI'
+BANDPASS17               = bp_dx11d_030.dat
+BP_RMS17                 = 0.d0
+A2T17                    = 0. 
+F2T17                    = 0.
+CO2T17                   = 0.
+A2SZ17                   = 0.
+FREQ_C17                 = 28.4
+FIX_MONOPOLE17           = .true.
+FIX_DIPOLE17             = .true.
+REG_NOISE_SCALE17        = 0.0d0
+NOISEAMP_PRIOR_MEAN17    = 1d0
+NOISEAMP_PRIOR_RMS17     = 0.0
+GAIN_PRIOR_MEAN17        = 1.0d0
+GAIN_PRIOR_RMS17         = 0.00d0
+GAIN_CALIB_COMPONENT17   = 6
+GAIN_LMIN17              = 25
+GAIN_LMAX17              = 100
+
+# ------------ 044
+FREQ_LABEL18             = '044'
+FREQ_UNIT18              = 'uK_cmb'
+MAP18_0001               = map_dx11d_r2_nobpc_044_0256_60arcmin_full_n0064.fits
+NOISE_RMS18              = rms_dx11d_r2_resc_044_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB18         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM18                   = beam_60arcmin.fits
+BANDPASS_TYPE18          = 'LFI'
+BANDPASS18               = bp_dx11d_044.dat
+BP_RMS18                 = 0.d0
+A2T18                    = 0. 
+F2T18                    = 0.
+CO2T18                   = 0.
+A2SZ18                   = 0.
+FREQ_C18                 =  44.1
+FIX_MONOPOLE18           = .true.
+FIX_DIPOLE18             = .true.
+REG_NOISE_SCALE18        =  0.0d0
+NOISEAMP_PRIOR_MEAN18    = 1d0
+NOISEAMP_PRIOR_RMS18     = 0.0
+GAIN_PRIOR_MEAN18        = 1.0d0
+GAIN_PRIOR_RMS18         = 0.00d0
+GAIN_CALIB_COMPONENT18   = 6
+GAIN_LMIN18              = 25
+GAIN_LMAX18              = 100
+
+# ------------ 070-18_23
+FREQ_LABEL19             = '070-18_23'
+FREQ_UNIT19              = 'uK_cmb'
+MAP19_0001               = map_dx11d_r2_nobpc_070-18_23_0256_60arcmin_full_n0064.fits
+NOISE_RMS19              = rms_dx11d_r2_resc_070-18_23_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB19         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM19                   = beam_60arcmin.fits
+BANDPASS_TYPE19          = 'LFI'
+BANDPASS19               = bp_dx11d_v2_070-18_23.dat
+BP_RMS19                 = 0.d0
+A2T19                    = 0.  
+F2T19                    = 0.
+CO2T19                   = 0.
+A2SZ19                   = 0.
+FREQ_C19                 = 70.3
+FIX_MONOPOLE19           = .true.
+FIX_DIPOLE19             = .true.
+REG_NOISE_SCALE19        = 0.0d0
+NOISEAMP_PRIOR_MEAN19    = 1d0
+NOISEAMP_PRIOR_RMS19     = 0.0
+GAIN_PRIOR_MEAN19        = 1.0d0
+GAIN_PRIOR_RMS19         = 0.00d0
+GAIN_CALIB_COMPONENT19   = 6
+GAIN_LMIN19              = 25
+GAIN_LMAX19              = 100
+
+# ------------ 070-19_22
+FREQ_LABEL20             = '070-19_22'
+FREQ_UNIT20              = 'uK_cmb'
+MAP20_0001               = map_dx11d_r2_nobpc_070-19_22_0256_60arcmin_full_n0064.fits
+NOISE_RMS20              = rms_dx11d_r2_resc_070-19_22_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB20         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM20                   = beam_60arcmin.fits
+BANDPASS_TYPE20          = 'LFI'
+BANDPASS20               = bp_dx11d_v2_070-19_22.dat
+BP_RMS20                 = 0.d0
+A2T20                    = 0.  
+F2T20                    = 0.
+CO2T20                   = 0.
+A2SZ20                   = 0.
+FREQ_C20                 = 70.3
+FIX_MONOPOLE20           = .true.
+FIX_DIPOLE20             = .true.
+REG_NOISE_SCALE20        = 0.0d0
+NOISEAMP_PRIOR_MEAN20    = 1d0
+NOISEAMP_PRIOR_RMS20     = 0.0
+GAIN_PRIOR_MEAN20        = 1.0d0
+GAIN_PRIOR_RMS20         = 0.00d0
+GAIN_CALIB_COMPONENT20   = 6
+GAIN_LMIN20              = 25
+GAIN_LMAX20              = 100
+
+# ------------ 070-20_21
+FREQ_LABEL21             = '070-20_21'
+FREQ_UNIT21              = 'uK_cmb'
+MAP21_0001               = map_dx11d_r2_nobpc_070-20_21_0256_60arcmin_full_n0064.fits
+NOISE_RMS21              = rms_dx11d_r2_resc_070-20_21_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB21         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM21                   = beam_60arcmin.fits
+BANDPASS_TYPE21          = 'LFI'
+BANDPASS21               = bp_dx11d_v2_070-20_21.dat
+BP_RMS21                 = 0.d0
+A2T21                    = 0.  
+F2T21                    = 0.
+CO2T21                   = 0.
+A2SZ21                   = 0.
+FREQ_C21                 = 70.3
+FIX_MONOPOLE21           = .true.
+FIX_DIPOLE21             = .true.
+REG_NOISE_SCALE21        = 0.0d0
+NOISEAMP_PRIOR_MEAN21    = 1d0
+NOISEAMP_PRIOR_RMS21     = 0.0
+GAIN_PRIOR_MEAN21        = 1.0d0
+GAIN_PRIOR_RMS21         = 0.00d0
+GAIN_CALIB_COMPONENT21   = 6
+GAIN_LMIN21              = 25
+GAIN_LMAX21              = 100
+
+# ------------ WMAP K
+FREQ_LABEL22             = 'WMAP_K'
+FREQ_UNIT22              = 'uK_cmb'
+MAP22_0001               = map_wmap9_K_0256_60arcmin_full_n0064.fits
+NOISE_RMS22              = rms_wmap9_K_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB22         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM22                   = beam_60arcmin.fits
+BANDPASS_TYPE22          = 'WMAP'
+BANDPASS22            	 = bp_wmap9_K_v3.dat
+BP_RMS22                 = 0.00
+A2T22                    = 0.
+F2T22         		 = 0.
+CO2T22           	 = 0.
+A2SZ22                   = 0.
+FREQ_C22                 = 22.8
+FIX_MONOPOLE22           = .true.
+FIX_DIPOLE22             = .true.
+REG_NOISE_SCALE22        = 0.0d0
+NOISEAMP_PRIOR_MEAN22    = 1.0d0
+NOISEAMP_PRIOR_RMS22     = 0.0
+GAIN_PRIOR_MEAN22        = 1.0d0
+GAIN_PRIOR_RMS22         = 0.00d0
+GAIN_CALIB_COMPONENT22   = 6
+GAIN_LMIN22              = 25
+GAIN_LMAX22              = 100
+
+# ------------ WMAP Ka
+FREQ_LABEL23             = 'WMAP_Ka'
+FREQ_UNIT23              = 'uK_cmb'
+MAP23_0001               = map_wmap9_Ka_0256_60arcmin_full_n0064.fits
+NOISE_RMS23              = rms_wmap9_Ka_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB23         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM23                   = beam_60arcmin.fits
+BANDPASS_TYPE23          = 'WMAP'
+BANDPASS23            	 = bp_wmap9_Ka_v3.dat
+BP_RMS23                 = 0.000
+A2T23                    = 0.
+F2T23           	 = 0.
+CO2T23            	 = 0.
+A2SZ23                   = 0.
+FREQ_C23                 = 33.0
+FIX_MONOPOLE23           = .true.
+FIX_DIPOLE23             = .true.
+REG_NOISE_SCALE23        = 0.0d0
+NOISEAMP_PRIOR_MEAN23    = 1.0d0
+NOISEAMP_PRIOR_RMS23     = 0.0
+GAIN_PRIOR_MEAN23        = 1.0d0
+GAIN_PRIOR_RMS23         = 0.00d0
+GAIN_CALIB_COMPONENT23   = 6
+GAIN_LMIN23              = 25
+GAIN_LMAX23              = 100
+
+# ------------ WMAP Q1
+FREQ_LABEL24             = 'WMAP_Q1'
+FREQ_UNIT24              = 'uK_cmb'
+MAP24_0001               = map_wmap9_Q1_0256_60arcmin_full_n0064.fits
+NOISE_RMS24              = rms_wmap9_Q1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB24         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM24                   = beam_60arcmin.fits
+BANDPASS_TYPE24          = 'WMAP'
+BANDPASS24            	 = bp_wmap9_Q1_v3.dat
+BP_RMS24                 = 0.0000
+A2T24                    = 0.
+F2T24           	 = 0.
+CO2T24            	 = 0.
+A2SZ24                   = 0.
+FREQ_C24                 = 40.6
+FIX_MONOPOLE24           = .true.
+FIX_DIPOLE24             = .true.
+REG_NOISE_SCALE24        = 0.0d0
+NOISEAMP_PRIOR_MEAN24    = 1.0d0
+NOISEAMP_PRIOR_RMS24     = 0.0
+GAIN_PRIOR_MEAN24        = 1.0d0
+GAIN_PRIOR_RMS24         = 0.00d0
+GAIN_CALIB_COMPONENT24   = 6
+GAIN_LMIN24              = 25
+GAIN_LMAX24              = 100
+
+# ------------ WMAP Q2
+FREQ_LABEL25             = 'WMAP_Q2'
+FREQ_UNIT25              = 'uK_cmb'
+MAP25_0001               = map_wmap9_Q2_0256_60arcmin_full_n0064.fits
+NOISE_RMS25              = rms_wmap9_Q2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB25         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM25                   = beam_60arcmin.fits
+BANDPASS_TYPE25          = 'WMAP'
+BANDPASS25            	 = bp_wmap9_Q2_v3.dat
+BP_RMS25                 = 0.d0
+A2T25                    = 0.
+F2T25           	 = 0.
+CO2T25            	 = 0.
+A2SZ25                   = 0.
+FREQ_C25                 = 40.6
+FIX_MONOPOLE25           = .true.
+FIX_DIPOLE25             = .true.
+REG_NOISE_SCALE25        = 0.0d0
+NOISEAMP_PRIOR_MEAN25    = 1.0d0
+NOISEAMP_PRIOR_RMS25     = 0.0
+GAIN_PRIOR_MEAN25        = 1.0d0
+GAIN_PRIOR_RMS25         = 0.00d0
+GAIN_CALIB_COMPONENT25   = 6
+GAIN_LMIN25              = 25
+GAIN_LMAX25              = 100
+
+# ------------ WMAP V1
+FREQ_LABEL26             = 'WMAP_V1'
+FREQ_UNIT26              = 'uK_cmb'
+MAP26_0001               = map_wmap9_V1_0256_60arcmin_full_n0064.fits
+NOISE_RMS26              = rms_wmap9_V1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB26         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM26                   = beam_60arcmin.fits
+BANDPASS_TYPE26          = 'WMAP'
+BANDPASS26            	 = bp_wmap9_V1_v3.dat
+BP_RMS26                 = 0.0000
+A2T26                    = 0.
+F2T26           	 = 0.
+CO2T26           	 = 0.
+A2SZ26                   = 0.
+FREQ_C26                 = 60.8
+FIX_MONOPOLE26           = .true.
+FIX_DIPOLE26             = .true.
+REG_NOISE_SCALE26        = 0.0d0
+NOISEAMP_PRIOR_MEAN26    = 1.0d0
+NOISEAMP_PRIOR_RMS26     = 0.0
+GAIN_PRIOR_MEAN26        = 1.0d0
+GAIN_PRIOR_RMS26         = 0.00d0
+GAIN_CALIB_COMPONENT26   = 6
+GAIN_LMIN26              = 25
+GAIN_LMAX26              = 100
+
+# ------------ WMAP V2
+FREQ_LABEL27             = 'WMAP_V2'
+FREQ_UNIT27              = 'uK_cmb'
+MAP27_0001               = map_wmap9_V2_0256_60arcmin_full_n0064.fits
+NOISE_RMS27              = rms_wmap9_V2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB27         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM27                   = beam_60arcmin.fits
+BANDPASS_TYPE27          = 'WMAP'
+BANDPASS27            	 = bp_wmap9_V2_v3.dat
+BP_RMS27                 = 0.d0
+A2T27                    = 0.
+F2T27           	 = 0.
+CO2T27           	 = 0.
+A2SZ27                   = 0.
+FREQ_C27                 = 60.8
+FIX_MONOPOLE27           = .true.
+FIX_DIPOLE27             = .true.
+REG_NOISE_SCALE27        = 0.0d0
+NOISEAMP_PRIOR_MEAN27    = 1.0d0
+NOISEAMP_PRIOR_RMS27     = 0.0
+GAIN_PRIOR_MEAN27        = 1.0d0
+GAIN_PRIOR_RMS27         = 0.00d0
+GAIN_CALIB_COMPONENT27   = 6
+GAIN_LMIN27              = 25
+GAIN_LMAX27              = 100
+
+# ------------ WMAP W1
+FREQ_LABEL28             = 'WMAP_W1'
+FREQ_UNIT28              = 'uK_cmb'
+MAP28_0001               = map_wmap9_W1_0256_60arcmin_full_n0064.fits
+NOISE_RMS28              = rms_wmap9_W1_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB28         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM28                   = beam_60arcmin.fits
+BANDPASS_TYPE28          = 'WMAP'
+BANDPASS28            	 = bp_wmap9_W1_v3.dat
+BP_RMS28                 = 0.000
+A2T28                    = 0.
+F2T28           	 = 0.
+CO2T28        	   	 = 1.	
+A2SZ28                   = 0.
+FREQ_C28                 = 93.5
+FIX_MONOPOLE28           = .true.
+FIX_DIPOLE28             = .true.
+REG_NOISE_SCALE28        = 0.0d0
+NOISEAMP_PRIOR_MEAN28    = 1.0d0
+NOISEAMP_PRIOR_RMS28     = 0.0
+GAIN_PRIOR_MEAN28        = 1.0d0
+GAIN_PRIOR_RMS28         = 0.00d0
+GAIN_CALIB_COMPONENT28   = 6
+GAIN_LMIN28              = 25
+GAIN_LMAX28              = 100
+
+# ------------ WMAP W2
+FREQ_LABEL29             = 'WMAP_W2'
+FREQ_UNIT29              = 'uK_cmb'
+MAP29_0001               = map_wmap9_W2_0256_60arcmin_full_n0064.fits
+NOISE_RMS29              = rms_wmap9_W2_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB29         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM29                   = beam_60arcmin.fits
+BANDPASS_TYPE29          = 'WMAP'
+BANDPASS29            	 = bp_wmap9_W2_v3.dat
+BP_RMS29                 = 0.d0
+A2T29                    = 0.
+F2T29           	 = 0.
+CO2T29        	   	 = 1.	
+A2SZ29                   = 0.
+FREQ_C29                 = 93.5
+FIX_MONOPOLE29           = .true.
+FIX_DIPOLE29             = .true.
+REG_NOISE_SCALE29        = 0.0d0
+NOISEAMP_PRIOR_MEAN29    = 1.0d0
+NOISEAMP_PRIOR_RMS29     = 0.0
+GAIN_PRIOR_MEAN29        = 1.0d0
+GAIN_PRIOR_RMS29         = 0.00d0
+GAIN_CALIB_COMPONENT29   = 6
+GAIN_LMIN29              = 25
+GAIN_LMAX29              = 100
+
+# ------------ WMAP W3
+FREQ_LABEL30             = 'WMAP_W3'
+FREQ_UNIT30              = 'uK_cmb'
+MAP30_0001               = map_wmap9_W3_0256_60arcmin_full_n0064.fits
+NOISE_RMS30              = rms_wmap9_W3_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB30         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM30                   = beam_60arcmin.fits
+BANDPASS_TYPE30          = 'WMAP'
+BANDPASS30            	 = bp_wmap9_W3_v3.dat
+BP_RMS30                 = 0.d0
+A2T30                    = 0.
+F2T30           	 = 0.
+CO2T30        	   	 = 1.	
+A2SZ30                   = 0.
+FREQ_C30                 = 93.5
+FIX_MONOPOLE30           = .true.
+FIX_DIPOLE30             = .true.
+REG_NOISE_SCALE30        = 0.0d0
+NOISEAMP_PRIOR_MEAN30    = 1.0d0
+NOISEAMP_PRIOR_RMS30     = 0.0
+GAIN_PRIOR_MEAN30        = 1.0d0
+GAIN_PRIOR_RMS30         = 0.00d0
+GAIN_CALIB_COMPONENT30   = 6
+GAIN_LMIN30              = 25
+GAIN_LMAX30              = 100
+
+# ------------ WMAP W4
+FREQ_LABEL31             = 'WMAP_W4'
+FREQ_UNIT31              = 'uK_cmb'
+MAP31_0001               = map_wmap9_W4_0256_60arcmin_full_n0064.fits
+NOISE_RMS31              = rms_wmap9_W4_0256_60arcmin_full_n0064.fits
+MASKFILE_CALIB31         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM31                   = beam_60arcmin.fits
+BANDPASS_TYPE31          = 'WMAP'
+BANDPASS31            	 = bp_wmap9_W4_v3.dat
+BP_RMS31                 = 0.d0
+A2T31                    = 0.
+F2T31           	 = 0.
+CO2T31        	   	 = 1.	
+A2SZ31                   = 0.
+FREQ_C31                 = 93.5
+FIX_MONOPOLE31           = .true.
+FIX_DIPOLE31             = .true.
+REG_NOISE_SCALE31        = 0.0d0
+NOISEAMP_PRIOR_MEAN31    = 1.0d0
+NOISEAMP_PRIOR_RMS31     = 0.0
+GAIN_PRIOR_MEAN31        = 1.0d0
+GAIN_PRIOR_RMS31         = 0.00d0
+GAIN_CALIB_COMPONENT31   = 6
+GAIN_LMIN31              = 25
+GAIN_LMAX31              = 100
+
+# ------------ Haslam 0.4Ghz
+FREQ_LABEL32             = 'Haslam'
+FREQ_UNIT32              = 'uK_cmb'
+MAP32_0001               = map_haslam408_ds_Remazeilles2014_1deg_n256_uK_TQU_n0064.fits
+NOISE_RMS32              = rms_haslam408_ds_Remazeilles2014_1deg_n256_uK_0.8K_1pct_TQU_n0064.fits
+MASKFILE_CALIB32         = mask_chisq_15band_n256_v2_ptsrc_n0064.fits
+BEAM32                   = beam_60arcmin.fits
+BANDPASS_TYPE32          = 'delta'
+BANDPASS32            	 = haslam_bp.dat
+BP_RMS32                 = 0.
+A2T32                    = 0.
+F2T32           	 = 0.
+CO2T32           	 = 0.
+A2SZ32                   = 0.
+FREQ_C32                 = 0.408
+FIX_MONOPOLE32           = .true.
+FIX_DIPOLE32             = .true.
+REG_NOISE_SCALE32        = 0.0d0
+NOISEAMP_PRIOR_MEAN32    = 1.0d0
+NOISEAMP_PRIOR_RMS32     = 0.d0
+GAIN_PRIOR_MEAN32        = 1.0d0
+GAIN_PRIOR_RMS32         = 0.0d0
+GAIN_CALIB_COMPONENT32   = 2
+GAIN_LMIN32              = -1
+GAIN_LMAX32              = -1
+
+# ----------------------------------------------------------------------
+# Foreground templates
+NUM_FG_TEMP                = 1       # Number of foreground templates
+FG_TEMPLATE01_01           = zodi_map_dx11c_857_0256_60arcmin_full_n0064.fits
+
+FG_TEMPLATE02_01           = zodi_map_dx11c_545_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE03_01           = zodi_map_dx11c_545_0256_60arcmin_full_n0064.fits
+
+FG_TEMPLATE04_01           = zodi_map_dx11c_353_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE05_01           = zodi_map_dx11c_353_0256_60arcmin_full_n0064.fits
+
+FG_TEMPLATE06_01           = zodi_map_dx11c_217_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE07_01           = zodi_map_dx11c_217_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE08_01           = zodi_map_dx11c_217_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE09_01           = zodi_map_dx11c_217_0256_60arcmin_full_n0064.fits
+
+FG_TEMPLATE10_01           = zodi_map_dx11c_143_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE11_01           = zodi_map_dx11c_143_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE12_01           = zodi_map_dx11c_143_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE13_01           = zodi_map_dx11c_143_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE14_01           = zodi_map_dx11c_143_0256_60arcmin_full_n0064.fits
+
+FG_TEMPLATE15_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE16_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+# LFI
+FG_TEMPLATE17_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE18_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE19_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE20_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE21_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+# WMAP
+FG_TEMPLATE22_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE23_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE24_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE25_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE26_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE27_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE28_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE29_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE30_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+FG_TEMPLATE31_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+# Haslam
+FG_TEMPLATE32_01           = zodi_map_dx11c_100_0256_60arcmin_full_n0064.fits
+
+FIX_TEMP01_01              = .true.
+FIX_TEMP02_01              = .true.
+FIX_TEMP03_01              = .true
+FIX_TEMP04_01              = .true.
+FIX_TEMP05_01              = .true.
+FIX_TEMP06_01              = .true.
+FIX_TEMP07_01              = .true.  
+FIX_TEMP08_01              = .true.
+FIX_TEMP09_01              = .true.
+FIX_TEMP10_01              = .true.
+FIX_TEMP11_01              = .true.
+FIX_TEMP12_01              = .true.
+FIX_TEMP13_01              = .true.
+FIX_TEMP14_01              = .true.
+FIX_TEMP15_01              = .true.
+FIX_TEMP16_01              = .true.
+FIX_TEMP17_01              = .true.
+FIX_TEMP18_01              = .true.
+FIX_TEMP19_01              = .true.
+FIX_TEMP20_01              = .true.
+FIX_TEMP21_01              = .true.
+FIX_TEMP22_01              = .true.
+FIX_TEMP23_01              = .true.
+FIX_TEMP24_01              = .true.
+FIX_TEMP25_01              = .true.
+FIX_TEMP26_01              = .true.
+FIX_TEMP27_01              = .true.
+FIX_TEMP28_01              = .true.
+FIX_TEMP29_01              = .true.
+FIX_TEMP30_01              = .true.
+FIX_TEMP31_01              = .true.
+FIX_TEMP32_01              = .true
+
+# Pixel foreground parameters
+T_CMB                      = 2.7255d0
+SAMPLE_INSIDE_MASK         = .true.  #locale/pix is sampled inside, globale(monopol,cl) only outside
+NUM_FG_SIGNAL_COMPONENTS   = 11       #turn anyway off sample_inside_mask for cl-run
+
+CMB_MONO_DIPOLE_MASK       = none  
+APPLY_PAR_RMS_SMOOTHING    = .false. #line of sight stuff
+OPTIMIZE_PRIORS            = .false. #not working
+
+# ----------------------------------------------------------------------
+## Thermal dust component
+COMP_TYPE01                           = 'one-component_dust'
+FG_LABEL01                            = 'dust'
+FG_UNIT01                             = 'uK_ant'
+REFERENCE_FREQUENCY01                 =  545.
+REFERENCE_BAND01                      =  2
+COMPONENT_MASK01                      = fullsky
+INDEX_SAMPLING_MASK01                 = fullsky
+INITIALIZATION_MODE01                 = input_map     #,'input_map'
+INIT_INDEX_MAP01_01                   = init_dust_beta_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP01_02                   = init_dust_Td_rc2_n256_v03_n0064.fits
+ENFORCE_POSITIVE_AMPLITUDE01          = .true.
+INITIAL_AMPLITUDE_MAP01               = init_dust_rc2_n256_v03_n0064.fits
+REGION_DEFINITION01_01                = 'single_pix TQU 64'
+REGION_DEFINITION01_02                = 'single_pix TQU 64'
+FWHM_PAR01_01                         = 0.
+FWHM_PAR01_02                         = 0.
+DEFAULT_EMISSIVITY01                  = 1.55
+DEFAULT_DUST_TEMP01                   = 21.
+
+EMISSIVITY_PRIOR_UNIFORM_LOW01        = 0.5
+EMISSIVITY_PRIOR_UNIFORM_HIGH01       = 1.8
+EMISSIVITY_PRIOR_GAUSSIAN_MEAN01      = 1.55
+EMISSIVITY_PRIOR_GAUSSIAN_STDDEV01    = 0.0 #0.1
+ 
+DUST_TEMP_PRIOR_UNIFORM_LOW01         = 10.
+DUST_TEMP_PRIOR_UNIFORM_HIGH01        = 35.
+DUST_TEMP_PRIOR_GAUSSIAN_MEAN01       = 23.
+DUST_TEMP_PRIOR_GAUSSIAN_STDDEV01     = 0.0 # 3.
+ 
+NU_FLATTENING01                       = 100
+FRAC_FLATTENING01                     = 0.
+
+IMPOSE_FG_ORTHOGONALITY01             = .false.
+APPLY_JEFFREYS_PRIOR01                = .true.
+SAMPLE_AMPLITUDES01                   = .true
+#----------------------------------------------------------------------
+# Synchrotron component with Galprop model
+COMP_TYPE02                          = 'AME_freq_shift'
+FG_LABEL02                           = 'synch'
+FG_UNIT02                            = 'uK_ant'
+REFERENCE_FREQUENCY02                =  0.408
+REFERENCE_BAND02                     =  32   # Haslam
+COMPONENT_MASK02                     = fullsky
+INDEX_SAMPLING_MASK02                = fullsky
+PRIOR_OPTIMIZATION_MASK02            = fullsky 
+INITIAL_AMPLITUDE_MAP02              = init_synch_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE02                = input_map
+INIT_INDEX_MAP02_01                  = init_synch_nup_rc2_n256_v03_n0064.fits
+REGION_DEFINITION02_01               = 'fullsky TQU 64' #'regions_unni_n32.fits' 
+FWHM_PAR02_01                        = 0.
+DEFAULT_FREQUENCY02                  = 0.015407022
+PAR_RMS_DEFAULT02_01                 = 0.
+PAR_RMS_GAUSS_MEAN02_01              = 0.
+PAR_RMS_GAUSS_RMS02_01               = 0.
+PAR_RMS_UNIFORM_LOW02_01             = 0.
+PAR_RMS_UNIFORM_HIGH02_01            = 20.
+
+FREQUENCY_PRIOR_UNIFORM_LOW02        = 0.0015407022
+FREQUENCY_PRIOR_UNIFORM_HIGH02       = 0.15407022
+FREQUENCY_PRIOR_GAUSSIAN_MEAN02      = 0.015407022
+FREQUENCY_PRIOR_GAUSSIAN_STDDEV02    = 0.0 #-0.01
+
+OPTIMIZE_PRIOR_MEAN02_01             = .false.
+
+SPECTRUM_FILENAME02                  = 'Synchrotron_template_GHz_extended.txt'
+
+IMPOSE_FG_ORTHOGONALITY02            = .false.
+APPLY_JEFFREYS_PRIOR02               = .true.
+ENFORCE_POSITIVE_AMPLITUDE02         = .true.
+OUTPUT_FREQUENCY_COMPONENT_MAPS02    = .false.
+SAMPLE_AMPLITUDES02                  = .true
+
+#----------------------------------------------------------------------
+COMP_TYPE03                          = 'CO_multiline'
+FG_LABEL03                           = 'co10'
+FG_UNIT03                            = 'K km/s'
+REFERENCE_FREQUENCY03                =  115.27 #not used
+REFERENCE_BAND03                     =  15
+INDEX_SAMPLING_MASK03                = fullsky
+COMPONENT_MASK03                     = fullsky
+INITIAL_AMPLITUDE_MAP03              = init_co10_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE03                = 'input_map'
+INIT_INDEX_MAP03_01                  = init_co10_100-ds2_rc2_n256_v03_n0064.fits
+NUM_CO_HARMONICS03                   = 1
+
+LINE_LABEL03_01                       = '100-ds2'
+REGION_DEFINITION03_01                = 'fullsky TQU 0'
+FWHM_PAR03_01                         =  0.
+BAND03_01                             =  16
+DEFAULT_CO_LINE_RATIO_03_01           =  1.
+CO_PRIOR_UNIFORM_LOW03_01             =  0
+CO_PRIOR_UNIFORM_HIGH03_01            =  10.
+CO_PRIOR_GAUSSIAN_MEAN03_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV03_01         =  0.0 #-0.01
+
+APPLY_JEFFREYS_PRIOR03                = .true.
+IMPOSE_FG_ORTHOGONALITY03             = .false.
+ENFORCE_POSITIVE_AMPLITUDE03          = .true.
+OPTIMIZE_CO_RATIOS_BY_CROSSCORR       = .false.
+SAMPLE_AMPLITUDES03                   = .true
+
+#----------------------------------------------------------------------
+COMP_TYPE08                          = 'CO_multiline'
+FG_LABEL08                           = 'co21'
+FG_UNIT08                            = 'K km/s'
+REFERENCE_FREQUENCY08                =  230.54 #not used
+REFERENCE_BAND08                     =  6
+INDEX_SAMPLING_MASK08                = fullsky
+COMPONENT_MASK08                     = fullsky
+INITIAL_AMPLITUDE_MAP08              = init_co21_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE08                = 'input_map' 
+INIT_INDEX_MAP08_01                  = init_co21_217-2_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP08_02                  = init_co21_217-3_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP08_03                  = init_co21_217-4_rc2_n256_v03_n0064.fits
+NUM_CO_HARMONICS08                   = 3
+
+LINE_LABEL08_01                       = '217-2'
+REGION_DEFINITION08_01                = 'fullsky TQU 0'
+FWHM_PAR08_01                         =  0.
+BAND08_01                             =  7
+DEFAULT_CO_LINE_RATIO_08_01           =  1
+CO_PRIOR_UNIFORM_LOW08_01             =  0.
+CO_PRIOR_UNIFORM_HIGH08_01            =  10.
+CO_PRIOR_GAUSSIAN_MEAN08_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV08_01         =  0.0 #-0.01
+
+LINE_LABEL08_02                       = '217-3'
+REGION_DEFINITION08_02                = 'fullsky TQU 0'
+FWHM_PAR08_02                         =  0.
+BAND08_02                             =  8
+DEFAULT_CO_LINE_RATIO_08_02           =  1
+CO_PRIOR_UNIFORM_LOW08_02             =  0.
+CO_PRIOR_UNIFORM_HIGH08_02            =  10.
+CO_PRIOR_GAUSSIAN_MEAN08_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV08_02         =  0.0 #-0.01
+
+LINE_LABEL08_03                       = '217-4'
+REGION_DEFINITION08_03                = 'fullsky TQU 0'
+FWHM_PAR08_03                         =  0.
+BAND08_03                             =  9
+DEFAULT_CO_LINE_RATIO_08_03           =  1
+CO_PRIOR_UNIFORM_LOW08_03             =  0.
+CO_PRIOR_UNIFORM_HIGH08_03            =  10.
+CO_PRIOR_GAUSSIAN_MEAN08_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV08_03         =  0.0 #-0.01
+
+APPLY_JEFFREYS_PRIOR08                = .true.
+IMPOSE_FG_ORTHOGONALITY08             = .false.
+ENFORCE_POSITIVE_AMPLITUDE08          = .true.
+SAMPLE_AMPLITUDES08                   = .true
+
+#----------------------------------------------------------------------
+COMP_TYPE10                          = 'CO_multiline'
+FG_LABEL10                           = 'co32'
+FG_UNIT10                            = 'K km/s'
+REFERENCE_FREQUENCY10                =  345. #not used
+REFERENCE_BAND10                     =  4
+INDEX_SAMPLING_MASK10                = fullsky
+COMPONENT_MASK10                     = fullsky
+INITIAL_AMPLITUDE_MAP10              = init_co32_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE10                = 'input_map' 
+INIT_INDEX_MAP10_01                  = init_co32_353-1_rc2_n256_v03_n0064.fits
+NUM_CO_HARMONICS10                   = 1
+
+LINE_LABEL10_01                       = '353-1'
+REGION_DEFINITION10_01                = 'fullsky TQU 0'
+FWHM_PAR10_01                         =  0.
+BAND10_01                             =  5
+DEFAULT_CO_LINE_RATIO_10_01           =  1.
+CO_PRIOR_UNIFORM_LOW10_01             =  0.
+CO_PRIOR_UNIFORM_HIGH10_01            =  10.
+CO_PRIOR_GAUSSIAN_MEAN10_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV10_01         =  0.0 #-0.1
+
+APPLY_JEFFREYS_PRIOR10                = .true.
+IMPOSE_FG_ORTHOGONALITY10             = .false.
+ENFORCE_POSITIVE_AMPLITUDE10          = .true.
+SAMPLE_AMPLITUDES10                   = .true
+
+# ----------------------------------------------------------------------
+# Free-free component
+COMP_TYPE04                           = 'freefree_EM'
+FG_LABEL04                            = 'ff'
+FG_UNIT04                             = 'uK_ant'
+REFERENCE_FREQUENCY04                 =  22.8 #used in model
+REFERENCE_BAND04                      =  22   #K-band
+COMPONENT_MASK04                      = fullsky
+INDEX_SAMPLING_MASK04                 = fullsky
+INITIAL_AMPLITUDE_MAP04               = none
+INITIALIZATION_MODE04                 = input_map
+INIT_INDEX_MAP04_01                   = init_ff_EM_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP04_02                   = init_ff_T_e_rc2_n256_v03_n0064.fits
+ENFORCE_POSITIVE_AMPLITUDE04          = .true.
+REGION_DEFINITION04_01                = 'single_pix TQU 64'
+REGION_DEFINITION04_02                = 'single_pix TQU 64'
+FWHM_PAR04_01                         =  0.  
+FWHM_PAR04_02                         =  0. #120.  
+DEFAULT_T_E04                         =  7000.
+DEFAULT_EM04                          =  1d3
+
+EM_PRIOR_UNIFORM_LOW04                = 1.d-4
+EM_PRIOR_UNIFORM_HIGH04               = 1.d6
+EM_PRIOR_GAUSSIAN_MEAN04              = 1.
+EM_PRIOR_GAUSSIAN_STDDEV04            = 0.
+
+T_E_PRIOR_UNIFORM_LOW04               =  1200.
+T_E_PRIOR_UNIFORM_HIGH04              = 12000.
+T_E_PRIOR_GAUSSIAN_MEAN04             =  7000.
+T_E_PRIOR_GAUSSIAN_STDDEV04           =  0. #500.
+
+IMPOSE_FG_ORTHOGONALITY04             = .false.
+APPLY_JEFFREYS_PRIOR04                = .false.
+OUTPUT_FREQUENCY_COMPONENT_MAPS04     = .false.
+SAMPLE_AMPLITUDES04                   = .true
+
+#----------------------------------------------------------------------
+# AME component
+COMP_TYPE05                           = 'AME_freq_shift'
+FG_LABEL05                            = 'ame1'
+FG_UNIT05                             = 'uK_ant'
+REFERENCE_FREQUENCY05                 =  22.8 #used
+REFERENCE_BAND05                      =  22   #wmap K-band
+COMPONENT_MASK05                      = fullsky
+INDEX_SAMPLING_MASK05                 = fullsky
+INITIAL_AMPLITUDE_MAP05               = init_ame1_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE05                 = input_map
+INIT_INDEX_MAP05_01                   = init_ame1_nup_rc2_n256_v03_n0064.fits
+REGION_DEFINITION05_01                = 'single_pix TQU 64' 
+FWHM_PAR05_01                         = 0.
+DEFAULT_FREQUENCY05                   = 19
+
+FREQUENCY_PRIOR_UNIFORM_LOW05         = 10.
+FREQUENCY_PRIOR_UNIFORM_HIGH05        = 70.
+FREQUENCY_PRIOR_GAUSSIAN_MEAN05       = 19.
+FREQUENCY_PRIOR_GAUSSIAN_STDDEV05     =  0. #3.
+
+SPECTRUM_FILENAME05                   = spdust2_cnm.dat
+
+IMPOSE_FG_ORTHOGONALITY05             = .false.
+APPLY_JEFFREYS_PRIOR05                = .true.
+ENFORCE_POSITIVE_AMPLITUDE05          = .true.
+SAMPLE_AMPLITUDES05                   = .true
+
+#----------------------------------------------------------------------
+# CMB
+COMP_TYPE06                           = 'cmb' 
+FG_LABEL06                            = 'cmb'
+FG_UNIT06                	      = 'uK_cmb'
+REFERENCE_FREQUENCY06                 =  100.d0  #only used internally
+REFERENCE_BAND06               	      =  15	 #not used
+COMPONENT_MASK06                      = fullsky
+INDEX_SAMPLING_MASK06                 = fullsky
+IMPOSE_FG_ORTHOGONALITY06             = .false.
+ENFORCE_POSITIVE_AMPLITUDE06          = .false.
+INITIAL_AMPLITUDE_MAP06               = init_cmb_rc2_n256_v03_n0064.fits
+OUTPUT_CMB_FREQUENCY_MAPS             = .false.
+SAMPLE_AMPLITUDES06                   = .true
+
+#----------------------------------------------------------------------
+# SZ
+COMP_TYPE07                           = 'sz' 
+FG_LABEL07                            = 'sz'
+FG_UNIT07                             = 'y_SZ'
+REFERENCE_FREQUENCY07                 =  545.d0
+REFERENCE_BAND07                      =  2
+COMPONENT_MASK07                      = mask_sz_coma_virgo_n256_n0064.fits 
+INDEX_SAMPLING_MASK07                 = fullsky
+IMPOSE_FG_ORTHOGONALITY07             = .false.
+ENFORCE_POSITIVE_AMPLITUDE07          = .true.
+INITIAL_AMPLITUDE_MAP07               = init_sz_rc2_n256_v03_n0064.fits
+SAMPLE_AMPLITUDES07                   = .true
+
+#----------------------------------------------------------------------
+# AME component
+COMP_TYPE09                           = 'AME_freq_shift'
+FG_LABEL09                            = 'ame2'
+FG_UNIT09                             = 'uK_ant'
+REFERENCE_FREQUENCY09                 =  41. #used
+REFERENCE_BAND09                      =  24   #wmap Q-band
+COMPONENT_MASK09                      = fullsky
+INDEX_SAMPLING_MASK09                 = fullsky
+INITIAL_AMPLITUDE_MAP09               = init_ame2_rc2_n256_v03_n0064.fits
+INITIALIZATION_MODE09                 = input_map
+INIT_INDEX_MAP09_01                   = init_ame2_nup_rc2_n256_v03_n0064.fits
+REGION_DEFINITION09_01                = 'fullsky TQU 64' 
+FWHM_PAR09_01                         =  0.
+DEFAULT_FREQUENCY09                   = 40.
+
+FREQUENCY_PRIOR_UNIFORM_LOW09         = 10.
+FREQUENCY_PRIOR_UNIFORM_HIGH09        = 80.
+FREQUENCY_PRIOR_GAUSSIAN_MEAN09       = 40.
+FREQUENCY_PRIOR_GAUSSIAN_STDDEV09     =  0.0 #-0.1 #3.
+
+SPECTRUM_FILENAME09                   = spdust2_cnm.dat
+
+IMPOSE_FG_ORTHOGONALITY09             = .false.
+APPLY_JEFFREYS_PRIOR09                = .true.
+ENFORCE_POSITIVE_AMPLITUDE09          = .true.
+SAMPLE_AMPLITUDES09                   = .true
+
+#----------------------------------------------------------------------
+COMP_TYPE11                          = 'CO_multiline'
+FG_LABEL11                           = 'hcn'
+FG_UNIT11                            = 'uK_cmb'
+REFERENCE_FREQUENCY11                =  88.6 #not used
+REFERENCE_BAND11                     =  15
+INDEX_SAMPLING_MASK11                = fullsky
+COMPONENT_MASK11                     = fullsky
+INITIAL_AMPLITUDE_MAP11              = init_hcn_rc2_n256_v03_n0064.fits 
+INITIALIZATION_MODE11                = 'input_map'
+INIT_INDEX_MAP11_01                  = init_hcn_100-ds2_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP11_02                  = init_hcn_W1_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP11_03                  = init_hcn_W2_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP11_04                  = init_hcn_W3_rc2_n256_v03_n0064.fits
+INIT_INDEX_MAP11_05                  = init_hcn_W4_rc2_n256_v03_n0064.fits
+NUM_CO_HARMONICS11                   = 5
+
+LINE_LABEL11_01                       = '100-ds2'
+REGION_DEFINITION11_01                = 'fullsky TQU 0'
+FWHM_PAR11_01                         =  0.
+BAND11_01                             =  16
+DEFAULT_CO_LINE_RATIO_11_01           =  0.614E+01
+CO_PRIOR_UNIFORM_LOW11_01             =  0
+CO_PRIOR_UNIFORM_HIGH11_01            =  10000.
+CO_PRIOR_GAUSSIAN_MEAN11_01           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV11_01         =  0.0 #-0.01
+
+LINE_LABEL11_02                       = 'W1'
+REGION_DEFINITION11_02                = 'fullsky TQU 0'
+FWHM_PAR11_02                         =  0.
+BAND11_02                             = 28
+DEFAULT_CO_LINE_RATIO_11_02           =  0.685E+03
+CO_PRIOR_UNIFORM_LOW11_02             =  0
+CO_PRIOR_UNIFORM_HIGH11_02            =  100000.
+CO_PRIOR_GAUSSIAN_MEAN11_02           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV11_02         =  0.0 #-0.01
+
+LINE_LABEL11_03                       = 'W2'
+REGION_DEFINITION11_03                = 'fullsky TQU 0'
+FWHM_PAR11_03                         =  0.
+BAND11_03                             =  29
+DEFAULT_CO_LINE_RATIO_11_03           =  0.616E+03
+CO_PRIOR_UNIFORM_LOW11_03             =  0
+CO_PRIOR_UNIFORM_HIGH11_03            =  100000.
+CO_PRIOR_GAUSSIAN_MEAN11_03           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV11_03         =  0.0 #-0.01
+
+LINE_LABEL11_04                       = 'W3'
+REGION_DEFINITION11_04                = 'fullsky TQU 0'
+FWHM_PAR11_04                         =  0.
+BAND11_04                             =  30
+DEFAULT_CO_LINE_RATIO_11_04           =  0.784E+03
+CO_PRIOR_UNIFORM_LOW11_04             =  0
+CO_PRIOR_UNIFORM_HIGH11_04            =  100000.
+CO_PRIOR_GAUSSIAN_MEAN11_04           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV11_04         =  0.0 #-0.01
+
+LINE_LABEL11_05                       = 'W4'
+REGION_DEFINITION11_05                = 'fullsky TQU 0'
+FWHM_PAR11_05                         =  0.
+BAND11_05                             =  31
+DEFAULT_CO_LINE_RATIO_11_05           =  0.634E+03
+CO_PRIOR_UNIFORM_LOW11_05             =  0
+CO_PRIOR_UNIFORM_HIGH11_05            =  100000.
+CO_PRIOR_GAUSSIAN_MEAN11_05           =  1.0
+CO_PRIOR_GAUSSIAN_STDDEV11_05         =  0.0 #-0.01
+
+APPLY_JEFFREYS_PRIOR11                = .true.
+IMPOSE_FG_ORTHOGONALITY11             = .false.
+ENFORCE_POSITIVE_AMPLITUDE11          = .true.
+OPTIMIZE_CO_RATIOS_BY_CROSSCORR       = .false.
+SAMPLE_AMPLITUDES11                   = .true
+
+#----------------------------------------------------------------------
+# Object list for individual output 
+NUM_OBJECTS          = 0
