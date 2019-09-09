@@ -1,21 +1,23 @@
-Commander1 Module was developed in order to automate some of the more time consuming 
-tasks related to editing of the Commander1 parameterfile. The Configure Parameters 
-method works by reading in and parsing an existing parameterfile into json format. 
-Data on this format is easily processed and accessable, allowing for automation of 
-recursive processes such as relabeling of parameters after band removals. After 
-configuration the data is written to file on the format of typical parameterfiles.
+Commander1 Module was developed in order to automate some of the more time consuming
+tasks related to editing of Commander1 parameterfiles. The module works by reading
+in and parsing an existing parameterfile into json format. Data on this format is
+easily processed and accessable, allowing for automation of recursive processes such
+as for instance relabeling of parameters after band removals. After configuration,
+the data is written to file on the format of typical parameterfiles.
 
-Scripts currently supported by the module:
-    - Continue From Run: Updates all init files and copies them over to data folder.
-    - NSIDE: change nside, including all occursenses of the nside value in parameters.
+Functionality currently supported by the module:
+    - Continue From Run: Updates all init files to those of a previous run, and
+        copies them over to data folder.
+    - NSIDE: changes nside, including all occurences of the nside value in parameters.
     - Chain Directory: Changes the chain directory and creates one if it doesnt exist.
     - Toggle Output Frequencies: Toggles on/off all OUTPUT_FREQUENCY_COMPONENT_MAPS.
-    - Toggle Template Fits: Toggles on/off wheter or not sample the template for a band.
+    - Toggle Template Fits: Toggles on/off wheter or not to sample the template for a
+        band.
     - Add Band: Pick band from list of available bands and append to parameterfile.
-    - Remove Band: Remove a band from included bands and relabel parameters. Also makes
-        sure that reference bands are properly updates and co-lines are deleted.
+    - Remove Band: Remove a band from included bands. Also makes sure that reference
+        bands are properly updates and co-lines are deleted.
     - Add Foreground: Adds a foreground from included foregrounds to parameterfile.
-    - Remove Foreground: Removes a foreground from the parameterfile and relabels all 
+    - Remove Foreground: Removes a foreground from the parameterfile and relabels all
         parameters.
 
-Please report bugs to: metins@astro.uio.no
+If you are to encounter any bugs, please report to: metins@astro.uio.no
