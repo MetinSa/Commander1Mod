@@ -2,9 +2,9 @@ import curses
 import math
 import sys
 import os
+import shutil
 import subprocess
 import time
-import datetime
 from curses.textpad import rectangle
 from resources.ConfigureParameterFile import ConfigureParameterFile
 from resources.Menu import Menu
@@ -228,6 +228,15 @@ class Interface(object):
         curses.echo()
         user_input = self.menu_win.getstr(2, box_start, max_str_len).decode(encoding="utf-8")
         return user_input
+
+    def run_commander(self):
+        chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').strip("'")
+        if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
+            os.mkdir(f'{self.run_path}/{chain_dir}')
+        numbands = self.config.json_data['General Settings'].get('NUMBAND')
+        num_proc_per_band = self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND')
+        self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
+
 
     def display_module_info(self):
         scriptpath = os.path.realpath(__file__)

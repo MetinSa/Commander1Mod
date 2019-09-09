@@ -105,6 +105,7 @@ class LoadParameterFile(object):
                 remaining_content =  parameter_file[section_ranges[4]:]
             except IndexError:
                 raise IndexError('Parameterfile does not match format of typical Commander1 parameterfiles.')
+                
             return(general_settings_section, frequency_bands_section, fg_temp_section,
                    pix_fg_section, foreground_section, remaining_content)
 

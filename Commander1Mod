@@ -101,6 +101,9 @@ def Commander1Module(stdscr):
         except NameError as e:
             raise e
         next_menu = main_menu
+    elif next_menu == 'Run Commander':
+        UI.run_commander()
+        next_menu = main_menu
 
     while True:
         previous_menu = next_menu
@@ -185,6 +188,11 @@ def Commander1Module(stdscr):
                     UI.config.update_init_files(chain_dir, data_dir, tag, sample)
                 except TypeError:
                     pass
+                next_menu = main_menu
+                continue
+
+            elif next_menu == 'Run Commander':
+                UI.run_commander()
                 next_menu = main_menu
                 continue
 
