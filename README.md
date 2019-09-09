@@ -9,3 +9,5 @@ Text-based user interface for Commander1 that automates some of the more time co
 #### Tasks without using the interface
 * Run `c1 help` or `c1 -h` to view list of available commands
 * Example: remove a band by running: `c1 nside parameterfile.txt 128` 
+
+![Commander1 Text-Based User Interface](https://github.com/MetinSa/Commander1Mod/blob/master/screenshots/screenshot.png "Commander1 Text-Based User Interface")
