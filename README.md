@@ -3,7 +3,7 @@ Text-based user interface for Commander1 that automates some of the more time co
 
 ## Usage
 * Clone the repository and `cd` to it
-* Run `./setup.py` which appends an alias to your .bashrc allowing the module to be used from any destination.
+* Run `./setup.py [path_to_commander1]` which appends an alias and an enviornment variable with the Commander1 path to your .bashrc, allowing the module to be used from any destination.
 * Run `c1` in a directory containing the parameterfile you wish to configure.
 
 #### Tasks without using the interface
