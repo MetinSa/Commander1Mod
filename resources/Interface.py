@@ -316,8 +316,9 @@ class Interface(object):
             with open(f'{self.run_path}/{chain_dir}/commander_runs.txt', 'a') as f:
                 f.write(description)
             bash_command = 'runcommander.sh'
-            subprocess.run('export OMP_NUM_THREADS=1', shell=True)
-            subprocess.run(['mpirun', '-n', f'{n_processors}', f'{commander1_path}/commander', f'{self.savefile}', '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
+            subprocess.call('./runcommander.sh param.txt', shell=True)
+            # subprocess.run('export OMP_NUM_THREADS=1', shell=True)
+            # subprocess.run(['mpirun', '-n', f'{n_processors}', f'{commander1_path}/commander', f'{self.savefile}', '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
             sys.exit()
 
     def display_module_info(self):
