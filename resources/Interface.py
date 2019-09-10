@@ -313,7 +313,7 @@ class Interface(object):
         curses.endwin()
         commander1_path = os.environ.get('COMMANDER1PATH')
         subprocess.run(['mpirun', '-n', str(n_processors),
-                        commander1_path, self.savefile, '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
+                        f'{commander1_path}/commander', self.savefile, '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
         sys.exit()
 
     def display_module_info(self):
