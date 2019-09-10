@@ -315,7 +315,7 @@ class Interface(object):
             curses.endwin()
             with open(f'{self.run_path}/{chain_dir}/commander_runs.txt', 'a') as f:
                 f.write(description)
-            subprocess.run(['less', '-S', self.savefile])
+            raise Exception(str(n_processors), self.savefile)
             subprocess.run(['mpirun', '-n', str(n_processors),
                         f'{commander1_path}/commander', self.savefile, '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
             sys.exit()
