@@ -317,7 +317,7 @@ class Interface(object):
                 f.write(description)
             bash_command = 'runcommander.sh'
             subprocess.run('export OMP_NUM_THREADS=1', shell=True)
-            subprocess.run(['bash', f'{os.path.expanduser("~")}{self.run_path}/', 'mpirun', '-n', f'{n_processors}', f'{commander1_path}/commander', f'{self.savefile}', '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
+            subprocess.run(['bash', f'{self.run_path}/', 'mpirun', '-n', f'{n_processors}', f'{commander1_path}/commander', f'{self.savefile}', '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
             sys.exit()
 
     def display_module_info(self):
