@@ -270,13 +270,51 @@ class Interface(object):
 
     def run_commander(self):
         """Executes commander with given settings."""
+        self.config.write_to_file(self.savefile)
         chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').strip("'")
         if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
             os.mkdir(f'{self.run_path}/{chain_dir}')
-        numbands = self.config.json_data['General Settings'].get('NUMBAND')
-        num_proc_per_band = self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND')
+        numbands = int(self.config.json_data['General Settings'].get('NUMBAND').split()[0])
+        num_proc_per_band = int(self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND').split()[0])
         self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
+        n_processors = numbands*num_proc_per_band
 
+        self.menu_win.clear()
+        title = ' Run Commander '
+        rectangle(self.menu_win, 3, (self.xmax//4)-1, 8, (3*self.xmax//4)+1)
+        rectangle(self.menu_win, 1, (self.xmax//4)-2, 15, (3*self.xmax//4)+2)
+        self.display_module_info()
+        self.menu_win.addstr(0, self.center_str(title), title)
+        chdir = 'Chain Directory:'
+        parfile = 'Parameterfile:'
+        nbands = 'NUMBANDS:'
+        nprocs = 'NUMPROCS:'
+        run_info = 'Current run settings:'
+        self.menu_win.addstr(2, self.center_str(run_info),  run_info)
+        self.menu_win.addstr(
+            4, self.xmax//4, (f'{parfile:{30}} {self.savefile}'))
+        self.menu_win.addstr(
+            5, self.xmax//4, (f'{chdir:{30}} {chain_dir}'))
+        self.menu_win.addstr(
+            6, self.xmax//4, (f'{nbands:{30}} {numbands}'))
+        self.menu_win.addstr(
+            7, self.xmax//4, (f'{nprocs:{30}} {num_proc_per_band}'))
+
+        description_info = 'Input a short description for the file:'
+        instr = 'ENTER: run commander/cancel(empty field)'
+        max_str_len = self.xmax//2
+        self.menu_win.addstr(10, self.center_str(description_info), description_info)
+        self.menu_win.addstr(14, self.xmax//4, instr)
+        rectangle(self.menu_win, 11, (self.xmax//4)-1, 13, (3*self.xmax//4)+1)
+        curses.echo()
+        description = self.menu_win.getstr(12, self.xmax//4,
+                                          max_str_len).decode(encoding="utf-8")
+        self.menu_win.refresh()
+        curses.endwin()
+        commander1_path = os.environ.get('COMMANDER1PATH')
+        subprocess.run(['mpirun', '-n', str(n_processors),
+                        commander1_path, self.savefile, '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
+        sys.exit()
 
     def display_module_info(self):
         """Displays author name and patch date."""

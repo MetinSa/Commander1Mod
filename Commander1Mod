@@ -21,7 +21,8 @@ def Commander1Module(stdscr):
     bandlist = list(UI.config.band_labels)
     fglist = list(UI.config.fg_labels)
     main_menu = Menu('Main Menu',
-                     ['Continue From Run', 'Configure Parameterfile',
+                     ['Run Commander', 'Continue From Run',
+                      'Configure Parameterfile',
                       'Get Help', '*Save and Exit'],
                      ['Select option:', 'ENTER: select highlighted option'])
     config_menu = Menu('Configure Parameterfile',
