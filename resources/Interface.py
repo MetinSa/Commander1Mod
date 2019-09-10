@@ -315,8 +315,9 @@ class Interface(object):
             curses.endwin()
             with open(f'{self.run_path}/{chain_dir}/commander_runs.txt', 'a') as f:
                 f.write(description)
-            subprocess.run('export OMP_NUM_THREADS=1', shell=True)
-            subprocess.run(f'mpirun -n {n_processors} {commander1_path}/commander {self.savefile} 2>&1 | tee {chain_dir}/slurm.txt', shell=True)
+            subprocess.run(f'./runcommander.sh {self.savefile}', shell=True)
+            # subprocess.run('export OMP_NUM_THREADS=1', shell=True)
+            # subprocess.run(f'mpirun -n {n_processors} {commander1_path}/commander {self.savefile} 2>&1 | tee {chain_dir}/slurm.txt', shell=True)
             sys.exit()
 
     def display_module_info(self):
