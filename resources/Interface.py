@@ -278,6 +278,7 @@ class Interface(object):
         num_proc_per_band = int(self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND').split()[0])
         self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
         n_processors = numbands*num_proc_per_band
+        commander1_path = os.environ.get('COMMANDER1PATH')
 
         self.menu_win.clear()
         title = ' Run Commander '
@@ -310,11 +311,11 @@ class Interface(object):
         description = self.menu_win.getstr(12, self.xmax//4,
                                           max_str_len).decode(encoding="utf-8")
         self.menu_win.refresh()
-        curses.endwin()
-        commander1_path = os.environ.get('COMMANDER1PATH')
-        subprocess.run(['mpirun', '-n', str(n_processors),
+        if description:
+            curses.endwin()
+            subprocess.run(['mpirun', '-n', str(n_processors),
                         f'{commander1_path}/commander', self.savefile, '2>&1', '|', 'tee', f'{chain_dir}/slurm.txt'])
-        sys.exit()
+            sys.exit()
 
     def display_module_info(self):
         """Displays author name and patch date."""
