@@ -30,7 +30,7 @@ class Interface(object):
         def get_window_size():
             """Gets terminal window size."""
             xmin = 100
-            ymin = 32
+            ymin = 36
             ymax, xmax = self.stdscr.getmaxyx()
             if ymax < ymin:
                 raise curses.error('Window size to small to display UI. '

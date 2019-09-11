@@ -32,7 +32,7 @@ def Commander1Module(stdscr):
                         'TAB/SPACE: view/edit parameterfile'],
                        main_menu)
     help_menu = Menu('Get Help',
-                      ['User Manual', 'Code Documentation'],
+                      ['Information', 'Code Documentation'],
                       ['Select option:', 'ENTER: select highlighted option',
                        'BACKSPACE: return to previous menu'],
                        main_menu)
@@ -203,7 +203,7 @@ def Commander1Module(stdscr):
                 next_menu = previous_menu
                 continue
 
-            elif selected_option == 'User Manual':
+            elif selected_option == 'Information':
                 UI.user_manual()
                 next_menu = previous_menu
                 continue
