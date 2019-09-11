@@ -357,17 +357,17 @@ class Interface(object):
         try:
             self.loc_win.addstr(1,self.center_str(loc_str),
                                 loc_str)
-            self.loc_win.addstr(1,self.center_str(f' {menu.parent.name} '),
-                                f' {menu.parent.name} ')
+            self.loc_win.addstr(1,self.center_str(f' {menu.parent.name.replace("*","")} '),
+                                f' {menu.parent.name.replace("*","")} ')
             self.loc_win.addstr(2,self.center_str(loc_str),
                                 loc_str)
-            self.loc_win.addstr(2,self.center_str(f' {menu.name} '),
-                                f' {menu.name} ')
+            self.loc_win.addstr(2, self.center_str(f' {menu.name.replace("*","")} '),
+                                f' {menu.name.replace("*","")} ')
         except AttributeError:
             self.loc_win.addstr(1,self.center_str(loc_str),
                                 loc_str)
-            self.loc_win.addstr(1,self.center_str(f' {menu.name} '),
-                                f' {menu.name} ')
+            self.loc_win.addstr(1, self.center_str(f' {menu.name.replace("*","")} '),
+                                f' {menu.name.replace("*","")} ')
         self.loc_win.refresh()
 
         x_space = len(longest_item) + 3
