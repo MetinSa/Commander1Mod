@@ -437,22 +437,31 @@ class Interface(object):
 
             key = self.stdscr.getch()
             if key == curses.KEY_UP:
-                if menu_len < items_per_col and current_i == 0:
-                    current_i = menu_len - 1
-                elif current_i != 0:
+                if current_i%items_per_col == 0:
+                    if current_i+items_per_col > menu_len:
+                        current_i = menu_len - 1
+                    else:
+                        current_i += items_per_col-1
+                else:
                     current_i -= 1
 
             elif key == curses.KEY_DOWN:
-                if menu_len < items_per_col and current_i == menu_len - 1:
-                    current_i = 0
-                elif current_i != menu_len - 1:
+                if current_i == menu_len-1:
+                    current_i = items_per_col*(n_cols-1)
+                elif (current_i+1)%items_per_col == 0:
+                    current_i -= items_per_col-1
+                else:
                     current_i += 1
 
-            elif key == curses.KEY_RIGHT and current_i < menu_len-items_per_col:
-                current_i += items_per_col
+            elif key == curses.KEY_RIGHT:
+                if current_i < menu_len-items_per_col:
+                    current_i += items_per_col
+                elif current_i < items_per_col*(n_cols-1):
+                    current_i = menu_len - 1
 
-            elif key == curses.KEY_LEFT and current_i > items_per_col:
-                current_i -= items_per_col
+            elif key == curses.KEY_LEFT:
+                if current_i >= items_per_col:
+                    current_i -= items_per_col
 
             elif key == curses.KEY_ENTER or key in [10, 13]:
                 self.menu_win.clear()
