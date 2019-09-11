@@ -270,7 +270,7 @@ class Interface(object):
 
     def run_commander(self):
         """Executes commander with given settings."""
-        self.config.write_to_file(f'{self.run_path}/{self.savefile})
+        self.config.write_to_file(f'{self.run_path}/{self.savefile}')
         chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').strip("'")
         if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
             os.mkdir(f'{self.run_path}/{chain_dir}')
