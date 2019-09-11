@@ -379,7 +379,6 @@ class Interface(object):
         else:
             if len(longest_item) <= 20:
                 x_init = self.x_center - (x_space*n_cols)//2 - 10
-                x_space = len(longest_item) + 10
             else:
                 x_init = self.xmax//2 - (x_space*n_cols)//2
 
