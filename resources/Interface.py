@@ -370,6 +370,7 @@ class Interface(object):
                                 f' {menu.name} ')
         self.loc_win.refresh()
 
+        x_space = len(longest_item) + 3
         if n_cols == 1:
             if len(longest_item) <= 30:
                 x_init = self.x_center - 18
@@ -377,10 +378,9 @@ class Interface(object):
                 x_init = self.x_center - len(longest_item)//2 - 3
         else:
             if len(longest_item) <= 20:
-                x_space = len(longest_item) + 3 + 10
                 x_init = self.x_center - (x_space*n_cols)//2 - 10
+                x_space = len(longest_item) + 10
             else:
-                x_space = len(longest_item) + 3
                 x_init = self.xmax//2 - (x_space*n_cols)//2
 
         for item in menu.items:
