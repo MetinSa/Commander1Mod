@@ -20,9 +20,6 @@ class Interface(object):
         curses.curs_set(0)
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
-        self.savefile = 'param.txt'
-        self.tempfile = 'param_temp.txt'
-
         def get_paths():
             """Gets the path to module location and file execution."""
             self.run_path = os.getcwd()
@@ -113,6 +110,18 @@ class Interface(object):
                 elif parameterfile == 'b':
                     i -= 1
                 else:
+                    if 'c1mod' in parameterfile:
+                        savename = parameterfile.split('.')[0]
+                        if 'temp' in parameterfile:
+                            self.savefile = parameterfile.replace('_temp','')
+                            self.tempfile = parameterfile
+                        else:
+                            self.savefile = parameterfile
+                            self.tempfile = f'{savename}_temp.txt'
+                    else:
+                        savename = parameterfile.split('.')[0]
+                        self.savefile = f'{savename}_c1mod.txt'
+                        self.tempfile = f'{savename}_c1mod_temp.txt'
                     return f'{self.run_path}/{parameterfile}'
 
         paramfile = load_parameterfile()
@@ -271,15 +280,18 @@ class Interface(object):
     def run_commander(self):
         """Executes commander with given settings."""
         self.config.write_to_file(f'{self.run_path}/{self.savefile}')
+
         chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').strip("'")
         if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
             os.mkdir(f'{self.run_path}/{chain_dir}')
         numbands = int(self.config.json_data['General Settings'].get('NUMBAND').split()[0])
         num_proc_per_band = int(self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND').split()[0])
-        self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
         n_processors = numbands*num_proc_per_band
         commander1_path = os.environ.get('COMMANDER1PATH')
+
+        self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
         self.menu_win.clear()
+
         title = ' Run Commander '
         rectangle(self.menu_win, 3, (self.xmax//4)-1, 8, (3*self.xmax//4)+1)
         rectangle(self.menu_win, 1, (self.xmax//4)-2, 15, (3*self.xmax//4)+2)
@@ -292,13 +304,13 @@ class Interface(object):
         run_info = 'Current run settings:'
         self.menu_win.addstr(2, self.center_str(run_info),  run_info)
         self.menu_win.addstr(
-            4, self.xmax//4, (f'{parfile:{30}} {self.savefile}'))
+            4, self.xmax//4, (f'{parfile:{20}} {self.savefile}'))
         self.menu_win.addstr(
-            5, self.xmax//4, (f'{chdir:{30}} {chain_dir}'))
+            5, self.xmax//4, (f'{chdir:{20}} {chain_dir}'))
         self.menu_win.addstr(
-            6, self.xmax//4, (f'{nbands:{30}} {numbands}'))
+            6, self.xmax//4, (f'{nbands:{20}} {numbands}'))
         self.menu_win.addstr(
-            7, self.xmax//4, (f'{nprocs:{30}} {num_proc_per_band}'))
+            7, self.xmax//4, (f'{nprocs:{20}} {num_proc_per_band}'))
 
         description_info = 'Input a short description for the file:'
         instr = 'ENTER: run commander/cancel(empty field)'
@@ -306,10 +318,12 @@ class Interface(object):
         self.menu_win.addstr(10, self.center_str(description_info), description_info)
         self.menu_win.addstr(14, self.xmax//4, instr)
         rectangle(self.menu_win, 11, (self.xmax//4)-1, 13, (3*self.xmax//4)+1)
+
         curses.echo()
         description = self.menu_win.getstr(12, self.xmax//4,
                                           max_str_len).decode(encoding="utf-8")
         self.menu_win.refresh()
+
         if description:
             os.chdir(self.run_path)
             curses.endwin()
@@ -358,7 +372,10 @@ class Interface(object):
 
         x_space = len(longest_item) + 3
         if n_cols == 1:
-            x_init = self.x_center - 18
+            if len(longest_item) <= 30:
+                x_init = self.x_center - 18
+            else:
+                x_init = self.x_center - len(longest_item)//2 - 3
         else:
             x_init = self.xmax//2 - (x_space*n_cols)//2
 

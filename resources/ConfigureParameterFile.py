@@ -241,6 +241,8 @@ class ConfigureParameterFile(object):
             if band in template:
                 self.json_data['Foreground Templates'].pop(template)
 
+        if 'WMAP' in band:
+            band = band.split('_')[-1]
         def delete_co_lines():
             """Removes eventual co-lines connected to the band."""
             for fg in self.json_data['Foregrounds']:
