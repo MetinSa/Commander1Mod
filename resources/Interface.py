@@ -377,10 +377,7 @@ class Interface(object):
             else:
                 x_init = self.x_center - len(longest_item)//2 - 3
         else:
-            if len(longest_item) <= 20:
-                x_init = self.x_center - (x_space*n_cols)//2 - 10
-            else:
-                x_init = self.xmax//2 - (x_space*n_cols)//2
+            x_init = self.xmax//2 - (x_space*n_cols)//2
 
         for item in menu.items:
             if item.startswith('*'):
