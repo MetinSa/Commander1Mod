@@ -279,7 +279,7 @@ class Interface(object):
         self.config.write_to_file(f'{self.run_path}/{chain_dir}/{self.savefile}')
         n_processors = numbands*num_proc_per_band
         commander1_path = os.environ.get('COMMANDER1PATH')
-
+        raise Exception(numbands, num_proc_per_band, n_processors)
         self.menu_win.clear()
         title = ' Run Commander '
         rectangle(self.menu_win, 3, (self.xmax//4)-1, 8, (3*self.xmax//4)+1)
