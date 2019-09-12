@@ -178,7 +178,10 @@ def Commander1Module(stdscr):
                 toggle_menu.items = list(UI.config.band_labels)
 
             elif selected_option_menu_name == 'Remove Band':
-                UI.config.delete_band(selected_option)
+                try:
+                    UI.config.delete_band(selected_option)
+                except ValueError:
+                    curses.beep()
                 removeband_menu.items = list(UI.config.band_labels)
                 toggle_menu.items = list(UI.config.band_labels)
                 next_menu = previous_menu
