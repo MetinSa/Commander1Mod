@@ -284,7 +284,7 @@ class Interface(object):
         chain_dir = self.config.json_data['General Settings'].get('CHAIN_DIRECTORY').split()[0].strip("'")
         if not os.path.isdir(os.path.join(self.run_path, chain_dir)):
             os.mkdir(f'{self.run_path}/{chain_dir}')
-        numbands = int(self.config.json_data['General Settings'].get('NUMBAND').split()[0])
+        numbands = int(str(self.config.json_data['General Settings'].get('NUMBAND')).split()[0])
         num_proc_per_band = int(self.config.json_data['General Settings'].get('NUM_PROC_PER_BAND').split()[0])
         n_processors = numbands*num_proc_per_band
         commander1_path = os.environ.get('COMMANDER1PATH')
