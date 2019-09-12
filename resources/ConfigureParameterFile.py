@@ -298,11 +298,13 @@ class ConfigureParameterFile(object):
             final_band = bandnames
 
         self.json_data['Frequency Bands'].update({band:band_data})
-        numbands_value = (self.json_data['General Settings']['NUMBAND']).split()[0]
+        numbands_value = (self.json_data['General Settings']['NUMBAND']).split()
         number_of_bands = int(numbands_value[0]) + 1
         if len(numbands_value) > 2:
             comment = ' '.join(numbands_value[1:])
             numbands = f'{str(number_of_bands):{15}}{comment}'
+        else:
+            numbands = number_of_bands
         self.json_data['General Settings'].update({'NUMBAND':numbands})
         self.band_labels.update({band:str(number_of_bands)})
 
